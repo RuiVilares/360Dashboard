@@ -89,7 +89,7 @@ $(function() {
           value: 20
         }],
         resize: true
-});
+    });
 
     Morris.Bar({
         element: 'morris-bar-chart',
@@ -128,5 +128,4 @@ $(function() {
         hideHover: 'auto',
         resize: true
     });
-
 });
