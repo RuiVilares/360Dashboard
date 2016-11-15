@@ -16,6 +16,7 @@
 <script src="../dist/js/sb-admin-2.js"></script>
 <script src="../js/navbar.js"></script>
 <script src="../js/product.js"></script>
+<script src="../js/client.js"></script>
 
 </body>
 </html>

@@ -4,13 +4,14 @@
   include "navbar.php";
 ?>
 
-        <div id="page-wrapper">
+
+        <div id="page-wrapper" data-id="<?php echo $_GET['id'] ?>">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header productName"></h1>
+                  <h1 class="page-header productName">Loading...</h1>
               </div>
           </div>
-          <div class="row">
+          <div class="hidden row">
             <div class="col-lg-4 col-md-6">
                 <div class="panel panel-green">
                     <div class="panel-heading">
@@ -78,7 +79,7 @@
                 </div>
             </div>
           </div>
-          <div class="row">
+          <div class="hidden row">
             <div class="col-lg-6 col-lg-offset-3">
               <table width="100%" class="table table-striped table-bordered table-hover">
                   <thead>
@@ -111,7 +112,7 @@
               </table>
             </div>
           </div>
-          <div class="row">
+          <div class="hidden row">
             <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">

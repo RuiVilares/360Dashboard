@@ -3,7 +3,7 @@ $(function() {
     url: "http://localhost:49822/api/Artigos",
     success: function (data) {
       for (var i = 0; i < data.length; i++){
-        $('#navbarProducts').append("<li><a href='products.html'>" + data[i].DescArtigo + "</a></li>");
+        $('#navbarProducts').append("<li><a href='product.php?id="+ data[i].CodArtigo +"'>" + data[i].DescArtigo + "</a></li>");
       }
     },
     dataType: "json"
@@ -13,7 +13,7 @@ $(function() {
     url: "http://localhost:49822/api/Clientes",
     success: function (data) {
       for (var i = 0; i < data.length; i++){
-        $('#navbarClients').append("<li><a href='client.html'>" + data[i].NomeCliente + "</a></li>");
+        $('#navbarClients').append("<li><a href='client.php?id=" + data[i].CodCliente +"'>" + data[i].NomeCliente + "</a></li>");
       }
     },
     dataType: "json"

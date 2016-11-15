@@ -1,9 +1,9 @@
 $(function() {
   $.ajax({
-    url: "http://localhost:49822/api/artigos/A0001",
+    url: "http://localhost:49822/api/artigos/" + $("#page-wrapper").data("id"),
     success: function (data) {
+      $(".row").removeClass("hidden");
       $('.productName').text(data.DescArtigo);
-      console.log(data.DescArtigo);
     },
     dataType: "json"
   });
