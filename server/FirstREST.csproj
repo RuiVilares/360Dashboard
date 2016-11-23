@@ -48,48 +48,72 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Interop.BasBE900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.BasBE900.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Interop.CblBE900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.CblBE900.dll</HintPath>
+    <Reference Include="Interop.CblCtlMovs900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.CblCtlMovs900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.CrmBE900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.CrmBE900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.CrmBE900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.EapBE900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.EapBE900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.ErpBS900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.ErpBS900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.ErpBS900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.FacBE900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.FacBE900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.GcpBE900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.GcpBE900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.GcpBE900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.IBasBS900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.IBasBS900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.ICblBS900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.ICblBS900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.ICrmBS900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.ICrmBS900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.IEapBS900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.IEapBS900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.IGcpBS900">
-      <HintPath>..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.IGcpBS900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.IGcpBS900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.IRhpBS900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.IRhpBS900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.Primavera.BusinessData.ERPEngine900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.Primavera.BusinessData.ERPEngine900.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.RhpBE900">
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.RhpBE900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.StdBE900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.StdBE900.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Interop.StdBESql900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.StdBESql900.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Interop.StdBSSql900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.StdBSSql900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.StdBE900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.StdPlatBE900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.StdPlatBE900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.StdPlatBE900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.StdPlatBS900">
-      <HintPath>..\..\..\..\..\Program Files\Common Files\PRIMAVERA\SG900\Interop.StdPlatBS900.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\PRIMAVERA\SG900\Apl\Interop.StdPlatBS900.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -208,7 +232,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\ArtigosController.cs" />
+    <Compile Include="Controllers\productController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\DocCompraController.cs" />
     <Compile Include="Controllers\DocVendaController.cs" />
@@ -217,6 +241,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Lib_Primavera\Model\TopCliente.cs" />
     <Compile Include="Lib_Primavera\PriIntegration.cs" />
     <Compile Include="Lib_Primavera\Model\Artigo.cs" />
     <Compile Include="Lib_Primavera\Model\Cliente.cs" />
@@ -226,6 +251,7 @@
     <Compile Include="Lib_Primavera\Model\LinhaDocVenda.cs" />
     <Compile Include="Lib_Primavera\Model\RespostaErro.cs" />
     <Compile Include="Lib_Primavera\PriEngine.cs" />
+    <Compile Include="Lib_Primavera\Model\Shipment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

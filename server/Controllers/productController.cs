@@ -11,19 +11,20 @@ using FirstREST.Lib_Primavera.Model;
 
 namespace FirstREST.Controllers
 {
-    public class ArtigosController : ApiController
+    public class productController : ApiController
     {
         //
         // GET: /Artigos/
-
-        public IEnumerable<Lib_Primavera.Model.Artigo> Get()
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Lib_Primavera.Model.Artigo> list()
         {
             return Lib_Primavera.PriIntegration.ListaArtigos();
         }
 
 
         // GET api/artigo/5    
-        public Artigo Get(string id)
+        [System.Web.Http.HttpGet]
+        public Artigo Get_Info(string id)
         {
             Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);
             if (artigo == null)
@@ -35,6 +36,17 @@ namespace FirstREST.Controllers
             {
                 return artigo;
             }
+        }
+
+        public IEnumerable<Lib_Primavera.Model.TopCliente> Get_top10c(string id)
+        {
+            return Lib_Primavera.PriIntegration.ListaMelhoresClientes(id);
+        }
+
+        public IEnumerable<Lib_Primavera.Model.Shipment> get_shipments(string id)
+        {
+            return Lib_Primavera.PriIntegration.ListaEncomendas(id);
+            
         }
 
     }

@@ -12,14 +12,14 @@ namespace FirstREST.Lib_Primavera
 {
     public class PriIntegration
     {
-        
+
 
         # region Cliente
 
         public static List<Model.Cliente> ListaClientes()
         {
-            
-            
+
+
             StdBELista objList;
 
             List<Model.Cliente> listClientes = new List<Model.Cliente>();
@@ -31,7 +31,7 @@ namespace FirstREST.Lib_Primavera
 
                 objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Moeda, NumContrib as NumContribuinte, Fac_Mor AS campo_exemplo FROM  CLIENTES");
 
-                
+
                 while (!objList.NoFim())
                 {
                     listClientes.Add(new Model.Cliente
@@ -54,7 +54,7 @@ namespace FirstREST.Lib_Primavera
 
         public static Lib_Primavera.Model.Cliente GetCliente(string codCliente)
         {
-            
+
 
             GcpBECliente objCli = new GcpBECliente();
 
@@ -86,7 +86,7 @@ namespace FirstREST.Lib_Primavera
         public static Lib_Primavera.Model.RespostaErro UpdCliente(Lib_Primavera.Model.Cliente cliente)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-           
+
 
             GcpBECliente objCli = new GcpBECliente();
 
@@ -191,7 +191,7 @@ namespace FirstREST.Lib_Primavera
         {
 
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-            
+
 
             GcpBECliente myCli = new GcpBECliente();
 
@@ -230,7 +230,7 @@ namespace FirstREST.Lib_Primavera
 
         }
 
-       
+
 
         #endregion Cliente;   // -----------------------------  END   CLIENTE    -----------------------
 
@@ -239,26 +239,31 @@ namespace FirstREST.Lib_Primavera
 
         public static Lib_Primavera.Model.Artigo GetArtigo(string codArtigo)
         {
-            
             GcpBEArtigo objArtigo = new GcpBEArtigo();
             Model.Artigo myArt = new Model.Artigo();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-
+                
                 if (PriEngine.Engine.Comercial.Artigos.Existe(codArtigo) == false)
                 {
                     return null;
                 }
                 else
                 {
+                    StdBELista priceObj = PriEngine.Engine.Consulta("SELECT PVP1 FROM ArtigoMoeda WHERE ArtigoMoeda.Artigo = '" + codArtigo + "' AND ArtigoMoeda.Moeda = 'EUR'");
                     objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(codArtigo);
-                    myArt.CodArtigo = objArtigo.get_Artigo();
-                    myArt.DescArtigo = objArtigo.get_Descricao();
+                    myArt.reference = objArtigo.get_Artigo();
+                    myArt.name = objArtigo.get_Descricao();
+                    myArt.retail = priceObj.Valor("PVP1");
+                    myArt.price = objArtigo.get_PCUltimo();
+                    myArt.tax = objArtigo.get_IVA();
+                    myArt.profit_margin =  (myArt.retail - myArt.price)/myArt.retail;
+                    
 
                     return myArt;
                 }
-                
+
             }
             else
             {
@@ -267,9 +272,46 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+           
+
+        public static List<Model.TopCliente> ListaMelhoresClientes(string idArtigo)
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade,  SUM(LinhasDoc.PrecUnit*LinhasDoc.Quantidade) AS Total from LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' AND Artigo = '" + idArtigo + "' GROUP BY CabecDoc.Entidade ORDER BY Total DESC");
+                Model.TopCliente cliente = new Model.TopCliente();
+                List<Model.TopCliente> listaClientes = new List<Model.TopCliente>();
+                double sum = 0; 
+
+                while (!objList.NoFim())
+                {                  
+                    sum += objList.Valor("Total");
+                    objList.Seguinte();
+                }
+
+                objList.Inicio();
+
+                while (!objList.NoFim())
+                {
+                    cliente = new Model.TopCliente();
+                    cliente.name = objList.Valor("Entidade");
+                    cliente.valor = objList.Valor("Total");
+                    cliente.sales_p = (cliente.valor / sum) * 100;
+                    listaClientes.Add(cliente);
+                    objList.Seguinte();
+                }
+
+
+
+                return listaClientes;
+            }
+            return null;
+
+        }
+
         public static List<Model.Artigo> ListaArtigos()
         {
-                        
+
             StdBELista objList;
 
             Model.Artigo art = new Model.Artigo();
@@ -283,8 +325,8 @@ namespace FirstREST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("artigo");
-                    art.DescArtigo = objList.Valor("descricao");
+                    art.name = objList.Valor("artigo");
+                    art.reference = objList.Valor("descricao");
 
                     listArts.Add(art);
                     objList.Seguinte();
@@ -301,16 +343,41 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+        public static List<Model.Shipment> ListaEncomendas(string id)
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList;
+                Model.Shipment ship = new Model.Shipment();
+
+                objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade, LinhasDoc.DataSaida as DataSaida, (LinhasDocStatus.Quantidade - LinhasDocStatus.QuantTrans) AS Patinhos FROM CabecDoc, LinhasDoc, LinhasDocStatus WHERE LinhasDocStatus.Quantidade != LinhasDocStatus.QuantTrans AND LinhasDoc.Id = LinhasDocStatus.IdLinhasDoc AND CabecDoc.Id = LinhasDoc.IdCabecDoc AND CabecDoc.TipoDoc = 'ECL' AND LinhasDoc.Artigo = '"+id+"'");
+                List<Model.Shipment> shipList = new List<Model.Shipment>();
+                while(!objList.NoFim()){
+                    ship = new Model.Shipment();
+                    ship.client = objList.Valor("Entidade");
+                    ship.product = id;
+                    ship.shipmentDate = objList.Valor("DataSaida");
+                    ship.quantity = objList.Valor("Patinhos");
+                    shipList.Add(ship);
+                    objList.Seguinte();
+                }
+
+                return shipList;
+            }
+            return null;
+
+        }
+
         #endregion Artigo
 
-   
+
 
         #region DocCompra
-        
+
 
         public static List<Model.DocCompra> VGR_List()
         {
-                
+
             StdBELista objListCab;
             StdBELista objListLin;
             Model.DocCompra dc = new Model.DocCompra();
@@ -354,7 +421,7 @@ namespace FirstREST.Lib_Primavera
                     }
 
                     dc.LinhasDoc = listlindc;
-                    
+
                     listdc.Add(dc);
                     objListCab.Seguinte();
                 }
@@ -362,11 +429,11 @@ namespace FirstREST.Lib_Primavera
             return listdc;
         }
 
-                
+
         public static Model.RespostaErro VGR_New(Model.DocCompra dc)
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-            
+
 
             GcpBEDocumentoCompra myGR = new GcpBEDocumentoCompra();
             GcpBELinhaDocumentoCompra myLin = new GcpBELinhaDocumentoCompra();
@@ -431,14 +498,14 @@ namespace FirstREST.Lib_Primavera
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             GcpBEDocumentoVenda myEnc = new GcpBEDocumentoVenda();
-             
+
             GcpBELinhaDocumentoVenda myLin = new GcpBELinhaDocumentoVenda();
 
             GcpBELinhasDocumentoVenda myLinhas = new GcpBELinhasDocumentoVenda();
-             
+
             PreencheRelacaoVendas rl = new PreencheRelacaoVendas();
             List<Model.LinhaDocVenda> lstlindv = new List<Model.LinhaDocVenda>();
-            
+
             try
             {
                 if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
@@ -459,7 +526,7 @@ namespace FirstREST.Lib_Primavera
                     }
 
 
-                   // PriEngine.Engine.Comercial.Compras.TransformaDocumento(
+                    // PriEngine.Engine.Comercial.Compras.TransformaDocumento(
 
                     PriEngine.Engine.IniciaTransaccao();
                     //PriEngine.Engine.Comercial.Vendas.Edita Actualiza(myEnc, "Teste");
@@ -487,11 +554,11 @@ namespace FirstREST.Lib_Primavera
             }
         }
 
-     
+
 
         public static List<Model.DocVenda> Encomendas_List()
         {
-            
+
             StdBELista objListCab;
             StdBELista objListLin;
             Model.DocVenda dv = new Model.DocVenda();
@@ -541,12 +608,12 @@ namespace FirstREST.Lib_Primavera
         }
 
 
-       
+
 
         public static Model.DocVenda Encomenda_Get(string numdoc)
         {
-            
-            
+
+
             StdBELista objListCab;
             StdBELista objListLin;
             Model.DocVenda dv = new Model.DocVenda();
@@ -555,7 +622,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                
+
 
                 string st = "SELECT id, Entidade, Data, NumDoc, TotalMerc, Serie From CabecDoc where TipoDoc='ECL' and NumDoc='" + numdoc + "'";
                 objListCab = PriEngine.Engine.Consulta(st);

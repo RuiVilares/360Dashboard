@@ -1,47 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 
 namespace FirstREST.Lib_Primavera.Model
 {
-    public class Artigo
+    public class Shipment
     {
-        public string name
+        public string product
         {
             get;
             set;
         }
-
-        public string reference
+        public double quantity
         {
             get;
             set;
         }
-
-        public double price
+        public DateTime shipmentDate
         {
             get;
             set;
         }
-
-        public double retail
+        public string client
         {
             get;
             set;
         }
-
-        public string tax
-        {
-            get;
-            set;
-        }
-
-        public double profit_margin
-        {
-            get;
-            set;
-        }
-
     }
 }
