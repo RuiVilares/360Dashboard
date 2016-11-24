@@ -3,7 +3,7 @@ $(function() {
     url: "http://localhost:49822/api/product/list",
     success: function (data) {
       for (var i = 0; i < data.length; i++){
-        $('#navbarProducts').append("<li><a href='./product.html'>"/*?id="+ data[i].CodArtigo +"'>"*/ + data[i].reference + "</a></li>");
+        $('#navbarProducts').append("<li><a href='./product.html?product="+data[i].name+"'>"  + data[i].reference + "</a></li>");
       }
     },
     dataType: "json"
