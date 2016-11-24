@@ -12,7 +12,7 @@ namespace FirstREST.Controllers
         [System.Web.Http.HttpGet]
         public IEnumerable<Lib_Primavera.Model.Conta> getAtivos_Passivos()
         {
-            
+            return null;
         
         }
     }

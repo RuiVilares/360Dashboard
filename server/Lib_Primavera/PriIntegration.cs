@@ -615,6 +615,7 @@ namespace FirstREST.Lib_Primavera
                 }
                 return new Tuple<double,double>(sumAtivos, sumPassivos);
             }
+            return null;
         }
 
         #endregion Contabilidade

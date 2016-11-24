@@ -39,7 +39,7 @@ namespace FirstREST.Controllers
 
         // GET api/cliente/5    
         [System.Web.Http.HttpGet]
-        public IEnumerable<Lib_Primavera.Model.TopClienteProduct> topprod(string id)
+        public IEnumerable<Lib_Primavera.Model.TopClienteProduct> topprod(string id) 
         {
             return Lib_Primavera.PriIntegration.get_client_topprod(id);           
         }
