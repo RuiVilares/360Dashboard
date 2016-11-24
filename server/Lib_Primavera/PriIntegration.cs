@@ -36,11 +36,11 @@ namespace FirstREST.Lib_Primavera
                 {
                     Model.Cliente cliente = new Model.Cliente();
                     string str = objList.ToString();
-                    cliente.id = objList.Valor("Cliente");                    
+                    cliente.id = objList.Valor("Cliente");
                     cliente.name = objList.Valor("Nome");
                     cliente.post_c = objList.Valor("Fac_Cp");
                     cliente.city = objList.Valor("Fac_Cploc");
-                    cliente.address  = objList.Valor("Fac_Mor");
+                    cliente.address = objList.Valor("Fac_Mor");
                     listClientes.Add(cliente);
                     objList.Seguinte();
                 }
@@ -70,7 +70,7 @@ namespace FirstREST.Lib_Primavera
                     myCli.name = objCli.get_Nome();
                     myCli.address = objCli.get_Morada();
                     myCli.post_c = objCli.get_CodigoPostal();
-                    myCli.city = "coimbra";
+                    myCli.city = objCli.get_LocalidadeCodigoPostal();
                     return myCli;
                 }
                 else
@@ -88,7 +88,7 @@ namespace FirstREST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == true)
                 {
-                    StdBELista productList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.Quantidade) AS Quant, Artigo.Artigo AS Artigo, SUM(LinhasDoc.PrecoLiquido) AS Preco FROM Artigo, LinhasDoc, CabecDoc WHERE CabecDoc.Entidade = '"+codCliente+"' AND LinhasDoc.IdCabecDoc = CabecDoc.id AND CabecDoc.TipoDoc = 'FA' AND LinhasDoc.Artigo = Artigo.Artigo GROUP BY CabecDoc.Entidade, Artigo.Artigo ORDER BY Preco DESC");
+                    StdBELista productList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.Quantidade) AS Quant, Artigo.Artigo AS Artigo, SUM(LinhasDoc.PrecoLiquido) AS Preco FROM Artigo, LinhasDoc, CabecDoc WHERE CabecDoc.Entidade = '" + codCliente + "' AND LinhasDoc.IdCabecDoc = CabecDoc.id AND CabecDoc.TipoDoc = 'FA' AND LinhasDoc.Artigo = Artigo.Artigo GROUP BY CabecDoc.Entidade, Artigo.Artigo ORDER BY Preco DESC");
                     List<Model.TopClienteProduct> resultado = new List<Model.TopClienteProduct>();
                     double sum = 0;
                     int i = 0;
@@ -123,7 +123,7 @@ namespace FirstREST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id) == true)
                 {
-                    StdBELista objList =  PriEngine.Engine.Consulta("SELECT LinhasDoc.Data as Data, SUM(LinhasDoc.PrecoLiquido) as Pag FROM LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' AND CabecDoc.Entidade = '" + id + "' GROUP BY LinhasDoc.Data ORDER BY LinhasDoc.Data DESC");
+                    StdBELista objList = PriEngine.Engine.Consulta("SELECT LinhasDoc.Data as Data, SUM(LinhasDoc.PrecoLiquido) as Pag FROM LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' AND CabecDoc.Entidade = '" + id + "' GROUP BY LinhasDoc.Data ORDER BY LinhasDoc.Data DESC");
                     List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
 
                     while (!objList.NoFim())
@@ -141,7 +141,7 @@ namespace FirstREST.Lib_Primavera
             }
             return null;
         }
-         
+
 
 
 
@@ -157,7 +157,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                
+
                 if (PriEngine.Engine.Comercial.Artigos.Existe(codArtigo) == false)
                 {
                     return null;
@@ -171,8 +171,8 @@ namespace FirstREST.Lib_Primavera
                     myArt.retail = priceObj.Valor("PVP1");
                     myArt.price = objArtigo.get_PCUltimo();
                     myArt.tax = objArtigo.get_IVA();
-                    myArt.profit_margin =  (myArt.retail - myArt.price)/myArt.retail;
-                    
+                    myArt.profit_margin = (myArt.retail - myArt.price) / myArt.retail;
+
 
                     return myArt;
                 }
@@ -185,7 +185,7 @@ namespace FirstREST.Lib_Primavera
 
         }
 
-           
+
 
         public static List<Model.TopCliente> ListaMelhoresClientes(string idArtigo)
         {
@@ -194,10 +194,10 @@ namespace FirstREST.Lib_Primavera
                 StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade,  SUM(LinhasDoc.PrecUnit*LinhasDoc.Quantidade) AS Total from LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' AND Artigo = '" + idArtigo + "' GROUP BY CabecDoc.Entidade ORDER BY Total DESC");
                 Model.TopCliente cliente = new Model.TopCliente();
                 List<Model.TopCliente> listaClientes = new List<Model.TopCliente>();
-                double sum = 0; 
+                double sum = 0;
 
                 while (!objList.NoFim())
-                {                  
+                {
                     sum += objList.Valor("Total");
                     objList.Seguinte();
                 }
@@ -263,9 +263,10 @@ namespace FirstREST.Lib_Primavera
                 StdBELista objList;
                 Model.Shipment ship = new Model.Shipment();
 
-                objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade, LinhasDoc.DataSaida as DataSaida, (LinhasDocStatus.Quantidade - LinhasDocStatus.QuantTrans) AS Patinhos FROM CabecDoc, LinhasDoc, LinhasDocStatus WHERE LinhasDocStatus.Quantidade != LinhasDocStatus.QuantTrans AND LinhasDoc.Id = LinhasDocStatus.IdLinhasDoc AND CabecDoc.Id = LinhasDoc.IdCabecDoc AND CabecDoc.TipoDoc = 'ECL' AND LinhasDoc.Artigo = '"+id+"'");
+                objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade, LinhasDoc.DataSaida as DataSaida, (LinhasDocStatus.Quantidade - LinhasDocStatus.QuantTrans) AS Patinhos FROM CabecDoc, LinhasDoc, LinhasDocStatus WHERE LinhasDocStatus.Quantidade != LinhasDocStatus.QuantTrans AND LinhasDoc.Id = LinhasDocStatus.IdLinhasDoc AND CabecDoc.Id = LinhasDoc.IdCabecDoc AND CabecDoc.TipoDoc = 'ECL' AND LinhasDoc.Artigo = '" + id + "'");
                 List<Model.Shipment> shipList = new List<Model.Shipment>();
-                while(!objList.NoFim()){
+                while (!objList.NoFim())
+                {
                     ship = new Model.Shipment();
                     ship.client = objList.Valor("Entidade");
                     ship.product = id;
@@ -581,43 +582,119 @@ namespace FirstREST.Lib_Primavera
             {
                 StdBELista objList;
                 //Model.Conta conta = new Model.Conta();
-                double sumAtivos = 0;
-                double sumPassivos = 0;
+                double sumAtivos = 0d;
+                double sumPassivos = 0d;
 
                 string ano = "2015";
                 objList = PriEngine.Engine.Consulta("SELECT AcumuladosContas.Conta, SUM(Mes00Cr+Mes01Cr+Mes02Cr+Mes03Cr+Mes04Cr+Mes05Cr+Mes06Cr+Mes07Cr+Mes08Cr+Mes09Cr+Mes10Cr+Mes11Cr+Mes12Cr+Mes13Cr+Mes14Cr+Mes15Cr) AS MesCr, SUM(Mes00Db+Mes01Db+Mes02Db+Mes03Db+Mes04Db+Mes05Db+Mes06Db+Mes07Db+Mes08Db+Mes09Db+Mes10Db+Mes11Db+Mes12Db+Mes13Db+Mes14Db+Mes15Db) AS MesDb FROM AcumuladosContas WITH (NOLOCK) INNER JOIN PlanoContas WITH (NOLOCK) ON AcumuladosContas.Ano=PlanoContas.Ano And AcumuladosContas.Conta = PlanoContas.Conta  WHERE 1=1  AND (((AcumuladosContas.Conta >= '0' AND AcumuladosContas.Conta <= '999999999') AND NOT ((AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999'))) OR (AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999')) AND AcumuladosContas.Ano = " + ano + " AND AcumuladosContas.Moeda = 'EUR' AND TipoConta = 'R' GROUP BY AcumuladosContas.Conta, Descricao, TipoConta ORDER BY AcumuladosContas.Conta");
                 while (!objList.NoFim())
                 {
                     int codConta = Int32.Parse(objList.Valor("Conta"));
-                    int tipoConta = codConta/10;
+                    int tipoConta = codConta / 10;
                     int subTipoConta = codConta % 10;
                     switch (tipoConta)
                     {
                         case 1:
-                            sumAtivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            sumAtivos += (double)objList.Valor("MesCr") - (double)objList.Valor("MesDb");
                             break;
                         case 2:
-                            if(subTipoConta == 2 || subTipoConta == 3 || subTipoConta == 4){
-                                sumPassivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            if (subTipoConta == 2 || subTipoConta == 3 || subTipoConta == 4 || subTipoConta == 6 || subTipoConta == 9)
+                            {
+                                sumPassivos += (double)(objList.Valor("MesCr") - objList.Valor("MesDb"));
                             }
                             else
                             {
-                                sumAtivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                                sumAtivos += (double)(objList.Valor("MesCr") - objList.Valor("MesDb"));
                             }
                             break;
                         case 3:
                         case 4:
-                            sumAtivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            sumAtivos += (double)(objList.Valor("MesCr") - objList.Valor("MesDb"));
                             break;
                         default:
                             break;
                     }
+
+                    objList.Seguinte();
                 }
-                return new Tuple<double,double>(sumAtivos, sumPassivos);
+                return new Tuple<double, double>(sumAtivos, sumPassivos);
             }
             return null;
         }
 
+        public static List<Model.Conta> getBalancete()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList;
+                string ano = "2015";
+                objList = PriEngine.Engine.Consulta("SELECT AcumuladosContas.Conta, PlanoContas.Descricao, SUM(Mes00Cr+Mes01Cr+Mes02Cr+Mes03Cr+Mes04Cr+Mes05Cr+Mes06Cr+Mes07Cr+Mes08Cr+Mes09Cr+Mes10Cr+Mes11Cr+Mes12Cr+Mes13Cr+Mes14Cr+Mes15Cr) AS MesCr, SUM(Mes00Db+Mes01Db+Mes02Db+Mes03Db+Mes04Db+Mes05Db+Mes06Db+Mes07Db+Mes08Db+Mes09Db+Mes10Db+Mes11Db+Mes12Db+Mes13Db+Mes14Db+Mes15Db) AS MesDb FROM AcumuladosContas WITH (NOLOCK) INNER JOIN PlanoContas WITH (NOLOCK) ON AcumuladosContas.Ano=PlanoContas.Ano And AcumuladosContas.Conta = PlanoContas.Conta  WHERE 1=1  AND (((AcumuladosContas.Conta >= '0' AND AcumuladosContas.Conta <= '999999999') AND NOT ((AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999'))) OR (AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999')) AND AcumuladosContas.Ano = " + ano + " AND AcumuladosContas.Moeda = 'EUR' AND TipoConta = 'R' GROUP BY AcumuladosContas.Conta, Descricao, TipoConta ORDER BY AcumuladosContas.Conta");
+                Model.Conta conta = new Model.Conta();
+                List<Model.Conta> contas = new List<Model.Conta>();
+                while (!objList.NoFim())
+                {
+                    conta = new Model.Conta();
+                    conta.codConta = objList.Valor("Conta");
+                    conta.nomeConta = objList.Valor("Descricao");
+                    conta.credito = (double) objList.Valor("MesCr");
+                    conta.debito = (double) objList.Valor("MesDb");
+                    conta.saldo = conta.credito - conta.debito;
+                    contas.Add(conta);
+                    objList.Seguinte();
+                }
+                return contas;
+            }
+            return null;
+
+        }
         #endregion Contabilidade
+
+        #region Fornecedores
+
+        public static Lib_Primavera.Model.Fornecedor getFornecedor(string id)
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                if (PriEngine.Engine.Comercial.Fornecedores.Existe(id))
+                {
+                    Model.Fornecedor forn = new Model.Fornecedor();
+                    GcpBEFornecedor obj = PriEngine.Engine.Comercial.Fornecedores.Edita(id);
+                    forn.name = obj.get_Nome();
+                    forn.address = obj.get_Morada();
+                    forn.post_c = obj.get_CodigoPostal();
+                    forn.city = obj.get_LocalidadeCodigoPostal();
+                    forn.reference = obj.get_Fornecedor();
+                    return forn;
+                }
+            }
+            return null;
+        }
+
+        public static IEnumerable<Model.Fornecedor> listaFornecedor()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista fornecedores = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, Morada, Cp, CpLoc, Tel FROM Fornecedores;");
+                List<Model.Fornecedor> fornes = new List<Model.Fornecedor>();
+
+                while (!fornecedores.NoFim())
+                {
+                    Model.Fornecedor forn = new Model.Fornecedor();
+                    forn.address = fornecedores.Valor("Morada");
+                    forn.city = fornecedores.Valor("CpLoc");
+                    forn.name = fornecedores.Valor("Nome");
+                    forn.post_c = fornecedores.Valor("CpLoc");
+                    forn.reference = fornecedores.Valor("Fornecedor");
+                    fornes.Add(forn);
+                    fornecedores.Seguinte();
+                }
+                return fornes;
+            }
+            return null;
+        }
+
+        #endregion Forncedores
+
+       
     }
 }

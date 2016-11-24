@@ -5,35 +5,33 @@ using System.Web;
 
 namespace FirstREST.Lib_Primavera.Model
 {
-    public class Conta
+    public class Fornecedor
     {
-        public string codConta
+        public string name
         {
-            set;
             get;
+            set;
+        }
+        public string address
+        {
+            get;
+            set;
+        }
+        public string post_c
+        {
+            get;
+            set;
+        }
+        public string city
+        {
+            get;
+            set;
+        }
+        public string reference
+        {
+            get;
+            set;
         }
 
-        public string nomeConta
-        {
-            set;
-            get;
-        }
-        public double credito
-        {
-            set;
-            get;
-        }
-
-        public double debito
-        {
-            set;
-            get;
-        }
-
-        public double saldo
-        {
-            set;
-            get;
-        }
     }
 }

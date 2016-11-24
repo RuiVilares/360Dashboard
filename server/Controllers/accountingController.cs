@@ -10,10 +10,15 @@ namespace FirstREST.Controllers
     public class accountingController : ApiController
     {
         [System.Web.Http.HttpGet]
-        public IEnumerable<Lib_Primavera.Model.Conta> getAtivos_Passivos()
+        public Tuple<double, double> getAtivos_Passivos()
         {
-            return null;
+            return Lib_Primavera.PriIntegration.getAtivos_Passivos();
         
+        }
+
+        public List<Lib_Primavera.Model.Conta> getBalancete()
+        {
+            return Lib_Primavera.PriIntegration.getBalancete();
         }
     }
 }
