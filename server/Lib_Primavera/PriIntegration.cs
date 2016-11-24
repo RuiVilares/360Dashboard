@@ -659,5 +659,51 @@ namespace FirstREST.Lib_Primavera
         }
 
         #endregion DocsVenda
+
+        #region Contabilidade
+
+        public static Tuple<double, double> getAtivos_Passivos()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList;
+                //Model.Conta conta = new Model.Conta();
+                double sumAtivos = 0;
+                double sumPassivos = 0;
+
+                string ano = "2015";
+                objList = PriEngine.Engine.Consulta("SELECT AcumuladosContas.Conta, SUM(Mes00Cr+Mes01Cr+Mes02Cr+Mes03Cr+Mes04Cr+Mes05Cr+Mes06Cr+Mes07Cr+Mes08Cr+Mes09Cr+Mes10Cr+Mes11Cr+Mes12Cr+Mes13Cr+Mes14Cr+Mes15Cr) AS MesCr, SUM(Mes00Db+Mes01Db+Mes02Db+Mes03Db+Mes04Db+Mes05Db+Mes06Db+Mes07Db+Mes08Db+Mes09Db+Mes10Db+Mes11Db+Mes12Db+Mes13Db+Mes14Db+Mes15Db) AS MesDb FROM AcumuladosContas WITH (NOLOCK) INNER JOIN PlanoContas WITH (NOLOCK) ON AcumuladosContas.Ano=PlanoContas.Ano And AcumuladosContas.Conta = PlanoContas.Conta  WHERE 1=1  AND (((AcumuladosContas.Conta >= '0' AND AcumuladosContas.Conta <= '999999999') AND NOT ((AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999'))) OR (AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999')) AND AcumuladosContas.Ano = " + ano + " AND AcumuladosContas.Moeda = 'EUR' AND TipoConta = 'R' GROUP BY AcumuladosContas.Conta, Descricao, TipoConta ORDER BY AcumuladosContas.Conta");
+                while (!objList.NoFim())
+                {
+                    int codConta = Int32.Parse(objList.Valor("Conta"));
+                    int tipoConta = codConta/10;
+                    int subTipoConta = codConta % 10;
+                    switch (tipoConta)
+                    {
+                        case 1:
+                            sumAtivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            break;
+                        case 2:
+                            if(subTipoConta == 2 || subTipoConta == 3 || subTipoConta == 4){
+                                sumPassivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            }
+                            else
+                            {
+                                sumAtivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            }
+                            break;
+                        case 3:
+                        case 4:
+                            sumAtivos += objList.Valor("MesCr") - objList.Valor("MesDb");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return new Tuple<double,double>(sumAtivos, sumPassivos);
+            }
+        }
+
+        #endregion Contabilidade
     }
 }
