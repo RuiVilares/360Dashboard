@@ -6,42 +6,32 @@ using System.Web;
 namespace FirstREST.Lib_Primavera.Model
 {
     public class Cliente
-    {
-        public string Morada;
-
-        /* Exemplo para POST e GET com valores específicos
-         public string Morada
-        {
-            get
-            {
-                return "MORADA: " + _morada;
-            }
-            set
-            {
-                _morada = value;
-            }
-        }
-    
-*/       
-        public string CodCliente
+    {         
+        public string id
         {
             get;
             set;
         }
 
-        public string NomeCliente
+        public string name
         {
             get;
             set;
         }
 
-        public string NumContribuinte
+        public string address
         {
             get;
             set;
         }
 
-        public string Moeda
+        public string post_c
+        {
+            get;
+            set;
+        }
+
+        public string city
         {
             get;
             set;

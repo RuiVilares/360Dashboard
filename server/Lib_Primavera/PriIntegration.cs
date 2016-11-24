@@ -29,21 +29,20 @@ namespace FirstREST.Lib_Primavera
 
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
 
-                objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Moeda, NumContrib as NumContribuinte, Fac_Mor AS campo_exemplo FROM  CLIENTES");
+                objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome, Fac_Cp, Fac_Cploc, Fac_Mor FROM  CLIENTES WHERE Cliente != 'VD'");
 
 
                 while (!objList.NoFim())
                 {
-                    listClientes.Add(new Model.Cliente
-                    {
-                        CodCliente = objList.Valor("Cliente"),
-                        NomeCliente = objList.Valor("Nome"),
-                        Moeda = objList.Valor("Moeda"),
-                        NumContribuinte = objList.Valor("NumContribuinte"),
-                        Morada = objList.Valor("campo_exemplo")
-                    });
+                    Model.Cliente cliente = new Model.Cliente();
+                    string str = objList.ToString();
+                    cliente.id = objList.Valor("Cliente");                    
+                    cliente.name = objList.Valor("Nome");
+                    cliente.post_c = objList.Valor("Fac_Cp");
+                    cliente.city = objList.Valor("Fac_Cploc");
+                    cliente.address  = objList.Valor("Fac_Mor");
+                    listClientes.Add(cliente);
                     objList.Seguinte();
-
                 }
 
                 return listClientes;
@@ -67,11 +66,11 @@ namespace FirstREST.Lib_Primavera
                 if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == true)
                 {
                     objCli = PriEngine.Engine.Comercial.Clientes.Edita(codCliente);
-                    myCli.CodCliente = objCli.get_Cliente();
-                    myCli.NomeCliente = objCli.get_Nome();
-                    myCli.Moeda = objCli.get_Moeda();
-                    myCli.NumContribuinte = objCli.get_NumContribuinte();
-                    myCli.Morada = objCli.get_Morada();
+                    myCli.id = objCli.get_Cliente();
+                    myCli.name = objCli.get_Nome();
+                    myCli.address = objCli.get_Morada();
+                    myCli.post_c = objCli.get_CodigoPostal();
+                    myCli.city = "coimbra";
                     return myCli;
                 }
                 else
@@ -83,152 +82,66 @@ namespace FirstREST.Lib_Primavera
                 return null;
         }
 
-        public static Lib_Primavera.Model.RespostaErro UpdCliente(Lib_Primavera.Model.Cliente cliente)
+        public static IEnumerable<Lib_Primavera.Model.TopClienteProduct> get_client_topprod(string codCliente)
         {
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-
-
-            GcpBECliente objCli = new GcpBECliente();
-
-            try
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-
-                if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == true)
                 {
-
-                    if (PriEngine.Engine.Comercial.Clientes.Existe(cliente.CodCliente) == false)
+                    StdBELista productList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.Quantidade) AS Quant, Artigo.Artigo AS Artigo, SUM(LinhasDoc.PrecoLiquido) AS Preco FROM Artigo, LinhasDoc, CabecDoc WHERE CabecDoc.Entidade = '"+codCliente+"' AND LinhasDoc.IdCabecDoc = CabecDoc.id AND CabecDoc.TipoDoc = 'FA' AND LinhasDoc.Artigo = Artigo.Artigo GROUP BY CabecDoc.Entidade, Artigo.Artigo ORDER BY Preco DESC");
+                    List<Model.TopClienteProduct> resultado = new List<Model.TopClienteProduct>();
+                    double sum = 0;
+                    int i = 0;
+                    while (i != 10 && !productList.NoFim())
                     {
-                        erro.Erro = 1;
-                        erro.Descricao = "O cliente não existe";
-                        return erro;
+                        sum += productList.Valor("Preco");
+                        productList.Seguinte();
+                        i++;
                     }
-                    else
+                    productList.Inicio();
+                    i = 0;
+                    while (i != 10 && !productList.NoFim())
                     {
-
-                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(cliente.CodCliente);
-                        objCli.set_EmModoEdicao(true);
-
-                        objCli.set_Nome(cliente.NomeCliente);
-                        objCli.set_NumContribuinte(cliente.NumContribuinte);
-                        objCli.set_Moeda(cliente.Moeda);
-                        objCli.set_Morada(cliente.Morada);
-
-                        PriEngine.Engine.Comercial.Clientes.Actualiza(objCli);
-
-                        erro.Erro = 0;
-                        erro.Descricao = "Sucesso";
-                        return erro;
+                        Model.TopClienteProduct top = new Model.TopClienteProduct();
+                        top.reference = productList.Valor("Artigo");
+                        top.sales_p = (productList.Valor("Preco") / sum) * 100.0;
+                        resultado.Add(top);
+                        productList.Seguinte();
+                        i++;
                     }
-                }
-                else
-                {
-                    erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir a empresa";
-                    return erro;
-
+                    return resultado;
                 }
 
             }
-
-            catch (Exception ex)
-            {
-                erro.Erro = 1;
-                erro.Descricao = ex.Message;
-                return erro;
-            }
+            return null;
 
         }
 
-
-        public static Lib_Primavera.Model.RespostaErro DelCliente(string codCliente)
+        public static IEnumerable<Lib_Primavera.Model.ClientTimeline> ClientTimeline(string id)
         {
-
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-            GcpBECliente objCli = new GcpBECliente();
-
-
-            try
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-
-                if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+                if (PriEngine.Engine.Comercial.Clientes.Existe(id) == true)
                 {
-                    if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == false)
+                    StdBELista objList =  PriEngine.Engine.Consulta("SELECT LinhasDoc.Data as Data, SUM(LinhasDoc.PrecoLiquido) as Pag FROM LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' AND CabecDoc.Entidade = '" + id + "' GROUP BY LinhasDoc.Data ORDER BY LinhasDoc.Data DESC");
+                    List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
+
+                    while (!objList.NoFim())
                     {
-                        erro.Erro = 1;
-                        erro.Descricao = "O cliente não existe";
-                        return erro;
+                        Model.ClientTimeline timeline = new Model.ClientTimeline();
+                        timeline.value = objList.Valor("Pag");
+                        timeline.date = objList.Valor("Data");
+                        list.Add(timeline);
+                        objList.Seguinte();
                     }
-                    else
-                    {
+                    return list;
 
-                        PriEngine.Engine.Comercial.Clientes.Remove(codCliente);
-                        erro.Erro = 0;
-                        erro.Descricao = "Sucesso";
-                        return erro;
-                    }
                 }
 
-                else
-                {
-                    erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir a empresa";
-                    return erro;
-                }
             }
-
-            catch (Exception ex)
-            {
-                erro.Erro = 1;
-                erro.Descricao = ex.Message;
-                return erro;
-            }
-
+            return null;
         }
-
-
-
-        public static Lib_Primavera.Model.RespostaErro InsereClienteObj(Model.Cliente cli)
-        {
-
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-
-
-            GcpBECliente myCli = new GcpBECliente();
-
-            try
-            {
-                if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
-                {
-
-                    myCli.set_Cliente(cli.CodCliente);
-                    myCli.set_Nome(cli.NomeCliente);
-                    myCli.set_NumContribuinte(cli.NumContribuinte);
-                    myCli.set_Moeda(cli.Moeda);
-                    myCli.set_Morada(cli.Morada);
-
-                    PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
-
-                    erro.Erro = 0;
-                    erro.Descricao = "Sucesso";
-                    return erro;
-                }
-                else
-                {
-                    erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir empresa";
-                    return erro;
-                }
-            }
-
-            catch (Exception ex)
-            {
-                erro.Erro = 1;
-                erro.Descricao = ex.Message;
-                return erro;
-            }
-
-
-        }
+         
 
 
 
