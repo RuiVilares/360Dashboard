@@ -10,10 +10,10 @@ $(function() {
   });
 
   $.ajax({
-    url: "http://localhost:49822/api/Clientes",
+    url: "http://localhost:49822/api/Clientes/list",
     success: function (data) {
       for (var i = 0; i < data.length; i++){
-        $('#navbarClients').append("<li><a href='./client.html'>" /*?id=" + data[i].CodCliente +"'>"*/ + data[i].NomeCliente + "</a></li>");
+        $('#navbarClients').append("<li><a href='./client.html?client="+data[i].id+"'>" /*?id=" + data[i].CodCliente +"'>"*/ + data[i].name + "</a></li>");
       }
     },
     dataType: "json"
