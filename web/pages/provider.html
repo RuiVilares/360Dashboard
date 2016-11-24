@@ -181,10 +181,10 @@
         <div id="page-wrapper">
           <div class="row">
               <div class="col-lg-12">
-                  <h1 class="page-header">Nome do fornecedor</h1>
+                  <h1 class="page-header providerName">A Obter dados...</h1>
               </div>
           </div>
-          <div class="row">
+          <div class="row hidden">
             <div class="col-lg-4 col-md-6">
                 <div class="panel panel-red">
                     <div class="panel-heading">
@@ -209,38 +209,40 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-6 col-lg-offset-3">
+            <div class="col-lg-12">
               <table width="100%" class="table table-striped table-bordered table-hover">
                   <thead>
                     <tr>
-                      <th colspan="4">Informação do fornecedor</th>
+                      <th colspan="2">Informação do fornecedor</th>
                     </tr>
                   </thead>
                   <tbody>
                       <tr>
-                          <td>Nome</td>
-                          <td colspan="3">Sanoi</td>
+                          <td>Nome:</td>
+                          <td class="providerName">--</td>
                       </tr>
                       <tr>
-                          <td>Morada</td>
-                          <td>Calçada das Devezas</td>
-                          <td>Valadares</td>
-                          <td>Gaia</td>
+                          <td>Morada:</td>
+                          <td class="providerAddress">--</td>
                       </tr>
                       <tr>
-                          <td>Contacto</td>
-                          <td colspan="3">919693255</td>
+                          <td>Localidade:</td>
+                          <td class="providerLocalidade">--</td>
                       </tr>
                       <tr>
-                          <td>Email</td>
-                          <td colspan="3">geral@sanoi.pt</td>
+                          <td>Código Postal:</td>
+                          <td class="providerPostCode">--</td>
+                      </tr>
+                      <tr>
+                          <td>Identificador:</td>
+                          <td class="providerRef">--</td>
                       </tr>
                   </tbody>
               </table>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-6">
+            <div class="hidden col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-archive fa-fw"></i> Mais comprados
@@ -250,7 +252,7 @@
                     </div>
                 </div>
             </div>
-              <div class="col-lg-6">
+              <div class="hidden col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-bar-chart-o fa-fw"></i> Evolução
@@ -291,10 +293,22 @@
     <!-- Morris Charts JavaScript -->
     <script src="../vendor/raphael/raphael.min.js"></script>
     <script src="../vendor/morrisjs/morris.min.js"></script>
-    <script src="../data/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    
+    <script src="../js/fetcher.js"></script>
+    <script>
+        var id = getUrlParameter("provider");
+
+        $.ajax({url: "http://localhost:49822/api/supplier/detail/" + id, dataType: 'json', success: function(result){              
+            $(".providerName").html(result.name);
+            $(".providerAddress").html(result.address);
+            $(".providerPostCode").html(result.post_c);
+            $(".providerLocalidade").html(result.city);
+            $(".providerRef").html(result.reference);
+        }}); 
+    </script>
 
 </body>
 </html>
