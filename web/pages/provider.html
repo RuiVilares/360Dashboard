@@ -39,7 +39,7 @@
 
     <div id="wrapper">
 
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+       <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -79,21 +79,9 @@
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-archive fa-fw"></i> Produtos<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <ul id="navbarProducts" class="nav nav-second-level">
                                 <li>
                                     <a href="products.html">Dashboard de produtos</a>
-                                </li>
-                                <li>
-                                    <a href="product.html">Produto 1</a>
-                                </li>
-                                <li>
-                                    <a href="product.html">Produto 2</a>
-                                </li>
-                                <li>
-                                    <a href="product.html">Produto 3</a>
-                                </li>
-                                <li>
-                                    <a href="product.html">Produto 4</a>
                                 </li>
                                 <li class="sidebar-search">
                                   <div class="input-group custom-search-form">
@@ -109,25 +97,13 @@
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-user fa-fw"></i> Clientes<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <ul id="navbarClients" class="nav nav-second-level">
                                 <li>
                                     <a href="clients.html">Dashboard de clientes</a>
                                 </li>
-                                <li>
-                                    <a href="client.html">Cliente 1</a>
-                                </li>
-                                <li>
-                                    <a href="client.html">Cliente 2</a>
-                                </li>
-                                <li>
-                                    <a href="client.html">Cliente 3</a>
-                                </li>
-                                <li>
-                                    <a href="client.html">Cliente 4</a>
-                                </li>
                                 <li class="sidebar-search">
                                   <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Pesquisar produto...">
+                                    <input type="text" class="form-control" placeholder="Pesquisar cliente...">
                                     <span class="input-group-btn">
                                       <button class="btn btn-default" type="button">
                                         <i class="fa fa-search"></i>
@@ -139,25 +115,13 @@
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-home fa-fw"></i> Fornecedores<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <ul id="navbarProviders" class="nav nav-second-level">
                                 <li>
                                     <a href="providers.html">Dashboard de fornecedores</a>
                                 </li>
-                                <li>
-                                    <a href="provider.html">Fornecedor 1</a>
-                                </li>
-                                <li>
-                                    <a href="provider.html">Fornecedor 2</a>
-                                </li>
-                                <li>
-                                    <a href="provider.html">Fornecedor 3</a>
-                                </li>
-                                <li>
-                                    <a href="provider.html">Fornecedor 4</a>
-                                </li>
                                 <li class="sidebar-search">
                                   <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Pesquisar produto...">
+                                    <input type="text" class="form-control" placeholder="Pesquisar fornecedor...">
                                     <span class="input-group-btn">
                                       <button class="btn btn-default" type="button">
                                         <i class="fa fa-search"></i>
@@ -184,7 +148,7 @@
                   <h1 class="page-header providerName">A Obter dados...</h1>
               </div>
           </div>
-          <div class="row hidden">
+          <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="panel panel-red">
                     <div class="panel-heading">
@@ -193,17 +157,13 @@
                                 <i class="fa fa-eur fa-4x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h1">12345 €</div>
+                                <div class="h1 pendente">A Carregar...</div>
                                 <div class="h3">Valor pendente</div>
                             </div>
                         </div>
                     </div>
                     <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">Ver detalhes</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
+                       
                     </a>
                 </div>
             </div>
@@ -242,17 +202,17 @@
             </div>
           </div>
           <div class="row">
-            <div class="hidden col-lg-6">
+            <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-archive fa-fw"></i> Mais comprados
                     </div>
                     <div class="panel-body">
-                        <div id="morris-bar-chart"></div>
+                        <div id="morris-pie"></div>
                     </div>
                 </div>
             </div>
-              <div class="hidden col-lg-6">
+              <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-bar-chart-o fa-fw"></i> Evolução
@@ -278,6 +238,8 @@
                     </div>
                 </div>
               </div>
+          </div>
+           
           </div>
         </div>
 
@@ -307,7 +269,46 @@
             $(".providerPostCode").html(result.post_c);
             $(".providerLocalidade").html(result.city);
             $(".providerRef").html(result.reference);
+            $(".pendente").text(result.pendente);
+        }});
+
+      $.ajax({url: "http://localhost:49822/api/supplier/freq/" + id, dataType: 'json', success: function(result){              
+            $('.evolution').html("Evolução");
+            console.log(result);
+            Morris.Line({
+                element : "morris-area-chart",
+                data : result,
+                xkey : "m_Item1",
+                ykeys : ["m_Item2"],
+                labels : ["Volume de Compras"],
+                resize: true
+            });
         }}); 
+
+        $.ajax({url: "http://localhost:49822/api/supplier/topprod/" + id, dataType: 'json', success: function(result){              
+        $('.topprod').html("Mais Comprados");
+       
+        result = result.sort(function compare(a,b){
+            if (a.order_p > b.order_p)
+                return 1;
+            else 
+                return -1;
+        }).slice(0, 10);
+
+        var chart = [];
+        
+        for(var i = 0; i < result.length; i++){                    
+            chart.push({label : "Produto: " + result[i].name + " (%)", value : result[i].order_p});
+        }
+        
+        Morris.Donut({
+            element : "morris-pie",
+            data : chart ,
+            resize: true
+        });
+    }}); 
+
+
     </script>
 
 </body>

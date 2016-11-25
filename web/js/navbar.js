@@ -18,15 +18,15 @@ $(function() {
     },
     dataType: "json"
   });
-  /*
+  
   $.ajax({
-    url: "http://localhost:49822/api/Fornecedores",
+    url: "http://localhost:49822/api/supplier/list",
     success: function (data) {
       for (var i = 0; i < data.length; i++){
-        $('#navbarProviders').append("<li><a href='provider.html'>" + data[i].NomeFornecedor + "</a></li>");
+        $('#navbarProviders').append("<li><a href='provider.html?provider="+data[i].reference+"'>" + data[i].name + "</a></li>");
         console.log(data[i]);
       }
     },
     dataType: "json"
-  });*/
+  });
 });
