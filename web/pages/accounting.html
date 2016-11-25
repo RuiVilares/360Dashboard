@@ -299,7 +299,7 @@
         <script>            
             $.ajax({url: "http://localhost:49822/api/accounting/getAtivos_Passivos/", dataType: 'json', success: function(result){              
                 $(".ativos").html(result.m_Item1.toFixed(3) + " €");
-                $(".passivos").html(result.m_Item2.toFixed(3) + " €");
+                $(".passivos").html(-result.m_Item2.toFixed(3) + " €");
             }}); 
         
             $.ajax({url: "http://localhost:49822/api/accounting/getBalancete/", dataType: 'json', success: function(result){              

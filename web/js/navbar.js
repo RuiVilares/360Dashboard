@@ -24,7 +24,7 @@ $(function() {
     success: function (data) {
       for (var i = 0; i < data.length; i++){
         $('#navbarProviders').append("<li><a href='provider.html?provider="+data[i].reference+"'>" + data[i].name + "</a></li>");
-        console.log(data[i]);
+        
       }
     },
     dataType: "json"

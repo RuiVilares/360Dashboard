@@ -24,6 +24,7 @@ namespace FirstREST.Controllers
         [System.Web.Http.HttpGet]
         public Cliente detail(string id)
         {
+            id = id.Replace("_", ".");
             Lib_Primavera.Model.Cliente cliente = Lib_Primavera.PriIntegration.GetCliente(id);
             if (cliente == null)
             {
@@ -41,6 +42,7 @@ namespace FirstREST.Controllers
         [System.Web.Http.HttpGet]
         public IEnumerable<Lib_Primavera.Model.TopClienteProduct> topprod(string id) 
         {
+            id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.get_client_topprod(id);           
         }
 
@@ -48,6 +50,7 @@ namespace FirstREST.Controllers
         [System.Web.Http.HttpGet]
         public IEnumerable<Lib_Primavera.Model.ClientTimeline> range(string id)
         {
+            id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ClientTimeline(id);
         }
 
