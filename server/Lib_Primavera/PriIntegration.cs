@@ -140,6 +140,43 @@ namespace FirstREST.Lib_Primavera
 
             }
             return null;
+
+
+        }
+
+        public static List<Model.TopCliente> ListaMelhoresClientes()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade,  SUM(LinhasDoc.PrecUnit*LinhasDoc.Quantidade) AS Total from LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' GROUP BY CabecDoc.Entidade ORDER BY Total DESC");
+                Model.TopCliente cliente = new Model.TopCliente();
+                List<Model.TopCliente> listaClientes = new List<Model.TopCliente>();
+                double sum = 0;
+
+                while (!objList.NoFim())
+                {
+                    sum += objList.Valor("Total");
+                    objList.Seguinte();
+                }
+
+                objList.Inicio();
+
+                while (!objList.NoFim())
+                {
+                    cliente = new Model.TopCliente();
+                    cliente.name = objList.Valor("Entidade");
+                    cliente.valor = objList.Valor("Total");
+                    cliente.sales_p = (cliente.valor / sum) * 100;
+                    listaClientes.Add(cliente);
+                    objList.Seguinte();
+                }
+
+
+
+                return listaClientes;
+            }
+            return null;
+
         }
 
 
@@ -221,6 +258,67 @@ namespace FirstREST.Lib_Primavera
             return null;
 
         }
+
+
+        public static List<Model.TopProduto> ListaMelhoresProdutos()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.PrecUnit * LinhasDoc.Quantidade) AS LucroBrusco, SUM(LinhasDoc.Quantidade) AS Quantidade, Artigo.Descricao from LinhasDoc, CabecDoc, Artigo WHERE Artigo.Artigo = LinhasDoc.Artigo AND LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' GROUP BY Artigo.Descricao ORDER BY LucroBrusco DESC");
+                Model.TopProduto produto = new Model.TopProduto();
+                List<Model.TopProduto> listaProdutos = new List<Model.TopProduto>();
+                double sum = 0;
+                int i = 0;
+                while (i++ < 10 && !objList.NoFim()) {
+                    sum += objList.Valor("LucroBrusco");
+                    objList.Seguinte();
+                }
+
+                objList.Inicio();
+
+                while (!objList.NoFim())
+                {
+                    produto = new Model.TopProduto();
+                    produto.name = objList.Valor("Descricao");
+                    produto.valor = objList.Valor("LucroBrusco");
+                    produto.sales_p = (produto.valor / sum) * 100;
+                    produto.quantidade = objList.Valor("Quantidade");
+                    listaProdutos.Add(produto);
+                    objList.Seguinte();
+                }
+
+
+
+                return listaProdutos;
+            }
+            return null;
+
+        }
+
+        //This method uses the ClientTimeline model because it serves the exact same purpose
+        public static IEnumerable<Lib_Primavera.Model.ClientTimeline> ProductsTimeline()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT LinhasDoc.Data as Data, SUM(LinhasDoc.PrecoLiquido) as Pag FROM LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' GROUP BY LinhasDoc.Data ORDER BY LinhasDoc.Data DESC");
+                List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
+
+                while (!objList.NoFim())
+                {
+                    Model.ClientTimeline timeline = new Model.ClientTimeline();
+                    timeline.value = objList.Valor("Pag");
+                    timeline.date = objList.Valor("Data");
+                    list.Add(timeline);
+                    objList.Seguinte();
+                }
+                return list;
+
+            }
+            return null;
+
+
+        }
+
 
         public static List<Model.Artigo> ListaArtigos()
         {

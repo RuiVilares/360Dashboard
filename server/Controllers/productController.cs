@@ -49,6 +49,22 @@ namespace FirstREST.Controllers
             
         }
 
+        public IEnumerable<Lib_Primavera.Model.TopCliente> Get_top10c()
+        {
+            return Lib_Primavera.PriIntegration.ListaMelhoresClientes();
+        }
+
+        public IEnumerable<Lib_Primavera.Model.TopProduto> Get_top10p()
+        {
+            return Lib_Primavera.PriIntegration.ListaMelhoresProdutos();
+        }
+
+        public IEnumerable<Lib_Primavera.Model.ClientTimeline> Get_Evolution()
+        {
+            return Lib_Primavera.PriIntegration.ProductsTimeline();
+        }
+
+
     }
 }
 

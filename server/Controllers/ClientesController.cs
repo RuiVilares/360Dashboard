@@ -51,6 +51,12 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.ClientTimeline(id);
         }
 
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Lib_Primavera.Model.TopCliente> get_top10c()
+        {
+            return Lib_Primavera.PriIntegration.ListaMelhoresClientes();
+        }
+
 
     }
 }
