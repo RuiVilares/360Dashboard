@@ -762,6 +762,7 @@ namespace FirstREST.Lib_Primavera
                     forn.post_c = obj.get_CodigoPostal();
                     forn.city = obj.get_LocalidadeCodigoPostal();
                     forn.reference = obj.get_Fornecedor();
+                    forn.pendente = -obj.get_DebitoContaCorrente();
                     return forn;
                 }
             }
@@ -772,7 +773,7 @@ namespace FirstREST.Lib_Primavera
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                StdBELista fornecedores = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, Morada, Cp, CpLoc, Tel FROM Fornecedores;");
+                StdBELista fornecedores = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome, Morada, Cp, CpLoc, TotalDeb, Tel FROM Fornecedores;");
                 List<Model.Fornecedor> fornes = new List<Model.Fornecedor>();
 
                 while (!fornecedores.NoFim())
@@ -783,10 +784,56 @@ namespace FirstREST.Lib_Primavera
                     forn.name = fornecedores.Valor("Nome");
                     forn.post_c = fornecedores.Valor("CpLoc");
                     forn.reference = fornecedores.Valor("Fornecedor");
+                    forn.pendente = fornecedores.Valor("TotalDeb");
                     fornes.Add(forn);
                     fornecedores.Seguinte();
                 }
                 return fornes;
+            }
+            return null;
+        }
+
+        public static IEnumerable<Tuple<DateTime, double>> ranges(string id)
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista fornecedores = PriEngine.Engine.Consulta("SELECT CabecCompras.DataDoc AS DataDoc, -SUM(LinhasCompras.PrecoLiquido) As Valor FROM CabecCompras, LinhasCompras WHERE CabecCompras.Entidade = '"+id+"' AND LinhasCompras.IdCabecCompras = CabecCompras.Id AND CabecCompras.TipoDoc = 'VFA' GROUP BY CabecCompras.DataDoc ORDER BY CabecCompras.DataDoc DESC");
+                List<Tuple<DateTime, double>> fornes = new List<Tuple<DateTime, double>>();
+
+                while (!fornecedores.NoFim())
+                {
+                    fornes.Add(new Tuple<DateTime, double>(fornecedores.Valor("DataDoc"), fornecedores.Valor("Valor")));
+                    fornecedores.Seguinte();
+                }
+                return fornes;
+            }
+            return null;
+        }
+
+        public static IEnumerable<Model.FornecedorTopProduct> forn_top_prod(string id)
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista fornecedores = PriEngine.Engine.Consulta("SELECT LinhasCompras.Artigo, Artigo.Descricao AS Nome, -SUM(LinhasCompras.PrecoLiquido) AS Valor FROM  CabecCompras, LinhasCompras, Artigo WHERE CabecCompras.Entidade ='"+id+"' AND LinhasCompras.IdCabecCompras = CabecCompras.Id AND CabecCompras.TipoDoc = 'VFA' AND LinhasCompras.Artigo = Artigo.Artigo GROUP BY LinhasCompras.Artigo, Artigo.Descricao;");
+                List<Model.FornecedorTopProduct> lista = new List<Model.FornecedorTopProduct>();
+                double total = 0;
+                while (!fornecedores.NoFim())
+                {
+                    total += fornecedores.Valor("Valor");
+                    fornecedores.Seguinte();
+                }
+                fornecedores.Inicio();
+
+                while (!fornecedores.NoFim())
+                {
+                    Model.FornecedorTopProduct top = new Model.FornecedorTopProduct();
+                    top.reference = fornecedores.Valor("Artigo");
+                    top.name = fornecedores.Valor("Nome");
+                    top.order_p = (fornecedores.Valor("Valor") / total) * 100;
+                    lista.Add(top);
+                    fornecedores.Seguinte();
+                }
+                return lista;
             }
             return null;
         }

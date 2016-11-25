@@ -26,5 +26,17 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.listaFornecedor();
         }
 
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Tuple<DateTime, double>> freq(string id)
+        {
+            return Lib_Primavera.PriIntegration.ranges(id);
+        }
+                [System.Web.Http.HttpGet]
+
+        public IEnumerable<Lib_Primavera.Model.FornecedorTopProduct> topprod(string id)
+        {
+            return Lib_Primavera.PriIntegration.forn_top_prod(id);
+        }
+
     }
 }

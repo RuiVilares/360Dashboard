@@ -5,24 +5,9 @@ using System.Web;
 
 namespace FirstREST.Lib_Primavera.Model
 {
-    public class Fornecedor
+    public class FornecedorTopProduct
     {
         public string name
-        {
-            get;
-            set;
-        }
-        public string address
-        {
-            get;
-            set;
-        }
-        public string post_c
-        {
-            get;
-            set;
-        }
-        public string city
         {
             get;
             set;
@@ -32,12 +17,10 @@ namespace FirstREST.Lib_Primavera.Model
             get;
             set;
         }
-
-        public double pendente
+        public double order_p
         {
             get;
             set;
         }
-
     }
 }
