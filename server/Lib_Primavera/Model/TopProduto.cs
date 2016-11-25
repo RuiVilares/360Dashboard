@@ -29,5 +29,11 @@ namespace FirstREST.Lib_Primavera.Model
             set;
             get;
         }
+
+        public string reference
+        {
+            get;
+            set;
+        }
     }
 }

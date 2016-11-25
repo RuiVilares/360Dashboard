@@ -264,7 +264,7 @@ namespace FirstREST.Lib_Primavera
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                StdBELista objList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.PrecUnit * LinhasDoc.Quantidade) AS LucroBrusco, SUM(LinhasDoc.Quantidade) AS Quantidade, Artigo.Descricao from LinhasDoc, CabecDoc, Artigo WHERE Artigo.Artigo = LinhasDoc.Artigo AND LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' GROUP BY Artigo.Descricao ORDER BY LucroBrusco DESC");
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.PrecoLiquido) AS LucroBrusco, SUM(LinhasDoc.Quantidade) AS Quantidade, Artigo.Descricao, Artigo.Artigo from LinhasDoc, CabecDoc, Artigo WHERE Artigo.Artigo = LinhasDoc.Artigo AND LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' GROUP BY Artigo.Descricao, Artigo.Artigo ORDER BY LucroBrusco DESC");
                 Model.TopProduto produto = new Model.TopProduto();
                 List<Model.TopProduto> listaProdutos = new List<Model.TopProduto>();
                 double sum = 0;
@@ -283,6 +283,7 @@ namespace FirstREST.Lib_Primavera
                     produto.valor = objList.Valor("LucroBrusco");
                     produto.sales_p = (produto.valor / sum) * 100;
                     produto.quantidade = objList.Valor("Quantidade");
+                    produto.reference = objList.Valor("Artigo");
                     listaProdutos.Add(produto);
                     objList.Seguinte();
                 }
