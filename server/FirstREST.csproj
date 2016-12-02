@@ -250,6 +250,7 @@
     <Compile Include="Lib_Primavera\Model\ClientTimeline.cs" />
     <Compile Include="Lib_Primavera\Model\Conta.cs" />
     <Compile Include="Lib_Primavera\Model\Fornecedor.cs" />
+    <Compile Include="Lib_Primavera\Model\FornecedorTopProduct.cs" />
     <Compile Include="Lib_Primavera\Model\TopCliente.cs" />
     <Compile Include="Lib_Primavera\Model\TopClienteProduct.cs" />
     <Compile Include="Lib_Primavera\Model\TopProduto.cs" />

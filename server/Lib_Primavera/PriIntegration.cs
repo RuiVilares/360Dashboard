@@ -13,7 +13,6 @@ namespace FirstREST.Lib_Primavera
     public class PriIntegration
     {
 
-
         # region Cliente
 
         public static List<Model.Cliente> ListaClientes()
@@ -191,7 +190,8 @@ namespace FirstREST.Lib_Primavera
         {
             GcpBEArtigo objArtigo = new GcpBEArtigo();
             Model.Artigo myArt = new Model.Artigo();
-
+            myArt.retail = new List<double>();
+            myArt.profit_margin = new List<double>();
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
@@ -201,14 +201,25 @@ namespace FirstREST.Lib_Primavera
                 }
                 else
                 {
-                    StdBELista priceObj = PriEngine.Engine.Consulta("SELECT PVP1 FROM ArtigoMoeda WHERE ArtigoMoeda.Artigo = '" + codArtigo + "' AND ArtigoMoeda.Moeda = 'EUR'");
+                    StdBELista priceObj = PriEngine.Engine.Consulta("SELECT PVP1, PVP2, PVP3, PVP4, PVP5, PVP6 FROM ArtigoMoeda WHERE ArtigoMoeda.Artigo = '" + codArtigo + "' AND ArtigoMoeda.Moeda = 'EUR'");
                     objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(codArtigo);
                     myArt.reference = objArtigo.get_Artigo();
                     myArt.name = objArtigo.get_Descricao();
-                    myArt.retail = priceObj.Valor("PVP1");
+                    myArt.retail.Add(priceObj.Valor("PVP1"));
+                    myArt.retail.Add(priceObj.Valor("PVP2"));
+                    myArt.retail.Add(priceObj.Valor("PVP3"));
+                    myArt.retail.Add(priceObj.Valor("PVP4"));
+                    myArt.retail.Add(priceObj.Valor("PVP5"));
+                    myArt.retail.Add(priceObj.Valor("PVP6"));
                     myArt.price = objArtigo.get_PCUltimo();
                     myArt.tax = objArtigo.get_IVA();
-                    myArt.profit_margin = (myArt.retail - myArt.price) / myArt.retail;
+                    myArt.profit_margin.Add((myArt.retail[0] - myArt.price) / myArt.retail[0]);
+                    myArt.profit_margin.Add((myArt.retail[1] - myArt.price) / myArt.retail[1]);
+                    myArt.profit_margin.Add((myArt.retail[2] - myArt.price) / myArt.retail[2]);
+                    myArt.profit_margin.Add((myArt.retail[3] - myArt.price) / myArt.retail[3]);
+                    myArt.profit_margin.Add((myArt.retail[4] - myArt.price) / myArt.retail[4]);
+                    myArt.profit_margin.Add((myArt.retail[5] - myArt.price) / myArt.retail[5]);
+                    
 
 
                     return myArt;
@@ -382,7 +393,6 @@ namespace FirstREST.Lib_Primavera
         }
 
         #endregion Artigo
-
 
 
         #region DocCompra
@@ -673,6 +683,7 @@ namespace FirstREST.Lib_Primavera
 
         #endregion DocsVenda
 
+
         #region Contabilidade
 
         public static Tuple<double, double> getAtivos_Passivos()
@@ -747,6 +758,7 @@ namespace FirstREST.Lib_Primavera
 
         }
         #endregion Contabilidade
+
 
         #region Fornecedores
 
@@ -840,7 +852,6 @@ namespace FirstREST.Lib_Primavera
         }
 
         #endregion Fornecedores
-
        
     }
 }

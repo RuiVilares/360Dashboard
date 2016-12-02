@@ -25,7 +25,7 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double retail
+        public List<double> retail
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double profit_margin
+        public List<double> profit_margin
         {
             get;
             set;
