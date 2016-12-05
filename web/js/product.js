@@ -39,26 +39,26 @@ $(document).ready(function() {
         $(".expedicoes_r").html("Expedições Recentes");
     }});
 
-
-
 });
 
 $(document).ajaxSuccess(function(event, xhr, settings){
   if(settings.url.match("http://localhost:49822/api/product/Get_Info/.*")){
     var result = JSON.parse(xhr.responseText);
     console.log(result);
-    $("#PVP1").on("click", changePVP(result.retail[0]));
-    $("#PVP2").on("click", changePVP(result.retail[1]));
-    $("#PVP3").on("click", changePVP(result.retail[2]));
-    $("#PVP4").on("click", changePVP(result.retail[3]));
-    $("#PVP5").on("click", changePVP(result.retail[4]));
-    $("#PVP6").on("click", changePVP(result.retail[5]));
+    $("#PVP1").click(function(){changePVP(result.retail[0], (result.profit_margin[0] * 100).toFixed(1) + "%")});
+    $("#PVP2").click(function(){changePVP(result.retail[1], (result.profit_margin[1] * 100).toFixed(1) + "%")});
+    $("#PVP3").click(function(){changePVP(result.retail[2], (result.profit_margin[2] * 100).toFixed(1) + "%")});
+    $("#PVP4").click(function(){changePVP(result.retail[3], (result.profit_margin[3] * 100).toFixed(1) + "%")});
+    $("#PVP5").click(function(){changePVP(result.retail[4], (result.profit_margin[4] * 100).toFixed(1) + "%")});
+    $("#PVP6").click(function(){changePVP(result.retail[5], (result.profit_margin[5] * 100).toFixed(1) + "%")});
+
+
 
   }
 
 });
 
-function changePVP(val){
-  console.log(val);
-  $(".pvp").html(val);
+function changePVP(val1, val2){
+  $(".pvp").html(val1);
+  $(".profit_margin").html(val2);
 }
