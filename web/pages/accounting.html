@@ -244,30 +244,10 @@
     <script src="../vendor/morrisjs/morris.min.js"></script>
     <script src="../data/morris-data.js"></script>
     <script src="../js/navbar.js"></script>
+    <script src="../js/accounting.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-        <script src="../js/fetcher.js"></script>
-        <script>
-            $.ajax({url: "http://localhost:49822/api/accounting/getAtivos_Passivos/", dataType: 'json', success: function(result){
-                $(".ativos").html(result.m_Item1.toFixed(3) + " €");
-                $(".passivos").html(-result.m_Item2.toFixed(3) + " €");
-            }});
+    <script src="../js/fetcher.js"></script>
 
-            $.ajax({url: "http://localhost:49822/api/accounting/getBalancete/", dataType: 'json', success: function(result){
-                for(var i = 0; i < result.length; i++){
-                    var ob = result[i];
-
-                    $(".balanceteItems").append('<tr>');
-                    $(".balanceteItems").append('<td>' + ob.codConta + '</td>');
-                    $(".balanceteItems").append('<td>' + ob.nomeConta + '</td>');
-                    $(".balanceteItems").append('<td>' + ob.credito + '</td>');
-                    $(".balanceteItems").append('<td>' + ob.debito + '</td>');
-                    $(".balanceteItems").append('<td>' + ob.saldo + '</td>');
-                    $(".balanceteItems").append('</tr>');
-
-                    $(".loading").addClass('hidden');
-                }
-            }});
-        </script>
 </body>
 </html>

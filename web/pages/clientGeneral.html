@@ -180,26 +180,10 @@
   <!-- Custom Theme JavaScript -->
   <script src="../dist/js/sb-admin-2.js"></script>
   <script src="../js/navbar.js"></script>
-  <script src="../js/product.js"></script>
+  <script src="../js/clientGeneral.js"></script>
 
   <!-- Load Product Information -->
   <script src="../js/fetcher.js"></script>
-  <script>
-  var ref = getUrlParameter("product");
 
-  $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
-    Morris.Bar({
-        "element" : "morris-bar-chart",
-        "data" : result.slice(0, 10),
-        "xkey" : "name",
-        "ykeys": ["valor"],
-        "labels": ["Vendas"],
-        "resize" : true
-    });
-
-    $(".melhores_c").html("Melhores Clientes (Valor de Vendas)");
-
-  }});
-  </script>
 </body>
 </html>
