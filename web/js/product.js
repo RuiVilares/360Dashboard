@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var ref = getUrlParameter("product");
-    $.ajax({url: "http://localhost:49822/api/product/Get_Info/" + ref, dataType: 'json', success: function(result){
+    $.ajax({url: "http://localhost:49822/api/product/Get_Info/" + ref.replace(/ /g, "_").replace(/\./g, '_'), dataType: 'json', success: function(result){
       //console.log(result);
         $(".productName").html(result.name);
         $(".profit_margin").html((result.profit_margin[0] * 100).toFixed(1) + "%");
@@ -11,7 +11,7 @@ $(document).ready(function() {
     }});
 
 
-    $.ajax({url: "http://localhost:49822/api/product/Get_Top10c/" + ref, dataType: 'json', success: function(result){
+    $.ajax({url: "http://localhost:49822/api/product/Get_Top10c/" + ref.replace(/ /g, "_").replace(/\./g, '_'), dataType: 'json', success: function(result){
         Morris.Bar({
             "element" : "morris-bar-chart",
             "data" : result,
@@ -25,7 +25,7 @@ $(document).ready(function() {
 
     }});
 
-    $.ajax({url: "http://localhost:49822/api/product/get_shipments/" + ref, dataType: 'json', success: function(result){
+    $.ajax({url: "http://localhost:49822/api/product/get_shipments/" + ref.replace(/ /g, "_").replace(/\./g, '_'), dataType: 'json', success: function(result){
         for(var i = 0; i < result.length && i < 10; i++){
             $(".shipments").prepend(
                 "<tr>" +

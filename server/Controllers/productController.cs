@@ -26,7 +26,8 @@ namespace FirstREST.Controllers
         [System.Web.Http.HttpGet]
         public Artigo Get_Info(string id)
         {
-            Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);
+            id = id.Replace("_", ".");
+            Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);            
             if (artigo == null)
             {
                 throw new HttpResponseException(
@@ -40,11 +41,13 @@ namespace FirstREST.Controllers
 
         public IEnumerable<Lib_Primavera.Model.TopCliente> Get_top10c(string id)
         {
+            id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ListaMelhoresClientes(id);
         }
 
         public IEnumerable<Lib_Primavera.Model.Shipment> get_shipments(string id)
         {
+            id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ListaEncomendas(id);
             
         }

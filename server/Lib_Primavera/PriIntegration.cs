@@ -797,9 +797,9 @@ namespace FirstREST.Lib_Primavera
                     forn.name = fornecedores.Valor("Nome");
                     forn.post_c = fornecedores.Valor("CpLoc");
                     forn.reference = fornecedores.Valor("Fornecedor");
-                    forn.pendente = fornecedores.Valor("TotalDeb");
+                    forn.pendente = fornecedores.Valor("TotalDeb"); 
                     fornes.Add(forn);
-                    fornecedores.Seguinte();
+                    fornecedores.Seguinte(); 
                 }
                 return fornes;
             }
