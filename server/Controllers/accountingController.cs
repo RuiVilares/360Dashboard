@@ -20,5 +20,11 @@ namespace FirstREST.Controllers
         {
             return Lib_Primavera.PriIntegration.getBalancete();
         }
+
+        [System.Web.Http.HttpGet]
+        public List<List<Tuple<String, Decimal>>> getBalanco()
+        {
+            return Lib_Primavera.PriIntegration.getBalanco();
+        }
     }
 }

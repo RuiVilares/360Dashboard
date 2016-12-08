@@ -6,6 +6,7 @@ using Interop.ErpBS900;
 using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using Interop.GcpBE900;
+using Interop.ICblBS900;
 using ADODB;
 
 namespace FirstREST.Lib_Primavera
@@ -686,6 +687,125 @@ namespace FirstREST.Lib_Primavera
 
         #region Contabilidade
 
+        public static List<List<Tuple<String, Decimal>>> getBalanco()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                decimal ancaft = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AFT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancpi = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal anctrp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.TRP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancai = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancab = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AB", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancmep = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.MEP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancpfout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PF.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancacc = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancid = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ID", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancancdv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ANCDV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal acinv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.inv", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acAB = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.AB", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acCLI = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.CLI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acADF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.ADF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acEST = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.EST", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acACC = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acOUTCR = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.OUTCR", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acDIF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.DIF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acAFDN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.AFDN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acOAF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.OAF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acCD = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.CD", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal cpCR = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.CR", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpQP = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.QP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpOUTCP = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.OUTCP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpPE = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.PE", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpRES = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.RES", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpOUTRES = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.OUTRES", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpRT = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.RT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpAJAF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.AJAF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpEREV = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.EREV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpBRES = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.RES", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal pncPRO = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.PRO", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncFIN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.FIN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncBPE = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.BPE", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncPID = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.PID", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncOUTPG = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.OUTPG", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal pcFORN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.FORN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcADC = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.ADC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcEST = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.EST", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcACC = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcFINO = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.FINO", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcOUTPG = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.OUTPG", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcPFDN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.PFDN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcOUT = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcDIF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.DIF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcPNCDV = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.PNCDV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                                
+                var result = new List<List<Tuple<String, Decimal>>>();
+                result.Add(new List<Tuple<String, Decimal>>());
+                result.Last().Add(new Tuple<String, Decimal>("Activos fixos tangiveis", ancaft));
+                result.Last().Add(new Tuple<String, Decimal>("Properiedades de Investivento", ancpi));
+                result.Last().Add(new Tuple<String, Decimal>("Trespasse (Goodwill)", anctrp));
+                result.Last().Add(new Tuple<String, Decimal>("Activos Intangíveis", ancai));
+                result.Last().Add(new Tuple<String, Decimal>("Activos Biológicos", ancab));
+                result.Last().Add(new Tuple<String, Decimal>("Participações Financeiras (método de equivalência patrimonial)", ancmep));
+                result.Last().Add(new Tuple<String, Decimal>("Participações Financeiras (outros métodos)", ancpfout));
+                result.Last().Add(new Tuple<String, Decimal>("Acionistas/Sócios", ancacc));
+                result.Last().Add(new Tuple<String, Decimal>("Outros activos financeiros", ancout));
+                result.Last().Add(new Tuple<String, Decimal>("Activos por impostos diferidos", ancid));
+                result.Last().Add(new Tuple<String, Decimal>("Activos não correntes detidos para venda", ancancdv));
+
+                result.Add(new List<Tuple<String, Decimal>>());
+                result.Last().Add(new Tuple<String, Decimal>("Inventários", acinv));
+                result.Last().Add(new Tuple<String, Decimal>("Activos Biológicos", acAB));
+                result.Last().Add(new Tuple<String, Decimal>("Clientes", acCLI));
+                result.Last().Add(new Tuple<String, Decimal>("Adiantamentos a investidores", acADF));
+                result.Last().Add(new Tuple<String, Decimal>("Estado e outros entes públicos", acEST));
+                result.Last().Add(new Tuple<String, Decimal>("Accionsistas/Sócios", acACC));
+                result.Last().Add(new Tuple<String, Decimal>("Outras contas a receber", acOUTCR));
+                result.Last().Add(new Tuple<String, Decimal>("Diferimentos", acDIF));
+                result.Last().Add(new Tuple<String, Decimal>("Activos financeiros detidos para negociação", acAFDN));
+                result.Last().Add(new Tuple<String, Decimal>("Outros ativos financeiros", acOAF));
+                result.Last().Add(new Tuple<String, Decimal>("Caixa e depósitos bancários", acCD));
+
+                result.Add(new List<Tuple<String, Decimal>>());
+                result.Last().Add(new Tuple<String, Decimal>("Capital realizado", cpCR));
+                result.Last().Add(new Tuple<String, Decimal>("Ações (Quotas Próprias)", cpQP));
+                result.Last().Add(new Tuple<String, Decimal>("Outros instrumentos de capital próprio", cpOUTCP));
+                result.Last().Add(new Tuple<String, Decimal>("Prémios de emissão", cpPE));
+                result.Last().Add(new Tuple<String, Decimal>("Reservas Legais", cpRES));
+                result.Last().Add(new Tuple<String, Decimal>("Outras Reservas", cpOUTRES));
+                result.Last().Add(new Tuple<String, Decimal>("Resultados transitados", cpRT));
+                result.Last().Add(new Tuple<String, Decimal>("Ajustamentos em activos financeiros", cpAJAF));
+                result.Last().Add(new Tuple<String, Decimal>("Excedentes de revalorização", cpEREV));
+                result.Last().Add(new Tuple<String, Decimal>("Resultado líquido do exercício", cpBRES));
+
+                result.Add(new List<Tuple<String, Decimal>>());
+                result.Last().Add(new Tuple<String, Decimal>("Provisões", pncPRO));
+                result.Last().Add(new Tuple<String, Decimal>("Financiamentos obtidos", pncFIN));
+                result.Last().Add(new Tuple<String, Decimal>("Responsabilidades por benefícios pós-emprego", pncBPE));
+                result.Last().Add(new Tuple<String, Decimal>("Passivo por impostos diferidos", pncPID));
+                result.Last().Add(new Tuple<String, Decimal>("Outras contas a pagar", pncOUTPG));
+
+                result.Add(new List<Tuple<String, Decimal>>());
+                result.Last().Add(new Tuple<String, Decimal>("Fornecedores", pcFORN));
+                result.Last().Add(new Tuple<String, Decimal>("Adiantamentos de clientes", pcADC));
+                result.Last().Add(new Tuple<String, Decimal>("Estado e outros entes públicos", pcEST));
+                result.Last().Add(new Tuple<String, Decimal>("Accionistas/Sócios", pcACC));
+                result.Last().Add(new Tuple<String, Decimal>("Financiamentos obtidos", pcFINO));
+                result.Last().Add(new Tuple<String, Decimal>("Outras contas a pagar", pcOUTPG));
+                result.Last().Add(new Tuple<String, Decimal>("Passivos financieros detidos para negociação", pcPFDN));
+                result.Last().Add(new Tuple<String, Decimal>("Outros passivos financeiros", pcOUT));
+                result.Last().Add(new Tuple<String, Decimal>("Passivos não correntes detidos para venda", pcPNCDV));
+
+                return result;
+            }
+            return null;
+
+        }
+
         public static Tuple<double, double> getAtivos_Passivos()
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
@@ -694,40 +814,114 @@ namespace FirstREST.Lib_Primavera
                 //Model.Conta conta = new Model.Conta();
                 double sumAtivos = 0d;
                 double sumPassivos = 0d;
+                
+                decimal ancaft = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AFT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancpi = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal anctrp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.TRP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancai = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancab = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AB", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancmep = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.MEP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancpfout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PF.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancacc = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancid = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ID", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancancdv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ANCDV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
 
-                string ano = "2015";
-                objList = PriEngine.Engine.Consulta("SELECT AcumuladosContas.Conta, SUM(Mes00Cr+Mes01Cr+Mes02Cr+Mes03Cr+Mes04Cr+Mes05Cr+Mes06Cr+Mes07Cr+Mes08Cr+Mes09Cr+Mes10Cr+Mes11Cr+Mes12Cr+Mes13Cr+Mes14Cr+Mes15Cr) AS MesCr, SUM(Mes00Db+Mes01Db+Mes02Db+Mes03Db+Mes04Db+Mes05Db+Mes06Db+Mes07Db+Mes08Db+Mes09Db+Mes10Db+Mes11Db+Mes12Db+Mes13Db+Mes14Db+Mes15Db) AS MesDb FROM AcumuladosContas WITH (NOLOCK) INNER JOIN PlanoContas WITH (NOLOCK) ON AcumuladosContas.Ano=PlanoContas.Ano And AcumuladosContas.Conta = PlanoContas.Conta  WHERE 1=1  AND (((AcumuladosContas.Conta >= '0' AND AcumuladosContas.Conta <= '999999999') AND NOT ((AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999'))) OR (AcumuladosContas.Conta >= '00' AND AcumuladosContas.Conta <= '0999999999') OR (AcumuladosContas.Conta >= '90' AND AcumuladosContas.Conta <= '9999999999')) AND AcumuladosContas.Ano = " + ano + " AND AcumuladosContas.Moeda = 'EUR' AND TipoConta = 'R' GROUP BY AcumuladosContas.Conta, Descricao, TipoConta ORDER BY AcumuladosContas.Conta");
-                while (!objList.NoFim())
-                {
-                    int codConta = Int32.Parse(objList.Valor("Conta"));
-                    int tipoConta = codConta / 10;
-                    int subTipoConta = codConta % 10;
-                    switch (tipoConta)
-                    {
-                        case 1:
-                            sumAtivos += (double)objList.Valor("MesCr") - (double)objList.Valor("MesDb");
-                            break;
-                        case 2:
-                            if (subTipoConta == 2 || subTipoConta == 3 || subTipoConta == 4 || subTipoConta == 6 || subTipoConta == 9)
-                            {
-                                sumPassivos += (double)(objList.Valor("MesCr") - objList.Valor("MesDb"));
-                            }
-                            else
-                            {
-                                sumAtivos += (double)(objList.Valor("MesCr") - objList.Valor("MesDb"));
-                            }
-                            break;
-                        case 3:
-                        case 4:
-                            sumAtivos += (double)(objList.Valor("MesCr") - objList.Valor("MesDb"));
-                            break;
-                        default:
-                            break;
-                    }
+                decimal acinv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.inv", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acAB = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.AB", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acCLI = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.CLI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acADF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.ADF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acEST = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.EST", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acACC = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acOUTCR = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.OUTCR", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acDIF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.DIF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acAFDN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.AFDN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acOAF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.OAF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal acCD = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.CD", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
 
-                    objList.Seguinte();
-                }
-                return new Tuple<double, double>(sumAtivos, sumPassivos);
+                decimal cpCR = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.CR", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpQP = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.QP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpOUTCP = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.OUTCP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpPE = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.PE", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpRES = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.RES", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpOUTRES = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.OUTRES", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpRT = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.RT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpAJAF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.AJAF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal cpEREV = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.CP.EREV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                
+                decimal pncPRO = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.PRO", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncFIN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.FIN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncBPE = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.BPE", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncPID = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.PID", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pncOUTPG = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PNC.OUTPG", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal pcFORN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.FORN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcADC = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.ADC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcEST = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.EST", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcACC = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcFINO = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.FINO", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcOUTPG = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.OUTPG", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcPFDN = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.PFDN", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcOUT = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcDIF = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.DIF", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal pcPNCDV = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.PC.PNCDV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal anc = ancaft + ancpi
+                + anctrp
+                + ancai
+                + ancab
+                + ancmep
+                + ancpfout
+                + ancacc
+                + ancout
+                + ancid
+                + ancancdv;
+
+                decimal ac =
+                acinv +               
+                acAB +
+                acCLI +
+                acADF +
+                acEST +
+                acACC +
+                acOUTCR +
+                acDIF +
+                acAFDN +
+                acOAF +
+                acCD;
+
+                decimal cp =
+                cpCR +
+                cpQP +
+                cpOUTCP +
+                cpPE +
+                cpRES +
+                cpOUTRES +
+                cpRT +
+                cpAJAF +
+                cpEREV;
+
+                decimal pnc =
+                pncPRO +
+                pncFIN +
+                pncBPE +
+                pncPID +
+                pncOUTPG;
+
+                decimal pc =
+                pcFORN +
+                pcADC +
+                pcEST +
+                pcACC +
+                pcFINO +
+                pcOUTPG +
+                pcPFDN +
+                pcOUT +
+                pcDIF +
+                pcPNCDV;
+
+
+                return new Tuple<double, double>(Decimal.ToDouble(ac+anc), Decimal.ToDouble(pnc+pc));
             }
             return null;
         }

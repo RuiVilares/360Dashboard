@@ -7,7 +7,8 @@ $(document).ready(function() {
         $(".pvp").html(result.retail[0]);
         $(".price").html(result.price);
         $(".tax").html(result.tax + "%");
-        $(".reference").html(result.reference);
+        $(".reference").html(result.reference);        
+
     }});
 
 
