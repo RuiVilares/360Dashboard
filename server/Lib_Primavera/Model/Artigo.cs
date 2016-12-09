@@ -43,5 +43,22 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public double stk
+        {
+            get;
+            set;
+        }
+
+        public double stkValue
+        {
+            get;
+            set;
+        }
+
+        public string unit
+        {
+            get;
+            set;
+        }
     }
 }

@@ -286,6 +286,9 @@ namespace FirstREST.Lib_Primavera
                     myArt.profit_margin.Add((myArt.retail[3] - myArt.price) / myArt.retail[3]);
                     myArt.profit_margin.Add((myArt.retail[4] - myArt.price) / myArt.retail[4]);
                     myArt.profit_margin.Add((myArt.retail[5] - myArt.price) / myArt.retail[5]);
+                    myArt.stk = objArtigo.get_StkActual();
+                    myArt.unit = objArtigo.get_UnidadeBase();
+                    myArt.stkValue = objArtigo.get_StkActual()*objArtigo.get_PCMedio();
                     
 
 
