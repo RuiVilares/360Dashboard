@@ -46,4 +46,13 @@ $(document).ready(function(){
 
 
   }});
+
+  $.ajax({url: "http://localhost:49822/api/product/products_info/" + ref, dataType: 'json', success: function(result){
+     $(".turnover").html(result[0].m_Item2.toFixed(3));
+     $(".value").html(result[1].m_Item2.toFixed(3));
+
+   }});
+
+
+
 });

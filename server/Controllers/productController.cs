@@ -67,6 +67,12 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.sales_evolution();
         }
 
+        [System.Web.Http.HttpGet]
+        public List<Tuple<String, double>> products_info()
+        {
+            return Lib_Primavera.PriIntegration.productsInfo();
+        }
+
 
     }
 }

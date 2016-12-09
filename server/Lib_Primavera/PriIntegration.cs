@@ -134,6 +134,7 @@ namespace FirstREST.Lib_Primavera
                     myCli.pendentes = objList.Valor("Quantia");
                     myCli.divida = objCli.get_DebitoContaCorrente();
                     
+                    
                  
                     return myCli;
                 }
@@ -187,7 +188,7 @@ namespace FirstREST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id) == true)
                 {
-                    StdBELista objList = PriEngine.Engine.Consulta("EXEC GCP_LST_RESUMO_VENDAS        @Tabela                         = '##ResumoVendasUuserP1672Hd30311826378491387fda695004379d4TOyhSDXF4eTU',        @Campos                         = 'NULL AS GROUP1,Mes,Trimestre,DescontosAnoAct,AcumDescontosAnoAct,LiquidoAnoAnt,AcumLiquidoAnoAnt,LiquidoAnoAct,AcumLiquidoAnoAct,VariacaoLiquido,VariacaoLiquidoPercentual,VariacaoAcmLiquido,VariacaoAcmLiquidoPercentual,DescontosAnoAnt,AcumDescontosAnoAnt,OutrosAnoAct,AcumOutrosAnoAct,OutrosAnoAnt,AcumOutrosAnoAnt,QuantidadeAnoAnt,MercadoriaAnoAct,AcumMercadoriaAnoAnt,QuantidadeAnoAct,MercadoriaAnoAnt,MargemAnoAnt,MargemAnoAct,AcumMercadoriaAnoAct,VariacaoAcmDescontos,VariacaoAcmDescontosPercentual,VariacaoAcmMercadoria,VariacaoAcmMercadoriaPercentual,VariacaoAcmOutros,VariacaoAcmOutrosPercentual,VariacaoDescontos,VariacaoDescontosPercentual,VariacaoMercadoria,VariacaoMercadoriaPercentual,VariacaoOutros,VariacaoOutrosPercentual,NULL AS DATAFILLCOL',        @MoedaVisualizacao              = 'EUR',        @MoedaBase                      = 1,        @SentidoCambio                  = 0,        @CambioActualHistorico          = 1,        @MoedaStocks                    = 'EUR',        @MoedaStocksBase                = 1,        @DocConvertidos                     = '1',        @WhereRestricoes                = '(((doc.Entidade = ''ALCAD'') AND doc.TipoEntidade=''C''))',        @Documentos                     = '( ''DV'', ''FA'', ''FAI'', ''FI'', ''FM'', ''FO'', ''FR'', ''NC'', ''ORC'', ''VD'')',        @AnoReferencia                      = '12/31/2016',       @AnoComparacao                      = '1/1/2015',       @MesFimExercicio                      = 12");
+                    StdBELista objList = PriEngine.Engine.Consulta("EXEC GCP_LST_RESUMO_VENDAS        @Tabela                         = '##ResumoVendasUuserP1672Hd30311826378491387fda695004379d4TOyhSDXF4eTU',        @Campos                         = 'NULL AS GROUP1,Mes,Trimestre,DescontosAnoAct,AcumDescontosAnoAct,LiquidoAnoAnt,AcumLiquidoAnoAnt,LiquidoAnoAct,AcumLiquidoAnoAct,VariacaoLiquido,VariacaoLiquidoPercentual,VariacaoAcmLiquido,VariacaoAcmLiquidoPercentual,DescontosAnoAnt,AcumDescontosAnoAnt,OutrosAnoAct,AcumOutrosAnoAct,OutrosAnoAnt,AcumOutrosAnoAnt,QuantidadeAnoAnt,MercadoriaAnoAct,AcumMercadoriaAnoAnt,QuantidadeAnoAct,MercadoriaAnoAnt,MargemAnoAnt,MargemAnoAct,AcumMercadoriaAnoAct,VariacaoAcmDescontos,VariacaoAcmDescontosPercentual,VariacaoAcmMercadoria,VariacaoAcmMercadoriaPercentual,VariacaoAcmOutros,VariacaoAcmOutrosPercentual,VariacaoDescontos,VariacaoDescontosPercentual,VariacaoMercadoria,VariacaoMercadoriaPercentual,VariacaoOutros,VariacaoOutrosPercentual,NULL AS DATAFILLCOL',        @MoedaVisualizacao              = 'EUR',        @MoedaBase                      = 1,        @SentidoCambio                  = 0,        @CambioActualHistorico          = 1,        @MoedaStocks                    = 'EUR',        @MoedaStocksBase                = 1,        @DocConvertidos                     = '1',        @WhereRestricoes                = '(((doc.Entidade = ''"+id+"'') AND doc.TipoEntidade=''C''))',        @Documentos                     = '( ''DV'', ''FA'', ''FAI'', ''FI'', ''FM'', ''FO'', ''FR'', ''NC'', ''ORC'', ''VD'')',        @AnoReferencia                      = '12/31/2016',       @AnoComparacao                      = '1/1/2015',       @MesFimExercicio                      = 12");
                     List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
 
                     while (!objList.NoFim())
@@ -336,6 +337,28 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+        public static List<Tuple<String, double>> productsInfo(){
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                var result = new List<Tuple<String, double>>();
+                StdBELista vlStk = PriEngine.Engine.Consulta("SELECT  SUM(Artigo.PCUltimo*Artigo.STKActual) AS ValueStock FROM   (Artigo LEFT OUTER JOIN Familias Familias ON Artigo.Familia=Familias.Familia) WHERE  Artigo.TratamentoDim<>1 ");
+                StdBELista objList = PriEngine.Engine.Consulta(" EXEC GCP_LST_RESUMO_VENDAS        @Tabela                         = '##ResumoVendasUuserP1672Hd30311826378491387fda695004379d4UoDgZQpQPQ39',        @Campos                         = 'NULL AS GROUP1,Mes,Trimestre,DescontosAnoAct,AcumDescontosAnoAct,LiquidoAnoAnt,AcumLiquidoAnoAnt,LiquidoAnoAct,AcumLiquidoAnoAct,VariacaoLiquido,VariacaoLiquidoPercentual,VariacaoAcmLiquido,VariacaoAcmLiquidoPercentual,DescontosAnoAnt,AcumDescontosAnoAnt,OutrosAnoAct,AcumOutrosAnoAct,OutrosAnoAnt,AcumOutrosAnoAnt,QuantidadeAnoAnt,MercadoriaAnoAct,AcumMercadoriaAnoAnt,QuantidadeAnoAct,MercadoriaAnoAnt,MargemAnoAnt,MargemAnoAct,AcumMercadoriaAnoAct,VariacaoAcmDescontos,VariacaoAcmDescontosPercentual,VariacaoAcmMercadoria,VariacaoAcmMercadoriaPercentual,VariacaoAcmOutros,VariacaoAcmOutrosPercentual,VariacaoDescontos,VariacaoDescontosPercentual,VariacaoMercadoria,VariacaoMercadoriaPercentual,VariacaoOutros,VariacaoOutrosPercentual,NULL AS DATAFILLCOL',        @MoedaVisualizacao              = 'EUR',        @MoedaBase                      = 1,        @SentidoCambio                  = 0,        @CambioActualHistorico          = 1,        @MoedaStocks                    = 'EUR',        @MoedaStocksBase                = 1,        @DocConvertidos                     = '1',        @WhereRestricoes                = '',        @Documentos                     = '( ''DV'', ''FA'', ''FAI'', ''FI'', ''FM'', ''FO'', ''FR'', ''NC'', ''ORC'', ''VD'')',        @AnoReferencia                      = '12/31/2016',       @AnoComparacao                      = '1/1/2016',       @MesFimExercicio                      = 12");
+                double sales = 0;
+                while (!objList.NoFim())
+                {
+                    sales += objList.Valor("LiquidoAnoAct");
+                    objList.Seguinte();
+                }
+
+                result.Add(new Tuple<String, double>("turnover", sales / vlStk.Valor("ValueStock")));
+                result.Add(new Tuple<String, double>("stock_value", vlStk.Valor("ValueStock")));
+                return result;
+
+
+
+            }
+            return null;
+        }
 
         public static List<Model.TopProduto> ListaMelhoresProdutos()
         {
