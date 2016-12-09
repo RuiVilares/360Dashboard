@@ -7,6 +7,8 @@ $(document).ready(function(){
       $(".clientLocalidade").html(result.city);
       $(".postCode").html(result.post_c);
       $(".clientAddress").html(result.address);
+      $(".pendentes").html(result.pendentes.toFixed(2));
+      $(".divida").html(result.divida.toFixed(2));
   }});
 
   $.ajax({url: "http://localhost:49822/api/Clientes/range/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
@@ -19,11 +21,13 @@ $(document).ready(function(){
       Morris.Line({
           element : "morris-area-chart",
           data : result,
-          pointSize: 0,
+          pointSize: 10,
           xLabels: "month",
           xkey : "date",
-          ykeys : ["value"],
-          labels : ["Volume de Compras"],
+          ykeys : ["value", "valuePrev"],
+          labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],          
+          postUnits: "€",
+          parseTime: false,
           resize: true
       });
   }});

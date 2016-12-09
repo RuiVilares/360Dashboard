@@ -34,11 +34,13 @@ $(document).ready(function(){
 
     Morris.Area({
       "element" : "morris-area-chart",
-      "data" : data,
-      pointSize: 0,
-      "xkey": 'y',
-      "ykeys": ['a', 'b'],
-      "labels": ['Series A', 'Series B'],
+      "data" : result,
+      pointSize: 10,
+      "xkey": 'date',
+      "ykeys": ['value', 'valuePrev'],
+      "yLabelFormat": function(y){return y.toFixed(2)},
+      "postUnits": "€",
+      "labels": ['Ano Atual', 'Ano Transacto'],
       "resize" : true
     });
 

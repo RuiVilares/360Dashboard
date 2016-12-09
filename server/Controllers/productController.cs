@@ -61,10 +61,10 @@ namespace FirstREST.Controllers
         {
             return Lib_Primavera.PriIntegration.ListaMelhoresProdutos();
         }
-
+        [System.Web.Http.HttpGet]
         public IEnumerable<Lib_Primavera.Model.ClientTimeline> Get_Evolution()
         {
-            return Lib_Primavera.PriIntegration.ProductsTimeline();
+            return Lib_Primavera.PriIntegration.sales_evolution();
         }
 
 

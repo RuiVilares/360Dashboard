@@ -16,6 +16,64 @@ namespace FirstREST.Lib_Primavera
 
         # region Cliente
 
+        public static List<Model.ClientTimeline> sales_evolution()
+        {
+
+
+            StdBELista obj1;
+            StdBELista obj2;
+            StdBELista obj3;
+            StdBELista obj4;
+
+            StdBELista obj1c;
+            StdBELista obj2c;
+            StdBELista obj3c;
+            StdBELista obj4c;
+
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                obj1 = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2016-01-01' AND CabecDoc.Data <= '2016-03-31' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+                obj2 = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2016-04-01' AND CabecDoc.Data <= '2016-06-30' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+                obj3 = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2016-07-01' AND CabecDoc.Data <= '2016-09-30' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+                obj4 = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2016-10-01' AND CabecDoc.Data <= '2016-12-31' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+
+                obj1c = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2015-01-01' AND CabecDoc.Data <= '2015-03-31' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+                obj2c = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2015-04-01' AND CabecDoc.Data <= '2015-06-30' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+                obj3c = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2015-07-01' AND CabecDoc.Data <= '2015-09-30' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+                obj4c = PriEngine.Engine.Consulta(" SELECT SUM(TotalMerc) As TotalMerc, SUM(TotalMerc - TotalDesc) As TotalLiq FROM   ((CabecDoc CabecDoc INNER JOIN DocumentosVenda DocumentosVenda ON CabecDoc.TipoDoc=DocumentosVenda.Documento) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN EstadosConta EstadosConta ON (DocumentosVenda.Estado=EstadosConta.Estado) AND (DocumentosVenda.TipoConta=EstadosConta.TipoConta) WHERE  CabecDoc.Data >= '2015-10-01' AND CabecDoc.Data <= '2015-12-31' AND (CabecDoc.TipoDoc=N'FA' OR CabecDoc.TipoDoc=N'NC' OR CabecDoc.TipoDoc=N'ORC' OR CabecDoc.TipoDoc=N'VD') AND CabecDocStatus.Anulado=0");
+
+                List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
+                Model.ClientTimeline time1 = new Model.ClientTimeline();
+                time1.value = obj1.Valor("TotalLiq");
+                time1.valuePrev = obj1c.Valor("TotalLiq");
+                time1.date = 1;
+
+                Model.ClientTimeline time2 = new Model.ClientTimeline();
+                time2.value = obj2.Valor("TotalLiq");
+                time2.valuePrev = obj2c.Valor("TotalLiq");
+                time2.date = 2;
+
+                Model.ClientTimeline time3 = new Model.ClientTimeline();
+                time3.value = obj3.Valor("TotalLiq");
+                time3.valuePrev = obj1c.Valor("TotalLiq");
+                time3.date = 3;
+
+                Model.ClientTimeline time4 = new Model.ClientTimeline();
+                time4.value = obj4.Valor("TotalLiq");
+                time4.valuePrev = obj4c.Valor("TotalLiq");
+                time4.date = 4;
+
+                list.Add(time1);
+                list.Add(time2);
+                list.Add(time3);
+                list.Add(time4);
+
+                return list;
+            }
+            return null;
+        }
+
         public static List<Model.Cliente> ListaClientes()
         {
 
@@ -65,12 +123,18 @@ namespace FirstREST.Lib_Primavera
 
                 if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == true)
                 {
+                    StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade, SUM((PrecUnit*(1-(DescEntidade+DescPag)/100))*(LinhasDoc.Quantidade-LinhasDocStatus.QuantTrans)) as Quantia FROM   (((((((CabecDoc CabecDoc INNER JOIN LinhasDoc LinhasDoc ON CabecDoc.Id=LinhasDoc.IdCabecDoc) LEFT OUTER JOIN Clientes Clientes ON CabecDoc.Entidade=Clientes.Cliente) LEFT OUTER JOIN OutrosTerceiros OutrosTerceiros ON CabecDoc.Entidade=OutrosTerceiros.Terceiro) INNER JOIN CabecDocStatus CabecDocStatus ON CabecDoc.Id=CabecDocStatus.IdCabecDoc) LEFT OUTER JOIN Artigo Artigo ON LinhasDoc.Artigo=Artigo.Artigo) INNER JOIN LinhasDocStatus LinhasDocStatus ON LinhasDoc.Id=LinhasDocStatus.IdLinhasDoc) LEFT OUTER JOIN LinhasDocStatus LinhasDocStatus_1 ON LinhasDoc.IdLinhaPai=LinhasDocStatus_1.IdLinhasDoc) LEFT OUTER JOIN Artigo Artigo_1 ON Artigo.ArtigoPai=Artigo_1.Artigo WHERE  CabecDoc.TipoEntidade=N'C' AND CabecDocStatus.Fechado=0 AND LinhasDocStatus.Fechado=0 AND LinhasDocStatus.EstadoTrans<>N'T' AND (LinhasDocStatus.QuantTrans<LinhasDocStatus.Quantidade AND LinhasDocStatus.Quantidade>=0 OR LinhasDocStatus.Quantidade<0 AND LinhasDocStatus.QuantTrans>LinhasDocStatus.Quantidade) AND  NOT (CabecDocStatus.Estado=N'R' OR CabecDocStatus.Estado=N'T') AND CabecDocStatus.Anulado=0 AND CabecDoc.TipoDoc=N'ECL' AND CabecDoc.Entidade='"+codCliente+"' GROUP BY CabecDoc.Entidade");
+                 
                     objCli = PriEngine.Engine.Comercial.Clientes.Edita(codCliente);
                     myCli.id = objCli.get_Cliente();
                     myCli.name = objCli.get_Nome();
                     myCli.address = objCli.get_Morada();
                     myCli.post_c = objCli.get_CodigoPostal();
                     myCli.city = objCli.get_LocalidadeCodigoPostal();
+                    myCli.pendentes = objList.Valor("Quantia");
+                    myCli.divida = objCli.get_DebitoContaCorrente();
+                    
+                 
                     return myCli;
                 }
                 else
@@ -123,14 +187,15 @@ namespace FirstREST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(id) == true)
                 {
-                    StdBELista objList = PriEngine.Engine.Consulta("SELECT LinhasDoc.Data as Data, SUM(LinhasDoc.PrecoLiquido) as Pag FROM LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' AND CabecDoc.Entidade = '" + id + "' GROUP BY LinhasDoc.Data ORDER BY LinhasDoc.Data DESC");
+                    StdBELista objList = PriEngine.Engine.Consulta("EXEC GCP_LST_RESUMO_VENDAS        @Tabela                         = '##ResumoVendasUuserP1672Hd30311826378491387fda695004379d4TOyhSDXF4eTU',        @Campos                         = 'NULL AS GROUP1,Mes,Trimestre,DescontosAnoAct,AcumDescontosAnoAct,LiquidoAnoAnt,AcumLiquidoAnoAnt,LiquidoAnoAct,AcumLiquidoAnoAct,VariacaoLiquido,VariacaoLiquidoPercentual,VariacaoAcmLiquido,VariacaoAcmLiquidoPercentual,DescontosAnoAnt,AcumDescontosAnoAnt,OutrosAnoAct,AcumOutrosAnoAct,OutrosAnoAnt,AcumOutrosAnoAnt,QuantidadeAnoAnt,MercadoriaAnoAct,AcumMercadoriaAnoAnt,QuantidadeAnoAct,MercadoriaAnoAnt,MargemAnoAnt,MargemAnoAct,AcumMercadoriaAnoAct,VariacaoAcmDescontos,VariacaoAcmDescontosPercentual,VariacaoAcmMercadoria,VariacaoAcmMercadoriaPercentual,VariacaoAcmOutros,VariacaoAcmOutrosPercentual,VariacaoDescontos,VariacaoDescontosPercentual,VariacaoMercadoria,VariacaoMercadoriaPercentual,VariacaoOutros,VariacaoOutrosPercentual,NULL AS DATAFILLCOL',        @MoedaVisualizacao              = 'EUR',        @MoedaBase                      = 1,        @SentidoCambio                  = 0,        @CambioActualHistorico          = 1,        @MoedaStocks                    = 'EUR',        @MoedaStocksBase                = 1,        @DocConvertidos                     = '1',        @WhereRestricoes                = '(((doc.Entidade = ''ALCAD'') AND doc.TipoEntidade=''C''))',        @Documentos                     = '( ''DV'', ''FA'', ''FAI'', ''FI'', ''FM'', ''FO'', ''FR'', ''NC'', ''ORC'', ''VD'')',        @AnoReferencia                      = '12/31/2016',       @AnoComparacao                      = '1/1/2015',       @MesFimExercicio                      = 12");
                     List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
 
                     while (!objList.NoFim())
                     {
                         Model.ClientTimeline timeline = new Model.ClientTimeline();
-                        timeline.value = objList.Valor("Pag");
-                        timeline.date = objList.Valor("Data");
+                        timeline.value = objList.Valor("LiquidoAnoAct");
+                        timeline.valuePrev = objList.Valor("LiquidoAnoAnt");
+                        timeline.date = objList.Valor("Mes");
                         list.Add(timeline);
                         objList.Seguinte();
                     }

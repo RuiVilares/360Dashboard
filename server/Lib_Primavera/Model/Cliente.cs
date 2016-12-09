@@ -37,5 +37,17 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public double pendentes
+        {
+            get;
+            set;
+        }
+
+        public double divida
+        {
+            get;
+            set;
+        }
+
     }
 }

@@ -7,13 +7,19 @@ namespace FirstREST.Lib_Primavera.Model
 {
     public class ClientTimeline
     {
-        public DateTime date
+        public int date
         {
             get;
             set;
         }
 
         public double value
+        {
+            get;
+            set;
+        }
+
+        public double valuePrev
         {
             get;
             set;
