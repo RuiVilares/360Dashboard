@@ -7,7 +7,7 @@ $(document).ready(function(){
     $(".providerPostCode").html(result.post_c);
     $(".providerLocalidade").html(result.city);
     $(".providerRef").html(result.reference);
-    $(".pendente").text(result.pendente.toFixed(3));
+    $(".pendente").text(parseFloat(result.pendente.toFixed(2)).toLocaleString());
   }});
 
   $.ajax({url: "http://localhost:49822/api/supplier/freq/" + id.replace('.', '_') , dataType: 'json', success: function(result){
@@ -37,7 +37,7 @@ $(document).ready(function(){
     var chart = [];
 
     for(var i = 0; i < result.length; i++){
-      chart.push({label : "Produto: " + result[i].name + " (%)", value : result[i].order_p});
+      chart.push({label : "Produto: " + result[i].name + " (%)", value : parseFloat(result[i].order_p.toFixed(2)).toLocaleString()});
     }
 
     Morris.Donut({

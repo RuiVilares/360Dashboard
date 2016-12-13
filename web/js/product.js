@@ -4,12 +4,12 @@ $(document).ready(function() {
         console.log(result);
         $(".productName").html(result.name);
         $(".profit_margin").html((result.profit_margin[0] * 100).toFixed(1) + "%");
-        $(".pvp").html(result.retail[0]);
-        $(".price").html(result.price);
-        $(".tax").html(result.tax + "%");
+        $(".pvp").html(parseFloat(result.retail[0].toFixed(2)).toLocaleString());
+        $(".price").html(parseFloat(result.price.toFixed(2)).toLocaleString());
+        $(".tax").html(result.tax.toFixed(1) + "%");
         $(".reference").html(result.reference);
-        $(".value_stock").html(result.stkValue);
-        $(".qnt_stock").html(result.stk+" " + result.unit);
+        $(".value_stock").html(parseFloat(result.stkValue.toFixed(2)).toLocaleString());
+        $(".qnt_stock").html(result.stk.toLocaleString() +" " + result.unit);
 
     }});
 
@@ -33,7 +33,7 @@ $(document).ready(function() {
             $(".shipments").prepend(
                 "<tr>" +
                     "<td>" + result[i].client + "</td>" +
-                    "<td>" + result[i].quantity + "</td>" +
+                    "<td>" + result[i].quantity.toLocaleString() + "</td>" +
                     "<td>" + result[i].shipmentDate + "</td>" +
                 "</tr>"
             );
@@ -47,12 +47,12 @@ $(document).ready(function() {
 $(document).ajaxSuccess(function(event, xhr, settings){
   if(settings.url.match("http://localhost:49822/api/product/Get_Info/.*")){
     var result = JSON.parse(xhr.responseText);
-    $("#PVP1").click(function(){changePVP(result.retail[0], (result.profit_margin[0] * 100).toFixed(1) + "%")});
-    $("#PVP2").click(function(){changePVP(result.retail[1], (result.profit_margin[1] * 100).toFixed(1) + "%")});
-    $("#PVP3").click(function(){changePVP(result.retail[2], (result.profit_margin[2] * 100).toFixed(1) + "%")});
-    $("#PVP4").click(function(){changePVP(result.retail[3], (result.profit_margin[3] * 100).toFixed(1) + "%")});
-    $("#PVP5").click(function(){changePVP(result.retail[4], (result.profit_margin[4] * 100).toFixed(1) + "%")});
-    $("#PVP6").click(function(){changePVP(result.retail[5], (result.profit_margin[5] * 100).toFixed(1) + "%")});
+    $("#PVP1").click(function(){changePVP(result.retail[0].toLocaleString(), (result.profit_margin[0] * 100).toFixed(1) + "%")});
+    $("#PVP2").click(function(){changePVP(result.retail[1].toLocaleString(), (result.profit_margin[1] * 100).toFixed(1) + "%")});
+    $("#PVP3").click(function(){changePVP(result.retail[2].toLocaleString(), (result.profit_margin[2] * 100).toFixed(1) + "%")});
+    $("#PVP4").click(function(){changePVP(result.retail[3].toLocaleString(), (result.profit_margin[3] * 100).toFixed(1) + "%")});
+    $("#PVP5").click(function(){changePVP(result.retail[4].toLocaleString(), (result.profit_margin[4] * 100).toFixed(1) + "%")});
+    $("#PVP6").click(function(){changePVP(result.retail[5].toLocaleString(), (result.profit_margin[5] * 100).toFixed(1) + "%")});
 
 
 

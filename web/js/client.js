@@ -7,8 +7,8 @@ $(document).ready(function(){
       $(".clientLocalidade").html(result.city);
       $(".postCode").html(result.post_c);
       $(".clientAddress").html(result.address);
-      $(".pendentes").html(result.pendentes.toFixed(2));
-      $(".divida").html(result.divida.toFixed(2));
+      $(".pendentes").html(parseFloat(result.pendentes.toFixed(2)).toLocaleString());
+      $(".divida").html(parseFloat(result.divida.toFixed(2)).toLocaleString());
   }});
 
   $.ajax({url: "http://localhost:49822/api/Clientes/range/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
@@ -25,7 +25,7 @@ $(document).ready(function(){
           xLabels: "month",
           xkey : "date",
           ykeys : ["value", "valuePrev"],
-          labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],          
+          labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],
           postUnits: "€",
           parseTime: false,
           resize: true
@@ -38,7 +38,7 @@ $(document).ready(function(){
       var chart = [];
 
       for(var i = 0; i < result.length; i++){
-          chart.push({label : "Produto: " + result[i].reference + " (%)", value : result[i].sales_p.toFixed(2)});
+          chart.push({label : "Produto: " + result[i].reference + " (%)", value : parseFloat(result[i].sales_p.toFixed(2)).toLocaleString()});
       }
 
       Morris.Donut({

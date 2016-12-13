@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
   $.ajax({url: "http://localhost:49822/api/accounting/getAtivos_Passivos/", dataType: 'json', success: function(result){
-      $(".ativos").html(result.m_Item1.toFixed(3) + " €");
-      $(".passivos").html(-result.m_Item2.toFixed(3) + " €");
+      $(".ativos").html(parseFloat(result.m_Item1.toFixed(2)).toLocaleString() + " €");
+      $(".passivos").html(parseFloat(result.m_Item2.toFixed(2)).toLocaleString() + " €");
   }});
 
   $.ajax({url: "http://localhost:49822/api/accounting/getBalancete/", dataType: 'json', success: function(result){
@@ -12,16 +12,16 @@ $(document).ready(function(){
           if (i < 10){
             $(".balanceteItems").append('<tr><td>' + ob.codConta + '</td>' +
             "<td>" + ob.nomeConta + '</td>' +
-            "<td class='text-right'>" + ob.credito.toFixed(2) + '</td>' +
-            "<td class='text-right'>" + ob.debito.toFixed(2) + '</td>' +
-            "<td class='text-right'>" + ob.saldo.toFixed(2) + '</td></tr>');
+            "<td class='text-right'>" + parseFloat(ob.credito.toFixed(2)).toLocaleString() + '</td>' +
+            "<td class='text-right'>" + parseFloat(ob.debito.toFixed(2)).toLocaleString() + '</td>' +
+            "<td class='text-right'>" + parseFloat(ob.saldo.toFixed(2)).toLocaleString() + '</td></tr>');
           }
           else {
             $(".balanceteItems").append("<tr class='collapse balancete'><td>" + ob.codConta + '</td>' +
             "<td>" + ob.nomeConta + '</td>' +
-            "<td class='text-right'>" + ob.credito.toFixed(2) + '</td>' +
-            "<td class='text-right'>" + ob.debito.toFixed(2) + '</td>' +
-            "<td class='text-right'>" + ob.saldo.toFixed(2) + '</td></tr>');
+            "<td class='text-right'>" + parseFloat(ob.credito.toFixed(2)).toLocaleString() + '</td>' +
+            "<td class='text-right'>" + parseFloat(ob.debito.toFixed(2)).toLocaleString() + '</td>' +
+            "<td class='text-right'>" + parseFloat(ob.saldo.toFixed(2)).toLocaleString() + '</td></tr>');
           }
 
           $(".loading2").addClass('hidden');
@@ -50,14 +50,14 @@ $(document).ready(function(){
 
     for (var i = 0; i < result[0].length; i++){
       if(result[0][i]['m_Item2'] != 0){
-        $(".balancoItems").append("<tr class='collapse anc'><td>" + result[0][i]["m_Item1"] +
-            "</td><td class='text-right'>" + result[0][i]["m_Item2"].toFixed(2) + "</td></tr>");
+        $(".balancoItems").append("<tr class='collapse anc'><td>" + parseFloat(result[0][i]["m_Item1"]).toLocaleString() +
+            "</td><td class='text-right'>" + parseFloat(result[0][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
         }
     }
 
           $(".balancoItems").append("<tr>" +
               "<td class='text-right'>Subtotal</td>" +
-              "<td class='text-right'>" +  anc.toFixed(2) + "</td></tr>");
+              "<td class='text-right'>" +  parseFloat(anc.toFixed(2)).toLocaleString() + "</td></tr>");
 
         var ac = 0;
         for(var i = 0; i < result[1].length; i++){
@@ -71,18 +71,18 @@ $(document).ready(function(){
 
     for (var i = 0; i < result[1].length; i++){
         if(result[1][i]['m_Item2'] != 0){
-          $(".balancoItems").append("<tr class='collapse ac'><td>" + result[1][i]["m_Item1"] +
-              "</td><td class='text-right'>" + result[1][i]["m_Item2"].toFixed(2) + "</td></tr>");
+          $(".balancoItems").append("<tr class='collapse ac'><td>" + parseFloat(result[1][i]["m_Item1"]).toLocaleString() +
+              "</td><td class='text-right'>" + parseFloat(result[1][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
       }
     }
           $(".balancoItems").append("<tr>" +
             "<td class='text-right'>Subtotal</td>" +
-            "<td class='text-right'>" +  ac.toFixed(2) + "</td></tr>");
+            "<td class='text-right'>" +  parseFloat(ac.toFixed(2)).toLocaleString() + "</td></tr>");
 
           var ta = anc + ac;
           $(".balancoItems").append("<tr>" +
             "<td class='text-right'>Total do ativo</td>" +
-            "<td class='text-right'>" +  ta.toFixed(2) + "</td></tr>");
+            "<td class='text-right'>" +  parseFloat(ta.toFixed(2)).toLocaleString() + "</td></tr>");
 
 
         $(".balancoItems").append("<tr>" +
@@ -104,14 +104,14 @@ $(document).ready(function(){
 
       for (i = 0; i < result[2].length; i++){
         if(result[2][i]['m_Item2'] !== 0){
-          $(".balancoItems").append("<tr class='collapse cp'><td>" + result[2][i]["m_Item1"] +
-              "</td><td class='text-right'>" + result[2][i]["m_Item2"].toFixed(2) + "</td></tr>");
+          $(".balancoItems").append("<tr class='collapse cp'><td>" + parseFloat(result[2][i]["m_Item1"]).toLocaleString() +
+              "</td><td class='text-right'>" + parseFloat(result[2][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
         }
     }
 
         $(".balancoItems").append("<tr>" +
             "<td class='text-right'>Total do capital próprio</td>" +
-            "<td class='text-right'>" +  cp.toFixed(2) + "</td></tr>");
+            "<td class='text-right'>" +  parseFloat(cp.toFixed(2)).toLocaleString() + "</td></tr>");
 
 
       var pnc = 0;
@@ -130,14 +130,14 @@ $(document).ready(function(){
 
       for (i = 0; i < result[3].length; i++){
         if(result[3][i]['m_Item2'] !== 0){
-          $(".balancoItems").append("<tr class='collapse pnc'><td>" + result[3][i]["m_Item1"] +
-              "</td><td class='text-right'>" + result[3][i]["m_Item2"].toFixed(2) + "</td></tr>");
+          $(".balancoItems").append("<tr class='collapse pnc'><td>" + parseFloat(result[3][i]["m_Item1"]).toLocaleString() +
+              "</td><td class='text-right'>" + parseFloat(result[3][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
       }
     }
 
         $(".balancoItems").append("<tr>" +
             "<td class='text-right'>Subtotal</td>" +
-            "<td class='text-right'>" +  pnc.toFixed(2) + "</td></tr>");
+            "<td class='text-right'>" +  parseFloat(pnc.toFixed(2)).toLocaleString() + "</td></tr>");
 
       var pc = 0;
         for(i = 0; i < result[4].length; i++){
@@ -150,24 +150,24 @@ $(document).ready(function(){
 
       for (i = 0; i < result[4].length; i++){
         if(result[4][i]['m_Item2'] !== 0){
-          $(".balancoItems").append("<tr class='collapse pc'><td>" + result[4][i]["m_Item1"] +
-              "</td><td class='text-right'>" + result[4][i]["m_Item2"].toFixed(2) + "</td></tr>");
+          $(".balancoItems").append("<tr class='collapse pc'><td>" + parseFloat(result[4][i]["m_Item1"]).toLocaleString() +
+              "</td><td class='text-right'>" + parseFloat(result[4][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
       }
     }
 
     $(".balancoItems").append("<tr>" +
         "<td class='text-right'>Subtotal</td>" +
-        "<td class='text-right'>" +  pc.toFixed(2) + "</td></tr>");
+        "<td class='text-right'>" +  parseFloat(pc.toFixed(2)).toLocaleString() + "</td></tr>");
 
     var tp = pnc+pc;
     $(".balancoItems").append("<tr>" +
         "<td class='text-right'>Total do passivo</td>" +
-        "<td class='text-right'>" + tp.toFixed(2) + "</td></tr>");
+        "<td class='text-right'>" + parseFloat(tp.toFixed(2)).toLocaleString() + "</td></tr>");
 
     var tcpp = pnc+pc+cp;
     $(".balancoItems").append("<tr>" +
         "<td class='text-right'>Total do capital próprio e do passivo</td>" +
-        "<td class='text-right'>" +  tcpp.toFixed(2) + "</td></tr>");
+        "<td class='text-right'>" +  parseFloat(tcpp.toFixed(2)).toLocaleString() + "</td></tr>");
 
     $(".loading1").addClass('hidden');
   }});
