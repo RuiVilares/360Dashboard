@@ -24,7 +24,7 @@ $(document).ready(function() {
     url: "http://localhost:49822/api/supplier/list",
     success: function (data) {
       for (var i = 0; i < data.length; i++){
-        $('#navbarProviders').append("<li><a href='provider.html?provider="+data[i].reference+"'>" + data[i].name + "</a></li>");
+        $('#navbarproviderGeneral').append("<li><a href='provider.html?provider="+data[i].reference+"'>" + data[i].name + "</a></li>");
 
       }
     },
@@ -66,9 +66,9 @@ $(document).ajaxSuccess(function(event, xhr, settings){
         return el.name.match($("#suppSearch").val() + ".*") || el.reference.match($("#suppSearch").val() + ".*");
       });
 
-      $("#navbarProviders").html("");
+      $("#navbarproviderGeneral").html("");
       for (var i = 0; i < result.length; i++){
-          $('#navbarProviders').append("<li><a href='provider.html?provider="+result[i].reference+"'>" + result[i].name + "</a></li>");
+          $('#navbarproviderGeneral').append("<li><a href='provider.html?provider="+result[i].reference+"'>" + result[i].name + "</a></li>");
       }
     });
   }
