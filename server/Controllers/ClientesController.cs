@@ -60,6 +60,10 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.ListaMelhoresClientes();
         }
 
-
+        [System.Web.Http.HttpGet]
+        public ClientesInfo get_client_info()
+        {
+            return Lib_Primavera.PriIntegration.listaClientes();
+        }
     }
 }

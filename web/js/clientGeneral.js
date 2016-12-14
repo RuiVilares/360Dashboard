@@ -14,4 +14,12 @@ $(document).ready(function(){
     $(".melhores_c").html("Melhores Clientes (Valor de Vendas)");
 
   }});
+
+  $.ajax({url: "http://localhost:49822/api/clientes/get_client_info/", dataType: 'json', success: function(result){
+    $(".clients_nr").html(result['numClientes']);
+    $(".open_value").html(parseFloat(result['valorAberto'].toFixed(2)).toLocaleString());
+    $(".billed_value").html(parseFloat(result['valorFaturado'].toFixed(2)).toLocaleString());
+
+
+  }});
 });
