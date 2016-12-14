@@ -1,4 +1,29 @@
 $(document).ready(function(){
+  $("#balancoColExButton").click(function(){
+      if(balancoToggle){
+          balancoToggle = false;
+          $("#balanco").hide();
+          $("#balancoColExButton").text("Expand");
+      }
+      else{
+        balancoToggle = true;
+        $("#balanco").show();
+        $("#balancoColExButton").text("Collapse");
+      }
+  });
+
+  $("#balanceteColExButton").click(function(){
+      if(balanceteToggle){
+          balanceteToggle = false;
+          $("#balancete").hide();
+          $("#balanceteColExButton").text("Expand");
+      }
+      else{
+        balanceteToggle = true;
+        $("#balancete").show();
+        $("#balanceteColExButton").text("Collapse");
+      }
+  });
 
   $.ajax({url: "http://localhost:49822/api/accounting/getAtivos_Passivos/", dataType: 'json', success: function(result){
       $(".ativos").html(parseFloat(result.m_Item1.toFixed(2)).toLocaleString() + " €");
@@ -171,4 +196,9 @@ $(document).ready(function(){
 
     $(".loading1").addClass('hidden');
   }});
+  $("#balanco").hide();
+  $("#balancete").hide();
 });
+
+var balancoToggle = false;
+var balanceteToggle = false;

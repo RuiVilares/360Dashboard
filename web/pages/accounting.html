@@ -40,7 +40,7 @@
 
     <div id="wrapper">
 
-      <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
+      <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
           <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                   <span class="sr-only">Toggle navigation</span>
@@ -95,7 +95,7 @@
                                 </div>
                               </li>
                           </ul>
-                          <ul id="navbarProducts" class="nav nav-second-level">
+                          <ul id="navbarProducts" class="nav nav-second-level" style="overflow-y: scroll; max-height: 35em">
                           </ul>
                       </li>
                       <li>
@@ -115,7 +115,7 @@
                                 </div>
                               </li>
                           </ul>
-                          <ul id="navbarClients" class="nav nav-second-level">
+                          <ul id="navbarClients" class="nav nav-second-level" style="overflow-y: scroll; max-height: 35em">
                           </ul>
                       </li>
                       <li>
@@ -135,7 +135,7 @@
                                 </div>
                               </li>
                           </ul>
-                          <ul id="navbarProviders" class="nav nav-second-level">
+                          <ul id="navbarProviders" class="nav nav-second-level" style="overflow-y: scroll; max-height: 35em">
                           </ul>
                       </li>
                       <li>
@@ -207,8 +207,8 @@
           <div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
-                      <div class="panel-heading">
-                          Balanço
+                      <div class="panel-heading clearfix">
+                          Balanço <button id="balancoColExButton" class="btn btn-default btn-sm pull-right" style="margin-bottom: 0.0em"  > Expand </button>
                       </div>
                       <div class="panel-body table-responsive">
                           <table width="100%" class="table table-hover">
@@ -218,7 +218,7 @@
                                       <th class='text-right'>Montante (€)</th>
                                   </tr>
                               </thead>
-                              <tbody class="balancoItems">
+                              <tbody class="balancoItems" id="balanco">
                               </tbody>
                           </table>
                           <span class="loading1">A carregar balanço...</span>
@@ -230,11 +230,11 @@
           <div class="row">
               <div class="col-lg-12">
                   <div class="panel panel-default">
-                      <div class="panel-heading">
-                          Balancete
+                      <div class="panel-heading clearfix">
+                          Balancete <button id="balanceteColExButton" class="btn btn-default btn-sm pull-right" style="margin-bottom: 0.0em"  > Expand </button>
                       </div>
                       <div class="panel-body table-responsive">
-                          <table width="100%" class="table table-hover" data-page-length='10'>
+                          <table  width="100%" class="table table-hover" data-page-length='10'>
                               <thead>
                                   <tr>
                                       <th>#</th>
@@ -244,7 +244,7 @@
                                       <th class='text-right'>Saldo (€)</th>
                                   </tr>
                               </thead>
-                              <tbody class="balanceteItems">
+                              <tbody class="balanceteItems" id="balancete">
                               </tbody>
                           </table>
                           <span class="loading2">A carregar balancete...</span>
