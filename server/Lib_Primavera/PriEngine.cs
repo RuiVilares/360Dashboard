@@ -7,6 +7,7 @@ using Interop.ErpBS900;         // Use Primavera interop's [Path em C:\Program F
 using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using ADODB;
+using System.Web;
 
 namespace FirstREST.Lib_Primavera
 {
@@ -28,8 +29,6 @@ namespace FirstREST.Lib_Primavera
 
             objAplConf.Instancia = "Default";
             objAplConf.AbvtApl = "GCP";
-            objAplConf.PwdUtilizador = Password;
-            objAplConf.Utilizador = User;
             objAplConf.LicVersaoMinima = "9.00";
 
             StdBETransaccao objStdTransac = new StdBETransaccao();
@@ -37,11 +36,20 @@ namespace FirstREST.Lib_Primavera
             // Opem platform.
             try
             {
+                IEnumerable<string> headerValues1 = HttpContext.Current.Request.Headers.GetValues("user");
+                var header_user = headerValues1.FirstOrDefault();
+
+                IEnumerable<string> headerValues2 = HttpContext.Current.Request.Headers.GetValues("pass");
+                var header_pass = headerValues2.FirstOrDefault();
+
+                objAplConf.PwdUtilizador = header_pass;
+                objAplConf.Utilizador = header_user;
+
                 Plataforma.AbrePlataformaEmpresa(ref Company, ref objStdTransac, ref objAplConf, ref objTipoPlataforma,"");
             }
             catch (Exception ex)
             {
-                throw new Exception("Error on open Primavera Platform.");
+                Console.WriteLine("Received request without user/pass information, or Primavera is not running.");
             }
 
             // Is plt initialized?
