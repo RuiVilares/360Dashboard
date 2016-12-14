@@ -6,7 +6,7 @@ $(document).ready(function() {
         $(".profit_margin").html((result.profit_margin[0] * 100).toFixed(1) + "%");
         $(".pvp").html(parseFloat(result.retail[0].toFixed(2)).toLocaleString());
         $(".price").html(parseFloat(result.price.toFixed(2)).toLocaleString());
-        $(".tax").html(result.tax.toFixed(1) + "%");
+        $(".tax").html(parseFloat(result.tax).toFixed(2) + "%");
         $(".reference").html(result.reference);
         $(".value_stock").html(parseFloat(result.stkValue.toFixed(2)).toLocaleString());
         $(".qnt_stock").html(result.stk.toLocaleString() +" " + result.unit);
