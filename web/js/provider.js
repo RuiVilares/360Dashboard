@@ -8,11 +8,11 @@ $(document).ready(function(){
     $(".providerLocalidade").html(result.city);
     $(".providerRef").html(result.reference);
     $(".pendente").text(parseFloat(result.pendente.toFixed(2)).toLocaleString());
+    $(".backlog").text(parseFloat(result.backlog.toFixed(2)).toLocaleString());
   }});
 
   $.ajax({url: "http://localhost:49822/api/supplier/freq/" + id.replace('.', '_') , dataType: 'json', success: function(result){
     $('.evolution').html("Evolução");
-    console.log(result);
     Morris.Line({
       element : "morris-area-chart",
       data : result,

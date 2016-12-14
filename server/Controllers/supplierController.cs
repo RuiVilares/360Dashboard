@@ -33,12 +33,18 @@ namespace FirstREST.Controllers
             id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ranges(id);
         }
-                [System.Web.Http.HttpGet]
 
+        [System.Web.Http.HttpGet]
         public IEnumerable<Lib_Primavera.Model.FornecedorTopProduct> topprod(string id)
         {
             id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.forn_top_prod(id);
+        }
+
+        [System.Web.Http.HttpGet]
+        public FornecedoresInfo get_provider_info()
+        {
+            return Lib_Primavera.PriIntegration.listaFornecedores();
         }
 
     }

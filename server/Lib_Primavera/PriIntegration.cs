@@ -131,7 +131,14 @@ namespace FirstREST.Lib_Primavera
                     myCli.address = objCli.get_Morada();
                     myCli.post_c = objCli.get_CodigoPostal();
                     myCli.city = objCli.get_LocalidadeCodigoPostal();
-                    myCli.pendentes = objList.Valor("Quantia");
+                    try
+                    {
+                        myCli.pendentes = objList.Valor("Quantia");
+                    }
+                    catch
+                    {
+                        myCli.pendentes = 0;
+                    }
                     myCli.divida = objCli.get_DebitoContaCorrente();
                     
                     
@@ -240,6 +247,34 @@ namespace FirstREST.Lib_Primavera
 
 
                 return listaClientes;
+            }
+            return null;
+
+        }
+
+        public static List<Tuple<string, string, double>> ListaDividaClientes()
+        {
+            GcpBECliente objCli = new GcpBECliente();
+            List<Tuple<string, string, double>> result = new List<Tuple<string, string, double>>(); 
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT Cliente, Nome FROM Clientes");
+
+                while (!objList.NoFim())
+                {
+                    string nome = objList.Valor("Nome");
+                    string cod = objList.Valor("Cliente");
+                    double divida = 0.0;
+                    if (PriEngine.Engine.Comercial.Clientes.Existe(cod) == true)
+                    {
+                        objCli = PriEngine.Engine.Comercial.Clientes.Edita(cod);
+                        divida = objCli.get_DebitoContaCorrente();
+                    }
+                    Tuple<string, string, double> client = Tuple.Create(nome, cod, divida);
+                    result.Add(client);
+                    objList.Seguinte();
+                }
+                return result;
             }
             return null;
 
@@ -1083,6 +1118,7 @@ namespace FirstREST.Lib_Primavera
                     forn.city = obj.get_LocalidadeCodigoPostal();
                     forn.reference = obj.get_Fornecedor();
                     forn.pendente = -obj.get_DebitoContaCorrente();
+                    forn.backlog = obj.get_DebitoEncomendasPendentes();
                     return forn;
                 }
             }
@@ -1156,6 +1192,36 @@ namespace FirstREST.Lib_Primavera
                 return lista;
             }
             return null;
+        }
+
+        public static Lib_Primavera.Model.FornecedoresInfo listaFornecedores() {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                Model.FornecedoresInfo result = new Model.FornecedoresInfo();
+                StdBELista vl = PriEngine.Engine.Consulta("SELECT Count(Fornecedores.Nome) as NumFornecedores FROM Fornecedores");
+                result.numFornecedores = vl.Valor("NumFornecedores");
+                double valoresPendentes = 0.0;
+                double valoresBacklog = 0.0;
+
+                StdBELista fornecedoresList = PriEngine.Engine.Consulta("SELECT Fornecedor FROM Fornecedores");
+
+                while (!fornecedoresList.NoFim())
+                {
+                    string cod = fornecedoresList.Valor("Fornecedor");
+                    if (PriEngine.Engine.Comercial.Fornecedores.Existe(cod) == true) {
+                        GcpBEFornecedor obj = PriEngine.Engine.Comercial.Fornecedores.Edita(cod);
+                        valoresPendentes -= obj.get_DebitoContaCorrente();
+                        valoresBacklog += obj.get_DebitoEncomendasPendentes();
+                    }
+                    fornecedoresList.Seguinte();
+                }
+
+                result.valoresPendentes = valoresPendentes;
+                result.valoresBacklog = valoresBacklog;
+
+                return result;
+            }
+            return null;   
         }
 
         #endregion Fornecedores
