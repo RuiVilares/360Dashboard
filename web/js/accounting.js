@@ -59,9 +59,9 @@ $(document).ready(function(){
 
   $.ajax({url: "http://localhost:49822/api/accounting/getBalanco/", dataType: 'json', success: function(result){
 
-        var anc = 0;
+        var anc = 0.0;
         for(var i = 0; i < result[0].length; i++){
-            anc += parseInt(result[0][i]['m_Item2']);
+            anc += parseFloat(result[0][i]['m_Item2']);
         }
 
         $(".balancoItems").append("<tr>" +
@@ -75,7 +75,7 @@ $(document).ready(function(){
 
     for (var i = 0; i < result[0].length; i++){
       if(result[0][i]['m_Item2'] != 0){
-        $(".balancoItems").append("<tr class='collapse anc'><td>" + parseFloat(result[0][i]["m_Item1"]).toLocaleString() +
+        $(".balancoItems").append("<tr class='collapse anc'><td>" + result[0][i]["m_Item1"] +
             "</td><td class='text-right'>" + parseFloat(result[0][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
         }
     }
@@ -84,9 +84,9 @@ $(document).ready(function(){
               "<td class='text-right'>Subtotal</td>" +
               "<td class='text-right'>" +  parseFloat(anc.toFixed(2)).toLocaleString() + "</td></tr>");
 
-        var ac = 0;
+        var ac = 0.0;
         for(var i = 0; i < result[1].length; i++){
-            ac += parseInt(result[1][i]['m_Item2']);
+            ac += parseFloat(result[1][i]['m_Item2']);
         }
 
         $(".balancoItems").append("<tr class='active clickable'" +
@@ -96,7 +96,7 @@ $(document).ready(function(){
 
     for (var i = 0; i < result[1].length; i++){
         if(result[1][i]['m_Item2'] != 0){
-          $(".balancoItems").append("<tr class='collapse ac'><td>" + parseFloat(result[1][i]["m_Item1"]).toLocaleString() +
+          $(".balancoItems").append("<tr class='collapse ac'><td>" + result[1][i]["m_Item1"] +
               "</td><td class='text-right'>" + parseFloat(result[1][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
       }
     }
@@ -114,10 +114,10 @@ $(document).ready(function(){
               "<td class='text-center'> CAPITAL PROPRIO E PASSIVO</td>" +
               "<td></td></tr>");
 
-        var cp = 0;
+        var cp = 0.0;
         for(i = 0; i < result[2].length; i++){
 
-          cp += parseInt(result[2][i]['m_Item2']);
+          cp += parseFloat(result[2][i]['m_Item2']);
         }
 
         this.cp = cp;
@@ -129,7 +129,7 @@ $(document).ready(function(){
 
       for (i = 0; i < result[2].length; i++){
         if(result[2][i]['m_Item2'] !== 0){
-          $(".balancoItems").append("<tr class='collapse cp'><td>" + parseFloat(result[2][i]["m_Item1"]).toLocaleString() +
+          $(".balancoItems").append("<tr class='collapse cp'><td>" + result[2][i]["m_Item1"] +
               "</td><td class='text-right'>" + parseFloat(result[2][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
         }
     }
@@ -139,9 +139,9 @@ $(document).ready(function(){
             "<td class='text-right'>" +  parseFloat(cp.toFixed(2)).toLocaleString() + "</td></tr>");
 
 
-      var pnc = 0;
+      var pnc = 0.0;
         for(i = 0; i < result[3].length; i++){
-            pnc += parseInt(result[3][i]['m_Item2']);
+            pnc += parseFloat(result[3][i]['m_Item2']);
         }
 
         $(".balancoItems").append("<tr class='active'>" +
@@ -155,7 +155,7 @@ $(document).ready(function(){
 
       for (i = 0; i < result[3].length; i++){
         if(result[3][i]['m_Item2'] !== 0){
-          $(".balancoItems").append("<tr class='collapse pnc'><td>" + parseFloat(result[3][i]["m_Item1"]).toLocaleString() +
+          $(".balancoItems").append("<tr class='collapse pnc'><td>" + result[3][i]["m_Item1"] +
               "</td><td class='text-right'>" + parseFloat(result[3][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
       }
     }
@@ -166,7 +166,7 @@ $(document).ready(function(){
 
       var pc = 0;
         for(i = 0; i < result[4].length; i++){
-            pc += parseInt(result[4][i]['m_Item2']);
+            pc += parseFloat(result[4][i]['m_Item2']);
         }
         $(".balancoItems").append("<tr class='active clickable'" +
           "data-toggle='collapse' id='pc' data-target='.pc'>" +
@@ -175,7 +175,7 @@ $(document).ready(function(){
 
       for (i = 0; i < result[4].length; i++){
         if(result[4][i]['m_Item2'] !== 0){
-          $(".balancoItems").append("<tr class='collapse pc'><td>" + parseFloat(result[4][i]["m_Item1"]).toLocaleString() +
+          $(".balancoItems").append("<tr class='collapse pc'><td>" + result[4][i]["m_Item1"] +
               "</td><td class='text-right'>" + parseFloat(result[4][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
       }
     }
@@ -195,6 +195,9 @@ $(document).ready(function(){
         "<td class='text-right'>" +  parseFloat(tcpp.toFixed(2)).toLocaleString() + "</td></tr>");
 
     $(".loading1").addClass('hidden');
+
+    $("#financialAutonomy").html(parseFloat(cp/(ac+anc)).toFixed(2));
+
   }});
   $("#balanco").hide();
   $("#balancete").hide();
