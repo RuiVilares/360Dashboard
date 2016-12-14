@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Interop.ErpBS900;         // Use Primavera interop's [Path em C:\Program Files\Common Files\PRIMAVERA\SG800]
 using Interop.StdPlatBS900;
 using Interop.StdBE900;
-using ADODB;
 
 namespace FirstREST.Lib_Primavera
 {

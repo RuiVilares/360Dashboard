@@ -149,7 +149,7 @@
                                 <i class="fa fa-bar-chart fa-4x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h1">--</div>
+                                <div class="h1 num_func">--</div>
                                 <div class="h3">Número de funcionários</div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                 <i class="fa fa-eur fa-4x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h1">--</div>
+                                <div class="h1 avg_sal">--</div>
                                 <div class="h3">Salário médio</div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                                 <i class="fa fa-eur fa-4x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="h1">--</div>
+                                <div class="h1 mdn_sal">--</div>
                                 <div class="h3">Mediana dos salários</div>
                             </div>
                         </div>
@@ -188,10 +188,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i> Total em salários
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Custos com pessoal
                         <div class="pull-right">
                             <div class="btn-group">
                                 <ul class="dropdown-menu pull-right" role="menu">
@@ -210,17 +210,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <i class="fa fa-users fa-fw"></i> Funcionários
-                    </div>
-                    <div class="panel-body">
-                        <div id="morris-donut-chart"></div>
-                    </div>
-                </div>
-            </div>
-          </div>
+            
         </div>
 
     <!-- jQuery -->
@@ -235,10 +225,12 @@
     <!-- Morris Charts JavaScript -->
     <script src="../vendor/raphael/raphael.min.js"></script>
     <script src="../vendor/morrisjs/morris.min.js"></script>
-    <script src="../data/morris-data.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+
+    <script src="../js/hr.js"></script>
+
 
 </body>
 </html>

@@ -7,12 +7,61 @@ using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using Interop.GcpBE900;
 using Interop.ICblBS900;
-using ADODB;
 
 namespace FirstREST.Lib_Primavera
 {
     public class PriIntegration
     {
+
+        #region RecursosHumanos
+        public static Model.RecursosHumanos getRecursosHumanos()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista custos = PriEngine.Engine.Consulta("Select DataMov, SUM(Valor+ValorSegSocialEntPatronal+ValorSeguroEntPatronal) as Value FROM MovimentosFuncionarios WHERE (MovimentosFuncionarios.TipoTabela = 1 OR MovimentosFuncionarios.TipoTabela = 0) GROUP BY DataMov");
+                List<Model.CustosMensais> custosConv = new List<Model.CustosMensais>();
+
+                while (!custos.NoFim())
+                {
+                    Model.CustosMensais custo = new Model.CustosMensais();
+                    custo.mes = custos.Valor("DataMov");
+                    custo.custo = custos.Valor("Value");
+                    custosConv.Add(custo);
+                    custos.Seguinte();
+                }
+
+                custos = PriEngine.Engine.Consulta("SELECT F.Codigo, F.Nome, F.Categoria FROM Funcionarios F INNER JOIN Situacoes S on F.Situacao = S.Situacao  WHERE (S.Tipo < 2 OR S.Tipo > 2)  GROUP BY F.Categoria, F.Codigo, F.Nome");
+                Model.RecursosHumanos rh = new Model.RecursosHumanos();
+                rh.custosMensais = custosConv;
+                rh.numFuncionarios = custos.NumLinhas();
+                custos = PriEngine.Engine.Consulta("SELECT  AVG(F.VencimentoMensal) as avg FROM Funcionarios F INNER JOIN Situacoes S on F.Situacao = S.Situacao  WHERE (S.Tipo < 2 OR S.Tipo > 2)  ");
+                rh.vencimentoMensal = custos.Valor("avg");
+                custos = PriEngine.Engine.Consulta("SELECT  F.VencimentoMensal as Vencimento FROM Funcionarios F INNER JOIN Situacoes S on F.Situacao = S.Situacao  WHERE (S.Tipo < 2 OR S.Tipo > 2)  ");
+
+                List<Double> vencimentos = new List<Double>();
+                while (!custos.NoFim())
+                {
+                    vencimentos.Add(custos.Valor("Vencimento"));
+                    custos.Seguinte();
+                }
+
+                vencimentos.Sort();
+                double median;
+                if (vencimentos.Count() % 2 == 0)
+                {
+                    median = (vencimentos[vencimentos.Count() / 2] + vencimentos[(vencimentos.Count() / 2) + 1]) / 2;
+                }
+                else
+                {
+                    median = vencimentos[vencimentos.Count() / 2];
+                }
+                rh.vencimentoMediano = median;
+                return rh;
+            }
+            return null;
+
+        }
+        #endregion  
 
         # region Cliente
 
