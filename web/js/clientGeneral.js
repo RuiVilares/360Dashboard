@@ -23,7 +23,7 @@ $(document).ready(function(){
   $.ajax({url: "http://localhost:49822/api/clientes/get_top10divida/" + ref, dataType: 'json', success: function(result){
 
     var top10 = result.sort(GetSortOrder("m_Item3"));
-    for(var i = 0; top10.length && i < 10; i++){
+    for(var i = 0; i < top10.length && i < 10; i++){
       top10[i].m_Item3 = result[i].m_Item3.toFixed(2);
     }
 

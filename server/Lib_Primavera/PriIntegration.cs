@@ -1224,6 +1224,66 @@ namespace FirstREST.Lib_Primavera
             return null;   
         }
 
+        public static List<Tuple<string, string, double>> fornecedoresPendentes()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT Fornecedor, Nome FROM Fornecedores");
+                List<Tuple<string, string, double>> result = new List<Tuple<string, string, double>>();
+              
+                while (!objList.NoFim())
+                {
+                    string cod = objList.Valor("Fornecedor");
+                    string nome = objList.Valor("Nome");
+                    double valor = 0.0;
+                    if (PriEngine.Engine.Comercial.Fornecedores.Existe(cod) == true)
+                    {
+                        GcpBEFornecedor obj = PriEngine.Engine.Comercial.Fornecedores.Edita(cod);
+                        valor = -obj.get_DebitoContaCorrente();
+                    }
+                    Tuple<string, string, double> fornecedor = Tuple.Create(nome, cod, valor);
+                    result.Add(fornecedor);
+                    objList.Seguinte();
+                }
+                return result;
+            }
+            return null;
+        }
+
+        public static List<Lib_Primavera.Model.TopFornecedor> MelhoresFornecedores()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecCompras.Entidade AS Entidade,  SUM(LinhasCompras.PrecUnit*LinhasCompras.Quantidade) AS Total from LinhasCompras, CabecCompras WHERE LinhasCompras.IdCabecCompras = CabecCompras.Id GROUP BY CabecCompras.Entidade ORDER BY Total DESC");
+                Model.TopFornecedor fornecedor = new Model.TopFornecedor();
+                List<Model.TopFornecedor> listaFornecedores = new List<Model.TopFornecedor>();
+                double sum = 0;
+
+                while (!objList.NoFim())
+                {
+                    sum += objList.Valor("Total");
+                    objList.Seguinte();
+                }
+
+                objList.Inicio();
+
+                while (!objList.NoFim())
+                {
+                    fornecedor = new Model.TopFornecedor();
+                    fornecedor.name = objList.Valor("Entidade");
+                    fornecedor.valor = objList.Valor("Total");
+                    fornecedor.sales_p = (fornecedor.valor / sum) * 100;
+                    listaFornecedores.Add(fornecedor);
+                    objList.Seguinte();
+                }
+
+                return listaFornecedores;
+            }
+            return null;
+        }
+
+
+
         #endregion Fornecedores
        
     }

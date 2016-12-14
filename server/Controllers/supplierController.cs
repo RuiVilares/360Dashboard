@@ -47,5 +47,16 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.listaFornecedores();
         }
 
+        [System.Web.Http.HttpGet]
+        public List<Tuple<string, string, double>> get_toppendentes()
+        {
+            return Lib_Primavera.PriIntegration.fornecedoresPendentes();
+        }
+
+        [System.Web.Http.HttpGet]
+        public List<Lib_Primavera.Model.TopFornecedor> get_topf()
+        {
+            return Lib_Primavera.PriIntegration.MelhoresFornecedores();
+        }
     }
 }
