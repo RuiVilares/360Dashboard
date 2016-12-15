@@ -42,21 +42,16 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form role="form" onsubmit="login(); return false;" method="get">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="Username" id="username" name="username" type="text" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
+                                    <input class="form-control" placeholder="Password" id="password" name="password" type="password" value="">
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>
+                                <button class="btn btn-lg btn-success btn-block" type="submit">Login</button>
                             </fieldset>
                         </form>
                     </div>
@@ -67,6 +62,7 @@
 
     <!-- jQuery -->
     <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/jquery/jquery.cookie.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -76,7 +72,26 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-
+    
+    <!-- Login -->
+    <script>
+        $.removeCookie("user");
+        $.removeCookie("pass");
+        
+        function login(){
+            var usr = $("#username").val();
+            var psw = $("#password").val();
+            
+            //Check if any of the fields is empty
+            if(! usr || usr===""){ return; }
+            if(! psw || psw===""){ return; }
+            
+            $.cookie("user", usr);
+            $.cookie("pass", psw);
+            
+            window.location.replace("index.html");
+        }
+    </script>
 </body>
 
 </html>

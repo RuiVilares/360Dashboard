@@ -61,6 +61,12 @@ namespace FirstREST.Controllers
         }
 
         [System.Web.Http.HttpGet]
+        public List<Tuple<string, string, double>> get_top10divida()
+        {
+            return Lib_Primavera.PriIntegration.ListaDividaClientes();
+        }
+
+        [System.Web.Http.HttpGet]
         public ClientesInfo get_client_info()
         {
             return Lib_Primavera.PriIntegration.listaClientes();

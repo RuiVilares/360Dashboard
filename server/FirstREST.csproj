@@ -252,6 +252,7 @@
     <Compile Include="Lib_Primavera\Model\Conta.cs" />
     <Compile Include="Lib_Primavera\Model\CustosMensais.cs" />
     <Compile Include="Lib_Primavera\Model\Fornecedor.cs" />
+    <Compile Include="Lib_Primavera\Model\FornecedoresInfo.cs" />
     <Compile Include="Lib_Primavera\Model\FornecedorTopProduct.cs" />
     <Compile Include="Lib_Primavera\Model\RecursosHumanos.cs" />
     <Compile Include="Lib_Primavera\Model\TopCliente.cs" />
