@@ -1,5 +1,17 @@
 $(document).ready(function(){
-  var id = getUrlParameter("client");
+  $.ajaxSetup({
+      type : "POST",
+      data : {
+          username : $.cookie("user"),
+          password : $.cookie("pass")
+      },
+      
+      error : function(){
+          window.location.replace("login.html?invalidLogin=true");
+      }
+  }); 
+  
+    var id = getUrlParameter("client");
 
   $.ajax({url: "http://localhost:49822/api/Clientes/detail/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
       $(".clientName").html(result.name);

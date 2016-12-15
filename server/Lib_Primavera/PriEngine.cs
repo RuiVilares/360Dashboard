@@ -7,6 +7,8 @@ using Interop.ErpBS900;         // Use Primavera interop's [Path em C:\Program F
 using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using ADODB;
+using System.Web;
+using System.Net;
 
 namespace FirstREST.Lib_Primavera
 {
@@ -18,6 +20,16 @@ namespace FirstREST.Lib_Primavera
 
         public static bool InitializeCompany(string Company, string User, string Password)
         {
+            var postUsername = HttpContext.Current.Request.Form["username"];
+            var postPassword = HttpContext.Current.Request.Form["password"];
+
+            if ((postUsername != User) || (postPassword != Password)) {
+                HttpContext.Current.Response.StatusCode =  (int) HttpStatusCode.Forbidden;
+                HttpContext.Current.Response.SuppressContent = true;
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
+                return false; 
+            }
+
 
             StdBSConfApl objAplConf = new StdBSConfApl();
             StdPlatBS Plataforma = new StdPlatBS();

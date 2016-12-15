@@ -1,5 +1,17 @@
 $(document).ready(function(){
-  var ref = getUrlParameter("supplier");
+    $.ajaxSetup({
+      type : "POST",
+      data : {
+          username : $.cookie("user"),
+          password : $.cookie("pass")
+      },
+      
+      error : function(){
+          window.location.replace("login.html?invalidLogin=true");
+      }
+  }); 
+    
+    var ref = getUrlParameter("supplier");
 
 
   $.ajax({url: "http://localhost:49822/api/supplier/get_topf/" + ref, dataType: 'json', success: function(result){

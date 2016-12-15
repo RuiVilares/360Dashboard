@@ -13,7 +13,7 @@ namespace FirstREST.Controllers
     {
         //
         // GET: /Clientes/
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.Cliente> list()
         {
                 return Lib_Primavera.PriIntegration.ListaClientes();
@@ -21,7 +21,7 @@ namespace FirstREST.Controllers
 
 
         // GET api/cliente/5    
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public Cliente detail(string id)
         {
             id = id.Replace("_", ".");
@@ -39,7 +39,7 @@ namespace FirstREST.Controllers
         }
 
         // GET api/cliente/5    
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.TopClienteProduct> topprod(string id) 
         {
             id = id.Replace("_", ".");
@@ -47,26 +47,26 @@ namespace FirstREST.Controllers
         }
 
         // GET api/cliente/5    
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.ClientTimeline> range(string id)
         {
             id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ClientTimeline(id);
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.TopCliente> get_top10c()
         {
             return Lib_Primavera.PriIntegration.ListaMelhoresClientes();
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public List<Tuple<string, string, double>> get_top10divida()
         {
             return Lib_Primavera.PriIntegration.ListaDividaClientes();
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public ClientesInfo get_client_info()
         {
             return Lib_Primavera.PriIntegration.listaClientes();
