@@ -9,14 +9,14 @@ namespace FirstREST.Controllers
 {
     public class treasuryController : ApiController
     {
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public List<Tuple<string, double>> get_areceber()
         {
             return Lib_Primavera.PriIntegration.get_Receber();
 
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public List<Tuple<string, double>> get_apagar()
         {
             return Lib_Primavera.PriIntegration.get_Pagar();

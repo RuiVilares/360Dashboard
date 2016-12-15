@@ -1,5 +1,17 @@
 $(document).ready(function(){
   var ref = getUrlParameter("treasury");
+  
+    $.ajaxSetup({
+      type : "POST",
+      data : {
+          username : $.cookie("user"),
+          password : $.cookie("pass")
+      },
+      
+      error : function(){
+          window.location.replace("login.html?invalidLogin=true");
+      }
+    }); 
 
 
   $.ajax({url: "http://localhost:49822/api/treasury/get_apagar/" + ref, dataType: 'json', success: function(result){

@@ -11,7 +11,7 @@ namespace FirstREST.Controllers
 {
     public class RhController : ApiController
     {     
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public RecursosHumanos getInfo()
         {
             return Lib_Primavera.PriIntegration.getRecursosHumanos();
