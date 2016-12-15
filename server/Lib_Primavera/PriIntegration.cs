@@ -888,17 +888,17 @@ namespace FirstREST.Lib_Primavera
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                decimal ancaft = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AFT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancpi = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal anctrp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.TRP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancai = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AI", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancab = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AB", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancmep = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.MEP", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancpfout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PF.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancacc = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ACC", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.OUT", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancid = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ID", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
-                decimal ancancdv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ANCDV", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancaft = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AFT", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancpi = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PI", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal anctrp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.TRP", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancai = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AI", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancab = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.AB", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancmep = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.MEP", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancpfout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.PF.OUT", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancacc = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ACC", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancout = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.OUT", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancid = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ID", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal ancancdv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.ANC.ANCDV", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
 
                 decimal acinv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.inv", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
                 decimal acAB = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "B.AC.AB", 0, 12, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
@@ -996,6 +996,51 @@ namespace FirstREST.Lib_Primavera
                 result.Last().Add(new Tuple<String, Decimal>("Passivos financieros detidos para negociação", pcPFDN));
                 result.Last().Add(new Tuple<String, Decimal>("Outros passivos financeiros", pcOUT));
                 result.Last().Add(new Tuple<String, Decimal>("Passivos não correntes detidos para venda", pcPNCDV));
+
+                return result;
+            }
+            return null;
+
+        }
+
+        public static List<List<Tuple<String, Decimal>>> getDemoResultados()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                decimal drvend = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.VEND", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drsubexp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.SUBEXP", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drvinv = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.VINV", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drtpe = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.TPE", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drcmvmc = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.CMVMC", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drfse = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.FSE", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drgp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.GP", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drimpme = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.IMP.ME", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drprov = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.PROV", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal droutrgme = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.OUTRG.ME", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal droutgpme = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.OUTGP.ME", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                decimal drgrpedme = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.GRDEP.ME", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drglfinme = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.GLFIN.ME", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+                decimal drimp = PriEngine.Engine.Contabilidade.Formulas.DaValorRubrica(2016, "DR.IMP", 0, 14, Interop.CblBE900.ENUMValorNaMoeda.vnmMoedaAltCtActual);
+
+                var result = new List<List<Tuple<String, Decimal>>>();
+                result.Add(new List<Tuple<String, Decimal>>());
+                result.Last().Add(new Tuple<String, Decimal>("Vendas e serviços prestados", drvend));
+                result.Last().Add(new Tuple<String, Decimal>("Subsidios à exploração", drsubexp));
+                result.Last().Add(new Tuple<String, Decimal>("Variação de inventários na produção", drvinv));
+                result.Last().Add(new Tuple<String, Decimal>("Trabalhos para a própria entidade", drtpe));
+                result.Last().Add(new Tuple<String, Decimal>("Custo das mercadorias vendidas e das amtérias consumidas", drcmvmc));
+                result.Last().Add(new Tuple<String, Decimal>("Fornecimentos e serviços externos)", drfse));
+                result.Last().Add(new Tuple<String, Decimal>("Gastos com pessoal", drgp));
+                result.Last().Add(new Tuple<String, Decimal>("Imparidades (perdas/reversões)", drimpme));
+                result.Last().Add(new Tuple<String, Decimal>("Provisões (aumentos/reduções)", drprov));
+                result.Last().Add(new Tuple<String, Decimal>("Outros rendimentos e ganhos", droutrgme));
+                result.Last().Add(new Tuple<String, Decimal>("Outros gastos e perdas", droutgpme));
+                result.Last().Add(new Tuple<String, Decimal>("Gastos/reversões de depreciação e de amortização", drgrpedme));
+                result.Last().Add(new Tuple<String, Decimal>("Gasto Líquido de Financiamento", drglfinme));
+                result.Last().Add(new Tuple<String, Decimal>("Impostos sobre o rendimento do periodo", drimp));
+
+
 
                 return result;
             }
