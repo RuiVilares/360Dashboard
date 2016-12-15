@@ -1285,6 +1285,60 @@ namespace FirstREST.Lib_Primavera
 
 
         #endregion Fornecedores
-       
+
+        #region Tesouraria
+
+        public static List<Tuple<string, double>> get_Receber()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT Cliente FROM Clientes");
+                List<Tuple<string, double>> result = new List<Tuple<string, double>>();
+
+                while (!objList.NoFim())
+                {
+                    string cod = objList.Valor("Cliente");
+                    if (PriEngine.Engine.Comercial.Clientes.Existe(cod))
+                    {
+                        GcpBECliente obj = PriEngine.Engine.Comercial.Clientes.Edita(cod);
+                        string name = obj.get_Nome();
+                        double debito = obj.get_DebitoContaCorrente();
+                        Tuple<string, double> tuple = Tuple.Create(name, debito);
+                        result.Add(tuple);
+                        objList.Seguinte();
+                    }
+                }
+                return result;
+            }
+            return null;
+        }
+
+        public static List<Tuple<string, double>> get_Pagar()
+        {
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT Fornecedor FROM Fornecedores");
+                List<Tuple<string, double>> result = new List<Tuple<string, double>>();
+
+                while (!objList.NoFim())
+                {
+                    string cod = objList.Valor("Fornecedor");
+                    if (PriEngine.Engine.Comercial.Fornecedores.Existe(cod))
+                    {
+                        GcpBEFornecedor obj = PriEngine.Engine.Comercial.Fornecedores.Edita(cod);
+                        string name = obj.get_Nome();
+                        double debito = -obj.get_DebitoContaCorrente();
+                        Tuple<string, double> tuple = Tuple.Create(name, debito);
+                        result.Add(tuple);
+                        objList.Seguinte();
+                    }
+                }
+                return result;
+            }
+            return null;
+        }
+
+        #endregion Tesouraria
+
     }
 }
