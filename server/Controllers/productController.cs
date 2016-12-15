@@ -15,7 +15,7 @@ namespace FirstREST.Controllers
     {
         //
         // GET: /Artigos/
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.Artigo> list()
         {
             return Lib_Primavera.PriIntegration.ListaArtigos();
@@ -23,7 +23,7 @@ namespace FirstREST.Controllers
 
 
         // GET api/artigo/5    
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public Artigo Get_Info(string id)
         {
             id = id.Replace("_", ".");
@@ -39,12 +39,14 @@ namespace FirstREST.Controllers
             }
         }
 
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.TopCliente> Get_top10c(string id)
         {
             id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ListaMelhoresClientes(id);
         }
 
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.Shipment> get_shipments(string id)
         {
             id = id.Replace("_", ".");
@@ -52,22 +54,25 @@ namespace FirstREST.Controllers
             
         }
 
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.TopCliente> Get_top10c()
         {
             return Lib_Primavera.PriIntegration.ListaMelhoresClientes();
         }
 
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.TopProduto> Get_top10p()
         {
             return Lib_Primavera.PriIntegration.ListaMelhoresProdutos();
         }
-        [System.Web.Http.HttpGet]
+
+        [System.Web.Http.HttpPost]
         public IEnumerable<Lib_Primavera.Model.ClientTimeline> Get_Evolution()
         {
             return Lib_Primavera.PriIntegration.sales_evolution();
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public List<Tuple<String, double>> products_info()
         {
             return Lib_Primavera.PriIntegration.productsInfo();

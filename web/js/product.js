@@ -1,4 +1,16 @@
 $(document).ready(function() {
+    $.ajaxSetup({
+      type : "POST",
+      data : {
+          username : $.cookie("user"),
+          password : $.cookie("pass")
+      },
+      
+      error : function(){
+          window.location.replace("login.html?invalidLogin=true");
+      }
+  }); 
+    
     var ref = getUrlParameter("product");
     $.ajax({url: "http://localhost:49822/api/product/Get_Info/" + ref.replace(/ /g, "_").replace(/\./g, '_'), dataType: 'json', success: function(result){
         console.log(result);

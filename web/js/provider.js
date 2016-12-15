@@ -1,5 +1,17 @@
 $(document).ready(function(){
-  var id = getUrlParameter("provider");
+    $.ajaxSetup({
+      type : "POST",
+      data : {
+          username : $.cookie("user"),
+          password : $.cookie("pass")
+      },
+      
+      error : function(){
+          window.location.replace("login.html?invalidLogin=true");
+      }
+  }); 
+    
+    var id = getUrlParameter("provider");
 
   $.ajax({url: "http://localhost:49822/api/supplier/detail/" + id.replace('.', '_') , dataType: 'json', success: function(result){
     $(".providerName").html(result.name);
