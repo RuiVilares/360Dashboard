@@ -1,5 +1,17 @@
 $(document).ready(function(){
-  var ref = getUrlParameter("product");
+  $.ajaxSetup({
+      type : "POST",
+      data : {
+          username : $.cookie("user"),
+          password : $.cookie("pass")
+      },
+      
+      error : function(){
+          window.location.replace("login.html?invalidLogin=true");
+      }
+  }); 
+  
+    var ref = getUrlParameter("product");
 
   $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
 
