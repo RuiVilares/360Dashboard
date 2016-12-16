@@ -1,8 +1,8 @@
 $(document).ready(function(){
 
-  ajaxConfig();  
+  ajaxConfig();
 
-  
+
     var ref = getUrlParameter("product");
   $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
     Morris.Bar({
@@ -35,4 +35,23 @@ $(document).ready(function(){
     $(".melhores_f").html("Melhores fornecedores<a href='providerGeneral.html' class='pull-right'>Ver mais</a>");
 
   }});
+
+  $.ajax({url: "http://localhost:49822/api/accounting/getDemoResultados/", dataType: 'json', success: function(result){
+    var receita = 0.0;
+    var despesa = 0.0;
+
+    for (var i = 0; i < result[0].length; i++){
+      if(result[0][i].m_Item2 >= 0){
+        receita += result[0][i].m_Item2;
+      }
+      else{
+        despesa += result[0][i].m_Item2;
+      }
+    }
+
+    $("#receita").html(parseFloat(receita.toFixed(2)).toLocaleString());
+    $("#despesa").html(parseFloat(despesa.toFixed(2)).toLocaleString());
+    $("#lucro").html(parseFloat((receita+despesa).toFixed(2)).toLocaleString());
+  }});
+
 });
