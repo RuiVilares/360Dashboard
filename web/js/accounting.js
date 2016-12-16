@@ -5,22 +5,35 @@ $(document).ready(function(){
           username : $.cookie("user"),
           password : $.cookie("pass")
       },
-      
+
       error : function(){
           window.location.replace("login.html?invalidLogin=true");
       }
-  }); 
-    
+  });
+
   $("#balancoColExButton").click(function(){
       if(balancoToggle){
           balancoToggle = false;
           $("#balanco").hide();
-          $("#balancoColExButton").text("Expand");
+          $("#balancoColExButton").text("Expandir");
       }
       else{
         balancoToggle = true;
         $("#balanco").show();
-        $("#balancoColExButton").text("Collapse");
+        $("#balancoColExButton").text("Colapsar");
+      }
+  });
+
+  $("#demoColExButton").click(function(){
+      if(demoToggle){
+          demoToggle = false;
+          $("#demo").hide();
+          $("#demoColExButton").text("Expandir");
+      }
+      else{
+        demoToggle = true;
+        $("#demo").show();
+        $("#demoColExButton").text("Colapsar");
       }
   });
 
@@ -40,6 +53,14 @@ $(document).ready(function(){
   $.ajax({url: "http://localhost:49822/api/accounting/getAtivos_Passivos/", dataType: 'json', success: function(result){
       $(".ativos").html(parseFloat(result.m_Item1.toFixed(2)).toLocaleString() + " €");
       $(".passivos").html(parseFloat(result.m_Item2.toFixed(2)).toLocaleString() + " €");
+  }});
+
+  $.ajax({url: "http://localhost:49822/api/accounting/getDemoResultados/", dataType: 'json', success: function(result){
+    for (var i = 0; i < result[0].length; i++){
+      $(".demoItems").append("<tr><td>" + result[0][i]["m_Item1"] +
+        "</td><td class='text-right'>" + parseFloat(result[0][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
+    }
+    $(".loading").addClass('hidden');
   }});
 
   $.ajax({url: "http://localhost:49822/api/accounting/getBalancete/", dataType: 'json', success: function(result){
@@ -208,12 +229,14 @@ $(document).ready(function(){
 
     $(".loading1").addClass('hidden');
 
-    $("#financialAutonomy").html(parseFloat(cp/(ac+anc)).toFixed(2));
+    $("#financialAutonomy").html(parseFloat((cp/(ac+anc))*100).toFixed(2));
 
   }});
   $("#balanco").hide();
   $("#balancete").hide();
+  $("#demo").hide();
 });
 
 var balancoToggle = false;
 var balanceteToggle = false;
+var demoToggle = false;
