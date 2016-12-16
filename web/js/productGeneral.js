@@ -42,7 +42,7 @@ $(document).ready(function(){
     evolution($("#evolutionPivot").val());
   }, 50);
 
-  $("#evolutionPivot").on("change keyup paste mouseup", function(){
+  $("#evolutionPivot").on("keyup paste mouseup", function(){
     $("#morris-area-chart").html("");
     evolution($("#evolutionPivot").val());
   });
@@ -51,22 +51,20 @@ $(document).ready(function(){
 
 
 function evolution(year){
-  $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + getUrlParameter("product"), dataType: 'json', success: function(result){
+  $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + getUrlParameter("product"), dataType: 'json', data : {
+            company: $.cookie("cmpny"),
+            username : $.cookie("user"),
+            password : $.cookie("pass"),
+            year: year
+        },
+      success: function(result){
 
     var months = {
-      1: "January",
-      2: "February",
-      3: "March",
-      4: "April",
-      5: "May",
-      6: "June",
-      7: "July",
-      8: "August",
-      9: "September",
-      10: "October",
-      11: "November",
-      12: "December"
-    }
+      1: "1º Trimestre",
+      2: "2º Trimestre",
+      3: "3º Trimestre",
+      4: "4º Trimestre",     
+    };
 
     for(var k in result){
         result[k].value = parseFloat(result[k].value.toFixed(2));
@@ -87,7 +85,7 @@ function evolution(year){
         pointSize: 10,
         xkey : "date",
         ykeys : ["value", "valuePrev"],
-        labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],
+        labels : ["Ano Corrente ("+year+")", "Ano Transacto ("+(year-1)+")"],
         postUnits: "€",
         parseTime: false,
         resize: true

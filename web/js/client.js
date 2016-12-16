@@ -17,7 +17,7 @@ $(document).ready(function(){
     evolution($("#evolutionPivot").val());
   }, 50);
 
-  $("#evolutionPivot").on("change keyup paste mouseup", function(){
+  $("#evolutionPivot").on("keyup paste mouseup", function(){
     $("#morris-area-chart").html("");
     evolution($("#evolutionPivot").val());
   });
@@ -41,7 +41,13 @@ $(document).ready(function(){
 
 
 function evolution(year){
-  $.ajax({url: "http://localhost:49822/api/Clientes/range/" + getUrlParameter("client").replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
+  $.ajax({url: "http://localhost:49822/api/Clientes/range/" + getUrlParameter("client").replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json',data : {
+            company: $.cookie("cmpny"),
+            username : $.cookie("user"),
+            password : $.cookie("pass"),
+            year: year
+        },
+     success: function(result){
       $('.evolution').html("Evolução");
 
       var month = result.map(function(el){
@@ -55,6 +61,7 @@ function evolution(year){
           xLabels: "month",
           xkey : "date",
           ykeys : ["value", "valuePrev"],
+          xmin: 12,
           labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],
           postUnits: "€",
           parseTime: false,
