@@ -45,6 +45,9 @@
                         <form role="form" onsubmit="login(); return false;" method="get">
                             <fieldset>
                                 <div class="form-group">
+                                    <input class="form-control" placeholder="Company" id="company" name="company" type="text">
+                                </div>
+                                <div class="form-group">
                                     <input class="form-control" placeholder="Username" id="username" name="username" type="text" autofocus>
                                 </div>
                                 <div class="form-group">
@@ -73,23 +76,27 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
-    
+
     <!-- Login -->
     <script>
         $.removeCookie("user");
         $.removeCookie("pass");
-        
+        $.removeCookie("cmpny");
+
         function login(){
+            var cmpny = $("#company").val();
             var usr = $("#username").val();
             var psw = $("#password").val();
-            
+
             //Check if any of the fields is empty
+            if(! cmpny || cmpny===""){ return; }
             if(! usr || usr===""){ return; }
             if(! psw || psw===""){ return; }
-            
+
+            $.cookie("cmpny", cmpny);
             $.cookie("user", usr);
             $.cookie("pass", psw);
-            
+
             window.location.replace("index.html");
         }
     </script>

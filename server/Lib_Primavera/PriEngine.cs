@@ -23,16 +23,9 @@ namespace FirstREST.Lib_Primavera
 
         public static bool InitializeCompany(string Company, string User, string Password)
         {
+            var postCompany = HttpContext.Current.Request.Form["company"];
             var postUsername = HttpContext.Current.Request.Form["username"];
             var postPassword = HttpContext.Current.Request.Form["password"];
-
-            if ((postUsername != User) || (postPassword != Password)) {
-                HttpContext.Current.Response.StatusCode =  (int) HttpStatusCode.Forbidden;
-                HttpContext.Current.Response.SuppressContent = true;
-                HttpContext.Current.ApplicationInstance.CompleteRequest();
-                return false; 
-            }
-
 
             StdBSConfApl objAplConf = new StdBSConfApl();
             StdPlatBS Plataforma = new StdPlatBS();
@@ -43,8 +36,8 @@ namespace FirstREST.Lib_Primavera
 
             objAplConf.Instancia = "Default";
             objAplConf.AbvtApl = "GCP";
-            objAplConf.PwdUtilizador = Password;
-            objAplConf.Utilizador = User;
+            objAplConf.PwdUtilizador = postPassword;
+            objAplConf.Utilizador = postUsername;
             objAplConf.LicVersaoMinima = "9.00";
 
             StdBETransaccao objStdTransac = new StdBETransaccao();
@@ -52,11 +45,14 @@ namespace FirstREST.Lib_Primavera
             // Opem platform.
             try
             {
-                Plataforma.AbrePlataformaEmpresa(ref Company, ref objStdTransac, ref objAplConf, ref objTipoPlataforma,"");
+                Plataforma.AbrePlataformaEmpresa(ref postCompany, ref objStdTransac, ref objAplConf, ref objTipoPlataforma,"");
             }
             catch (Exception ex)
             {
-                throw new Exception("Error on open Primavera Platform.");
+                HttpContext.Current.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                HttpContext.Current.Response.SuppressContent = true;
+                HttpContext.Current.ApplicationInstance.CompleteRequest();
+                return false; 
             }
 
             // Is plt initialized?
@@ -69,7 +65,7 @@ namespace FirstREST.Lib_Primavera
                 bool blnModoPrimario = true;
 
                 // Open Engine
-                MotorLE.AbreEmpresaTrabalho(EnumTipoPlataforma.tpProfissional, ref Company, ref User, ref Password, ref objStdTransac, "Default", ref blnModoPrimario);
+                MotorLE.AbreEmpresaTrabalho(EnumTipoPlataforma.tpProfissional, ref postCompany, ref postUsername, ref postPassword, ref objStdTransac, "Default", ref blnModoPrimario);
                 MotorLE.set_CacheActiva(false);
 
                 // Returns the engine.

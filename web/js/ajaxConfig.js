@@ -2,6 +2,7 @@ function ajaxConfig(){
     $.ajaxSetup({
         type : "POST",
         data : {
+            company: $.cookie("cmpny"),
             username : $.cookie("user"),
             password : $.cookie("pass")
         },
