@@ -35,8 +35,9 @@
 
 </head>
 
-<body>
 
+
+<body>
     <div id="wrapper">
 
       <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -133,139 +134,37 @@
               </div>
           </div>
       </nav>
-
-        <div id="page-wrapper">
-          <div class="row">
-              <div class="col-lg-12">
-                  <h1 class="page-header providerName">A carregar...</h1>
-              </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="panel panel-red">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-eur fa-4x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="h1 pendente">--</div>
-                                <div class="h3">Valor pendente</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="panel panel-red">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-eur fa-4x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="h1 backlog">--</div>
-                                <div class="h3">Valor em backlog</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <table width="100%" class="table table-striped table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th colspan="2">Informação do fornecedor</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>Nome:</td>
-                          <td class="providerName">--</td>
-                      </tr>
-                      <tr>
-                          <td>Morada:</td>
-                          <td class="providerAddress">--</td>
-                      </tr>
-                      <tr>
-                          <td>Localidade:</td>
-                          <td class="providerLocalidade">--</td>
-                      </tr>
-                      <tr>
-                          <td>Código Postal:</td>
-                          <td class="providerPostCode">--</td>
-                      </tr>
-                      <tr>
-                          <td>Identificador:</td>
-                          <td class="providerRef">--</td>
-                      </tr>
-                  </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <i class="fa fa-archive fa-fw"></i> Mais comprados
-                    </div>
-                    <div class="panel-body">
-                        <div id="morris-pie"></div>
-                    </div>
-                </div>
-            </div>
-              <div class="col-lg-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i> Evolução
-                        <input id="evolutionPivot" class="pull-right" name="evolutionPivot" type="number" value="2016" style="max-width: 4em">
-                        <label for="evolutionPivot" class="pull-right"> Ano: </label>
-                        <div class="pull-right">
-                            <div class="btn-group">
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                    <li><a href="#">Ano</a>
-                                    </li>
-                                    <li><a href="#">Mês</a>
-                                    </li>
-                                    <li><a href="#">Semana</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div id="morris-area-chart"></div>
-                    </div>
-                </div>
-              </div>
-          </div>
-
-          </div>
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-md-5"></div><button class="btn bnt-lg btn-danger" id="molhoButton"> Acrescenta molho </button>
         </div>
+        <div id="panel" class="row" style="position: absolute">
 
-    <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/jquery/jquery.cookie.js"></script>
-    <script src="../js/ajaxConfig.js"></script>
+        </div>
+      </div>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+        <!-- jQuery -->
+        <script src="../vendor/jquery/jquery.min.js"></script>
+        <script src="../vendor/jquery/jquery.cookie.js"></script>
+        <script src="../js/ajaxConfig.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="../vendor/raphael/raphael.min.js"></script>
-    <script src="../vendor/morrisjs/morris.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
-    <script src="../js/navbar.js"></script>
-    <script src="../js/provider.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
-    <script src="../js/fetcher.js"></script>
+        <!-- Morris Charts JavaScript -->
+        <script src="../vendor/raphael/raphael.min.js"></script>
+        <script src="../vendor/morrisjs/morris.min.js"></script>
 
-</body>
+        <!-- Custom Theme JavaScript -->
+        <script src="../dist/js/sb-admin-2.js"></script>
+        <script src="../js/navbar.js"></script>
+        <script src="../js/molho.js"></script>
+
+
+        <script src="../js/fetcher.js"></script>
+    </body>
 </html>

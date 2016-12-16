@@ -20,7 +20,7 @@ $(document).ready(function(){
   $("#evolutionPivot").on("change keyup paste mouseup", function(){
     $("#morris-area-chart").html("");
     evolution($("#evolutionPivot").val());
-  })
+  });
 
   $.ajax({url: "http://localhost:49822/api/Clientes/topprod/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
       $('.topprod').html("Mais Comprados");

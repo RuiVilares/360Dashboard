@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    ajaxConfig(); 
-    
+    ajaxConfig();
+
     var id = getUrlParameter("provider");
 
   $.ajax({url: "http://localhost:49822/api/supplier/detail/" + id.replace('.', '_') , dataType: 'json', success: function(result){
@@ -13,18 +13,15 @@ $(document).ready(function(){
     $(".backlog").text(parseFloat(result.backlog.toFixed(2)).toLocaleString());
   }});
 
-  $.ajax({url: "http://localhost:49822/api/supplier/freq/" + id.replace('.', '_') , dataType: 'json', success: function(result){
-    $('.evolution').html("Evolução");
-    Morris.Line({
-      element : "morris-area-chart",
-      data : result,
-      pointSize: 0,
-      xkey : "m_Item1",
-      ykeys : ["m_Item2"],
-      labels : ["Volume de Compras"],
-      resize: true
-    });
-  }});
+  setTimeout(function(){
+    evolution($("#evolutionPivot").val());
+  }, 50);
+
+
+  $("#evolutionPivot").on("keyup paste mouseup", function(){
+    $("#morris-area-chart").html("");
+    evolution($("#evolutionPivot").val());
+  });
 
   $.ajax({url: "http://localhost:49822/api/supplier/topprod/" + id.replace('.', '_') , dataType: 'json', success: function(result){
     $('.topprod').html("Mais Comprados");
@@ -49,3 +46,18 @@ $(document).ready(function(){
     });
   }});
 });
+
+function evolution(year){
+  $.ajax({url: "http://localhost:49822/api/supplier/freq/" + getUrlParameter("provider").replace('.', '_') , dataType: 'json', success: function(result){
+    $('.evolution').html("Evolução");
+    Morris.Line({
+      element : "morris-area-chart",
+      data : result,
+      pointSize: 0,
+      xkey : "m_Item1",
+      ykeys : ["m_Item2"],
+      labels : ["Volume de Compras"],
+      resize: true
+    });
+  }});
+}
