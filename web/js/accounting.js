@@ -31,12 +31,12 @@ $(document).ready(function(){
       if(balanceteToggle){
           balanceteToggle = false;
           $("#balancete").hide();
-          $("#balanceteColExButton").text("Expand");
+          $("#balanceteColExButton").text("Expandir");
       }
       else{
         balanceteToggle = true;
         $("#balancete").show();
-        $("#balanceteColExButton").text("Collapse");
+        $("#balanceteColExButton").text("Colapsar");
       }
   });
 
@@ -46,9 +46,35 @@ $(document).ready(function(){
   }});
 
   $.ajax({url: "http://localhost:49822/api/accounting/getDemoResultados/", dataType: 'json', success: function(result){
+    var total = 0.0;
     for (var i = 0; i < result[0].length; i++){
       $(".demoItems").append("<tr><td>" + result[0][i]["m_Item1"] +
         "</td><td class='text-right'>" + parseFloat(result[0][i]["m_Item2"].toFixed(2)).toLocaleString() + "</td></tr>");
+      total += result[0][i]["m_Item2"];
+
+      if (i == 10){
+        $(".demoItems").append("<tr>" +
+            "<td class='text-right'>Resultado antes de depreciações, gastos de financiamento e impostos</td>" +
+            "<td class='text-right'>" +  parseFloat(total.toFixed(2)).toLocaleString() + "</td></tr>");
+      }
+
+      if (i == 11){
+        $(".demoItems").append("<tr>" +
+            "<td class='text-right'>Resultado operacional (antes de gastos de financiamento e impostos)</td>" +
+            "<td class='text-right'>" +  parseFloat(total.toFixed(2)).toLocaleString() + "</td></tr>");
+      }
+
+      if (i == 12){
+        $(".demoItems").append("<tr>" +
+            "<td class='text-right'>Resultado antes de impostos</td>" +
+            "<td class='text-right'>" +  parseFloat(total.toFixed(2)).toLocaleString() + "</td></tr>");
+      }
+
+      if (i == 13){
+        $(".demoItems").append("<tr>" +
+            "<td class='text-right'>Resultado liquido do periodo</td>" +
+            "<td class='text-right'>" +  parseFloat(total.toFixed(2)).toLocaleString() + "</td></tr>");
+      }
     }
     $(".loading").addClass('hidden');
   }});

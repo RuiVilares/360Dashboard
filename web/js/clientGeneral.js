@@ -5,9 +5,16 @@ $(document).ready(function(){
 
   $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
 
-    for(var i = 0; result.length && i < 10; i++){
+
+    result = result.sort(function(a, b){
+      return a.valor < b.valor;
+    });
+    
+    for(var i = 0; i < result.length && i < 10; i++){
       result[i].valor = result[i].valor.toFixed(2);
     }
+
+
 
     Morris.Bar({
         "element" : "morris-bar-chart",
@@ -15,6 +22,7 @@ $(document).ready(function(){
         "xkey" : "name",
         "ykeys": ["valor"],
         "labels": ["Vendas"],
+        "postUnits": "€",
         "resize" : true
     });
 
@@ -35,6 +43,7 @@ $(document).ready(function(){
         "xkey" : "m_Item2",
         "ykeys": ["m_Item3"],
         "labels": ["Valor em aberto"],
+        "postUnits": "€",
         "resize" : true
     });
 
@@ -43,7 +52,7 @@ $(document).ready(function(){
   }});
 
   $.ajax({url: "http://localhost:49822/api/clientes/get_client_info/", dataType: 'json', success: function(result){
-    $(".clients_nr").html(result['numClientes']);
+    $(".clients_nr").html(result['numClientes']-1);
     $(".open_value").html(parseFloat(result['valorAberto'].toFixed(2)).toLocaleString());
     $(".billed_value").html(parseFloat(result['valorFaturado'].toFixed(2)).toLocaleString());
 

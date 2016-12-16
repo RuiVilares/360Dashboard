@@ -209,7 +209,7 @@ namespace FirstREST.Lib_Primavera
             {
                 if (PriEngine.Engine.Comercial.Clientes.Existe(codCliente) == true)
                 {
-                    StdBELista productList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.Quantidade) AS Quant, Artigo.Artigo AS Artigo, SUM(LinhasDoc.PrecoLiquido) AS Preco FROM Artigo, LinhasDoc, CabecDoc WHERE CabecDoc.Entidade = '" + codCliente + "' AND LinhasDoc.IdCabecDoc = CabecDoc.id AND CabecDoc.TipoDoc = 'FA' AND LinhasDoc.Artigo = Artigo.Artigo GROUP BY CabecDoc.Entidade, Artigo.Artigo ORDER BY Preco DESC");
+                    StdBELista productList = PriEngine.Engine.Consulta("SELECT SUM(LinhasDoc.Quantidade) AS Quant, Artigo.Artigo AS Artigo, SUM(LinhasDoc.PrecoLiquido) AS Preco FROM Artigo, LinhasDoc, CabecDoc WHERE CabecDoc.Entidade = '" + codCliente + "' AND LinhasDoc.IdCabecDoc = CabecDoc.id AND (CabecDoc.TipoDoc = 'FA' OR CabecDoc.TipoDoc = 'NC') AND LinhasDoc.Artigo = Artigo.Artigo GROUP BY CabecDoc.Entidade, Artigo.Artigo ORDER BY Preco DESC");
                     List<Model.TopClienteProduct> resultado = new List<Model.TopClienteProduct>();
                     double sum = 0;
                     int i = 0;
@@ -266,30 +266,42 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+        
+
         public static List<Model.TopCliente> ListaMelhoresClientes()
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecDoc.Entidade AS Entidade,  SUM(LinhasDoc.PrecUnit*LinhasDoc.Quantidade) AS Total from LinhasDoc, CabecDoc WHERE LinhasDoc.IdCabecDoc = CabecDoc.Id AND CabecDoc.TipoDoc = 'FA' GROUP BY CabecDoc.Entidade ORDER BY Total DESC");
+                StdBELista objList = PriEngine.Engine.Consulta("EXEC GCP_ExploradorLogistica @CamposGrelha = 'NULL AS GROUP1,NULL AS GROUP2,NULL AS GROUP3,NULL AS GROUP4,NULL AS GROUP5,IdDoc = NULL ,ValorDespesas = SUM(ValorDespesas * Multiplicador),Entidade,NomeEntidade,Artigo,Quantidade = SUM(Quantidade * Multiplicador),ValorLiquido = SUM(ValorLiquido * Multiplicador),ValorBruto = SUM(ValorBruto * Multiplicador),Descontos = SUM(Descontos * Multiplicador),PCM = SUM(PCM),Margem = SUM((ABS(ValorLiquido) - ABS(PCM)) * MultiplicadorTDoc),PctMargem = CASE SUM(ValorLiquido) - SUM(PCM) WHEN 0 THEN CASE SUM(ValorLiquido) WHEN 0 THEN 0 ELSE 100 END ELSE (SUM(ValorLiquido) - SUM(PCM)) / CASE SUM(ValorLiquido) WHEN 0 THEN 1 ELSE SUM(ValorLiquido) END * 100 END,Filial = NULL ,TipoDocumento = NULL ,TipoDoc = NULL ,Serie = NULL ,NumDoc = NULL ,NumDocInt = NULL ,Documento = NULL ,TipoEntidade,Zona = NULL ,Seccao = NULL ,Pais = NULL ,Utilizador = NULL ,Posto = NULL ,Projecto = NULL ,PeriodoMensal = NULL ,PeriodoTrimestral = NULL ,PeriodoSemestral = NULL ,DataDoc = NULL ,AnoDoc = NULL ,ArtigoPai = NULL ,Descricao = NULL ,Vendedor = NULL ,Familia = NULL ,SubFamilia = NULL ,Marca = NULL ,Modelo = NULL ,Unidade = NULL ,ValorIVA = SUM(ValorIVA * Multiplicador),IEC = SUM(IEC * Multiplicador),ImpSelo = SUM(ImpSelo * Multiplicador),Ecotaxa = SUM(Ecotaxa * Multiplicador),NULL AS DATAFILLCOL,DescricaoZona = NULL ,RespCobranca = NULL ,NomeRespCobranca = NULL ,DescArtigo = NULL ,Armazem = NULL ,NomeVendedor = NULL ,DescFamilia = NULL ,Fornecedor = NULL ,DescSubFamilia = NULL ,LINCDU_LinVar1 = NULL ,LINCDU_LinVar2 = NULL ,LINCDU_LinVar3 = NULL ,LINCDU_LinVar4 = NULL ,LINCDU_LinVar5 = NULL ,LINCDU_UnidadeAlternativa = NULL ,LINCDU_QuantidadeAlternativa = SUM(CAST(LINCDU_QuantidadeAlternativa AS FLOAT)),LINCDU_FactorConversaoAlternativa = SUM(CAST(LINCDU_FactorConversaoAlternativa AS FLOAT)),CABCDU_CabVar1 = NULL ,CABCDU_CabVar1ENC = NULL ,CABCDU_CabVar2 = NULL ,CABCDU_CabVar2ENC = NULL ,CABCDU_CabVar3 = NULL ,CABCDU_CabVar3ENC = NULL ,CABCDU_CabVar4 = NULL ,CABCDU_CabVar4ENC = NULL ,CABCDU_CabVar5 = NULL ,CABCDU_CabVar5ENC = NULL ,CABCDU_CodigoLocalizacao = NULL ',@CamposGroupBy = 'Entidade,NomeEntidade,Artigo,TipoEntidade',@CaseTipoEntidade = ' CASE @Campo@ WHEN ''C'' THEN ''Cliente''  WHEN ''D'' THEN ''Outro Devedor''  WHEN ''X'' THEN ''Entidade Externa''  WHEN ''F'' THEN ''Fornecedor''  WHEN ''R'' THEN ''Outro Credor''  WHEN ''I'' THEN ''Fornecedor de Imobilizado''  WHEN ''A'' THEN ''Subscritor de Capital''  WHEN ''L'' THEN ''Credor subs. n/liberadas''  WHEN ''T'' THEN ''Consultor''  WHEN ''G'' THEN ''Obrigacionista''  WHEN ''O'' THEN ''Outro Terceiro''  WHEN ''S'' THEN ''Sócio''  WHEN ''E'' THEN ''Estado/Ente Público''  WHEN ''U'' THEN ''Funcionário''  WHEN ''P'' THEN ''Independente''  WHEN ''N'' THEN ''Sindicato''  WHEN ''B'' THEN ''Conta bancária''  WHEN ''J'' THEN ''Contacto''  WHEN ''V'' THEN ''Vendedor''  WHEN ''M'' THEN ''Companhia de Seguros''  END ',@CaseTipoDocumento = ' CASE @Campo@ WHEN 0 THEN ''Pedido Cotação''  WHEN 1 THEN ''Cotação''  WHEN 2 THEN ''Encomenda''  WHEN 3 THEN ''Stock/Transporte''  WHEN 4 THEN ''Financeiro''  END ',@CasePeriodoMensal = ' CASE @Campo@ WHEN 1 THEN ''01-Janeiro''  WHEN 2 THEN ''02-Fevereiro''  WHEN 3 THEN ''03-Março''  WHEN 4 THEN ''04-Abril''  WHEN 5 THEN ''05-Maio''  WHEN 6 THEN ''06-Junho''  WHEN 7 THEN ''07-Julho''  WHEN 8 THEN ''08-Agosto''  WHEN 9 THEN ''09-Setembro''  WHEN 10 THEN ''10-Outubro''  WHEN 11 THEN ''11-Novembro''  WHEN 12 THEN ''12-Dezembro''  END ',@CasePeriodoTrimestral = ' CASE WHEN @Campo@ >= 1 AND @Campo@ <= 3 THEN ''1º Trimestre''  WHEN @Campo@ >= 4 AND @Campo@ <= 6 THEN ''2º Trimestre''  WHEN @Campo@ >= 7 AND @Campo@ <= 9 THEN ''3º Trimestre''  WHEN @Campo@ >= 10 AND @Campo@ <= 12 THEN ''4º Trimestre''  END ',@CasePeriodoSemestral = ' CASE WHEN @Campo@ >= 1 AND @Campo@ <= 6 THEN ''1º Semestre''  WHEN @Campo@ >= 7 AND @Campo@ <= 12 THEN ''2º Semestre''  END ',@DataInicial = '01/01/2016',@DataFinal = '12/31/2016',@Modulo = 'V',@FiltroDocumentos = '( 1 = 0  OR  (cab.TipoDoc = ''FA'' AND cab.SERIE IN (''C'',''2016'',''A'',''2015'')))',@FiltroAdicionais = Null,@IncluiAnulados = 1,@ApenasQuantEmAberto = 0,@TipoAnalise = 1,@ListaDimensoes = 0,@UsaDataIntroducao = 1,@MargemDocs = 0,@MoedaBase = 'EUR',@MoedaAlt = 'EUR',@MoedaTrabalho = 'EUR',@MoedaEuro = 'EUR',@Filial = '000',@MTrabDecArredonda = 2,@SentidoCambios = 0,@CambioHistorico = 1");
+
                 Model.TopCliente cliente = new Model.TopCliente();
                 List<Model.TopCliente> listaClientes = new List<Model.TopCliente>();
                 double sum = 0;
 
                 while (!objList.NoFim())
                 {
-                    sum += objList.Valor("Total");
+                    sum += objList.Valor("ValorLiquido");
                     objList.Seguinte();
                 }
 
                 objList.Inicio();
 
+
                 while (!objList.NoFim())
                 {
-                    cliente = new Model.TopCliente();
-                    cliente.name = objList.Valor("Entidade");
-                    cliente.valor = objList.Valor("Total");
-                    cliente.sales_p = (cliente.valor / sum) * 100;
-                    listaClientes.Add(cliente);
+                    string nome = objList.Valor("NomeEntidade");
+                    double valor = objList.Valor("ValorLiquido");
+                    if (listaClientes.Exists(m => m.name == nome))
+                    {
+                        listaClientes.Find(m => m.name == nome).valor += valor;
+                    }
+                    else
+                    {
+                        Model.TopCliente m = new Model.TopCliente();
+                        m.name = nome;
+                        m.valor = valor;
+                        listaClientes.Add(m);
+                    }
                     objList.Seguinte();
                 }
 

@@ -1,5 +1,7 @@
 $(document).ready(function(){
+
   ajaxConfig();  
+
   
     var ref = getUrlParameter("product");
   $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
