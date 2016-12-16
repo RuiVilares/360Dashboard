@@ -5,9 +5,10 @@ $(document).ready(function(){
 
     var ref = getUrlParameter("product");
   $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
+
     Morris.Bar({
         "element" : "morris-bar-chart",
-        "data" : result.slice(0, 10),
+        "data" : result.sort(GetSortOrder("valor")).slice(0, 10),
         "xkey" : "name",
         "ykeys": ["valor"],
         "labels": ["Vendas"],
@@ -22,7 +23,7 @@ $(document).ready(function(){
     for(var i = 0; i < result.length && i < 10; i++){
       result[i].valor = result[i].valor.toFixed(2);
     }
-
+    
     Morris.Bar({
         "element" : "morris-bar-fornecedores",
         "data" : result.slice(0, 10),
@@ -55,3 +56,14 @@ $(document).ready(function(){
   }});
 
 });
+
+function GetSortOrder(prop) {
+    return function(a, b) {
+        if (a[prop] < b[prop]) {
+            return 1;
+        } else if (a[prop] > b[prop]) {
+            return -1;
+        }
+        return 0;
+    }
+}
