@@ -1379,7 +1379,7 @@ namespace FirstREST.Lib_Primavera
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecCompras.Entidade AS Entidade,  SUM(LinhasCompras.PrecUnit*LinhasCompras.Quantidade) AS Total from LinhasCompras, CabecCompras WHERE LinhasCompras.IdCabecCompras = CabecCompras.Id GROUP BY CabecCompras.Entidade ORDER BY Total DESC");
+                StdBELista objList = PriEngine.Engine.Consulta("SELECT CabecCompras.Nome AS Nome, SUM(LinhasCompras.PrecUnit*LinhasCompras.Quantidade) AS Total from LinhasCompras, CabecCompras WHERE LinhasCompras.IdCabecCompras = CabecCompras.Id GROUP BY CabecCompras.Nome ORDER BY Total DESC");
                 Model.TopFornecedor fornecedor = new Model.TopFornecedor();
                 List<Model.TopFornecedor> listaFornecedores = new List<Model.TopFornecedor>();
                 double sum = 0;
@@ -1395,7 +1395,7 @@ namespace FirstREST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     fornecedor = new Model.TopFornecedor();
-                    fornecedor.name = objList.Valor("Entidade");
+                    fornecedor.name = objList.Valor("Nome");
                     fornecedor.valor = objList.Valor("Total");
                     fornecedor.sales_p = (fornecedor.valor / sum) * 100;
                     listaFornecedores.Add(fornecedor);
