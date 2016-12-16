@@ -1,16 +1,6 @@
 $(document).ready(function(){
-    $.ajaxSetup({
-      type : "POST",
-      data : {
-          username : $.cookie("user"),
-          password : $.cookie("pass")
-      },
-      
-      error : function(){
-          window.location.replace("login.html?invalidLogin=true");
-      }
-  }); 
-    
+    ajaxConfig(); 
+
     var ref = getUrlParameter("product");
 
   $.ajax({url: "http://localhost:49822/api/product/Get_top10p/" + ref, dataType: 'json', success: function(result){
@@ -42,25 +32,46 @@ $(document).ready(function(){
   }});
 
   $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + ref, dataType: 'json', success: function(result){
-    console.log(result);
 
-    for(var k in result){
-        result[k].value = result[k].value.toFixed(2);
-        result[k].valuePrev = result[k].valuePrev.toFixed(2);
+    var months = {
+      1: "January",
+      2: "February",
+      3: "March",
+      4: "April",
+      5: "May",
+      6: "June",
+      7: "July",
+      8: "August",
+      9: "September",
+      10: "October",
+      11: "November",
+      12: "December"
     }
 
-    Morris.Area({
-      "element" : "morris-area-chart",
-      "data" : result,
-      pointSize: 10,
-      "xkey": 'date',
-      "ykeys": ['value', 'valuePrev'],
-      "yLabelFormat": function(y){return y.toFixed(2)},
-      "postUnits": "€",
-      "labels": ['Ano Atual', 'Ano Transacto'],
-      "resize" : true
+    for(var k in result){
+        result[k].value = parseFloat(result[k].value.toFixed(2));
+        result[k].valuePrev = parseFloat(result[k].valuePrev.toFixed(2));
+        result[k].date = months[result[k].date];
+        console.log(result[k]);
+    }
+
+
+
+    var month = result.map(function(el){
+      return {month: months[moment(el.date).month()+1], year: moment(el.date).year(), value: el.value};
     });
 
+    Morris.Line({
+        element : "morris-area-chart",
+        data : result,
+        pointSize: 10,
+        xkey : "date",
+        ykeys : ["value", "valuePrev"],
+        labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],
+        postUnits: "€",
+        parseTime: false,
+        resize: true
+    });
 
   }});
 
@@ -69,7 +80,4 @@ $(document).ready(function(){
      $(".value").html(parseFloat(result[1].m_Item2.toFixed(2)).toLocaleString());
 
    }});
-
-
-
 });

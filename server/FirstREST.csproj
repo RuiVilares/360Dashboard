@@ -257,6 +257,7 @@
     <Compile Include="Lib_Primavera\Model\RecursosHumanos.cs" />
     <Compile Include="Lib_Primavera\Model\TopCliente.cs" />
     <Compile Include="Lib_Primavera\Model\TopClienteProduct.cs" />
+    <Compile Include="Lib_Primavera\Model\TopFornecedor.cs" />
     <Compile Include="Lib_Primavera\Model\TopProduto.cs" />
     <Compile Include="Lib_Primavera\PriIntegration.cs" />
     <Compile Include="Lib_Primavera\Model\Artigo.cs" />

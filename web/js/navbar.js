@@ -1,15 +1,7 @@
 $(document).ready(function() {
-  $.ajaxSetup({
-      type : "POST",
-      data : {
-          username : $.cookie("user"),
-          password : $.cookie("pass")
-      },
-      
-      error : function(){
-         // window.location.replace("login.html?invalidLogin=true");
-      }
-  }); 
+
+  ajaxConfig(); 
+
 
 
   $.ajax({
