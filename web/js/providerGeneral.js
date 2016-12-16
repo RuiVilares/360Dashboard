@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    ajaxConfig(); 
-    
+    ajaxConfig();
+
     var ref = getUrlParameter("supplier");
 
 
@@ -48,6 +48,9 @@ $(document).ready(function(){
     $(".pendentes").html(parseFloat(result['valoresPendentes'].toFixed(2)).toLocaleString());
     $(".backlogs").html(parseFloat(result['valoresBacklog'].toFixed(2)).toLocaleString());
   }});
+
+  $(".in").removeClass("in");
+
 });
 
 function GetSortOrder(prop) {
