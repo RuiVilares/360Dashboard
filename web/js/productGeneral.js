@@ -5,12 +5,12 @@ $(document).ready(function(){
           username : $.cookie("user"),
           password : $.cookie("pass")
       },
-      
+
       error : function(){
           window.location.replace("login.html?invalidLogin=true");
       }
-  }); 
-    
+  });
+
     var ref = getUrlParameter("product");
 
   $.ajax({url: "http://localhost:49822/api/product/Get_top10p/" + ref, dataType: 'json', success: function(result){
@@ -45,22 +45,26 @@ $(document).ready(function(){
     console.log(result);
 
     for(var k in result){
-        result[k].value = result[k].value.toFixed(2);
-        result[k].valuePrev = result[k].valuePrev.toFixed(2);
+        result[k].value = parseFloat(result[k].value.toFixed(2));
+        result[k].valuePrev = parseFloat(result[k].valuePrev.toFixed(2));
     }
 
-    Morris.Area({
-      "element" : "morris-area-chart",
-      "data" : result,
-      pointSize: 10,
-      "xkey": 'date',
-      "ykeys": ['value', 'valuePrev'],
-      "yLabelFormat": function(y){return y.toFixed(2)},
-      "postUnits": "€",
-      "labels": ['Ano Atual', 'Ano Transacto'],
-      "resize" : true
+    var month = result.map(function(el){
+      return {month: moment(el.date).month(), year: moment(el.date).year(), value: el.value};
     });
 
+    Morris.Line({
+        element : "morris-area-chart",
+        data : result,
+        pointSize: 10,
+        xLabels: "month",
+        xkey : "date",
+        ykeys : ["value", "valuePrev"],
+        labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],
+        postUnits: "€",
+        parseTime: false,
+        resize: true
+    });
 
   }});
 
@@ -69,7 +73,4 @@ $(document).ready(function(){
      $(".value").html(parseFloat(result[1].m_Item2.toFixed(2)).toLocaleString());
 
    }});
-
-
-
 });
