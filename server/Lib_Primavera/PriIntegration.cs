@@ -1030,7 +1030,7 @@ namespace FirstREST.Lib_Primavera
                 result.Last().Add(new Tuple<String, Decimal>("Variação de inventários na produção", drvinv));
                 result.Last().Add(new Tuple<String, Decimal>("Trabalhos para a própria entidade", drtpe));
                 result.Last().Add(new Tuple<String, Decimal>("Custo das mercadorias vendidas e das amtérias consumidas", drcmvmc));
-                result.Last().Add(new Tuple<String, Decimal>("Fornecimentos e serviços externos)", drfse));
+                result.Last().Add(new Tuple<String, Decimal>("Fornecimentos e serviços externos", drfse));
                 result.Last().Add(new Tuple<String, Decimal>("Gastos com pessoal", drgp));
                 result.Last().Add(new Tuple<String, Decimal>("Imparidades (perdas/reversões)", drimpme));
                 result.Last().Add(new Tuple<String, Decimal>("Provisões (aumentos/reduções)", drprov));
