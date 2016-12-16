@@ -1264,19 +1264,29 @@ namespace FirstREST.Lib_Primavera
             return null;
         }
 
-        public static IEnumerable<Tuple<DateTime, double>> ranges(string id)
+        public static List<Model.ClientTimeline> ranges(string id)
         {
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                StdBELista fornecedores = PriEngine.Engine.Consulta("SELECT CabecCompras.DataDoc AS DataDoc, -SUM(LinhasCompras.PrecoLiquido) As Valor FROM CabecCompras, LinhasCompras WHERE CabecCompras.Entidade = '"+id+"' AND LinhasCompras.IdCabecCompras = CabecCompras.Id AND CabecCompras.TipoDoc = 'VFA' GROUP BY CabecCompras.DataDoc ORDER BY CabecCompras.DataDoc DESC");
-                List<Tuple<DateTime, double>> fornes = new List<Tuple<DateTime, double>>();
+                var year = HttpContext.Current.Request.Form["year"];
+                var pastYear = (Int32.Parse(year) - 1).ToString();
 
-                while (!fornecedores.NoFim())
+
+                StdBELista objList = PriEngine.Engine.Consulta("EXEC GCP_LST_RESUMO_COMPRAS        @Tabela                         = '##ResumoComprasUuserP2052Hd30311826378491387fda695004379d4o1Gtsmi2S2Nl',        @Campos                         = 'NULL AS GROUP1,Mes,Trimestre,DescontosAnoAct,AcumDescontosAnoAct,LiquidoAnoAnt,AcumLiquidoAnoAnt,LiquidoAnoAct,AcumLiquidoAnoAct,VariacaoLiquido,VariacaoLiquidoPercentual,VariacaoAcmLiquido,VariacaoAcmLiquidoPercentual,DescontosAnoAnt,AcumDescontosAnoAnt,OutrosAnoAct,AcumOutrosAnoAct,OutrosAnoAnt,AcumOutrosAnoAnt,QuantidadeAnoAnt,MercadoriaAnoAct,AcumMercadoriaAnoAnt,QuantidadeAnoAct,MercadoriaAnoAnt,DespesasAnoAnt,DespesasAnoAct,AcumMercadoriaAnoAct,VariacaoAcmDescontos,VariacaoAcmDescontosPercentual,VariacaoAcmMercadoria,VariacaoAcmMercadoriaPercentual,VariacaoAcmOutros,VariacaoAcmOutrosPercentual,VariacaoDescontos,VariacaoDescontosPercentual,VariacaoMercadoria,VariacaoMercadoriaPercentual,VariacaoOutros,VariacaoOutrosPercentual,NULL AS DATAFILLCOL',        @MoedaVisualizacao              = 'EUR',        @MoedaBase                      = 1,        @SentidoCambio                  = 0,        @CambioActualHistorico          = 1,        @DocConvertidos                     = '1',        @WhereRestricoes                = '(((doc.Entidade = ''"+id+"'') AND doc.TipoEntidade=''F''))',        @TipoData                       = 'D',        @Documentos                     = '( ''DVF'', ''VFA'', ''VFG'', ''VFI'', ''VFM'', ''VFO'', ''VFP'', ''VFR'', ''VGR'', ''VNC'', ''VND'', ''VVD'')',        @AnoReferencia                      = '12/31/"+year+"',       @AnoComparacao                      = '1/1/"+pastYear+"',       @MesFimExercicio                      = 12");
+                List<Tuple<DateTime, double>> fornes = new List<Tuple<DateTime, double>>();
+                List<Model.ClientTimeline> list = new List<Model.ClientTimeline>();
+
+
+                while (!objList.NoFim())
                 {
-                    fornes.Add(new Tuple<DateTime, double>(fornecedores.Valor("DataDoc"), fornecedores.Valor("Valor")));
-                    fornecedores.Seguinte();
+                    Model.ClientTimeline timeline = new Model.ClientTimeline();
+                    timeline.value = objList.Valor("LiquidoAnoAct");
+                    timeline.valuePrev = objList.Valor("LiquidoAnoAnt");
+                    timeline.date = objList.Valor("Mes");
+                    list.Add(timeline);
+                    objList.Seguinte();
                 }
-                return fornes;
+                return list;
             }
             return null;
         }

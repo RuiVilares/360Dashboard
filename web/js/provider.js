@@ -48,15 +48,21 @@ $(document).ready(function(){
 });
 
 function evolution(year){
-  $.ajax({url: "http://localhost:49822/api/supplier/freq/" + getUrlParameter("provider").replace('.', '_') , dataType: 'json', success: function(result){
+  $.ajax({url: "http://localhost:49822/api/supplier/freq/" + getUrlParameter("provider").replace('.', '_') , dataType: 'json',data : {
+            company: $.cookie("cmpny"),
+            username : $.cookie("user"),
+            password : $.cookie("pass"),
+            year: year
+        }, success: function(result){
     $('.evolution').html("Evolução");
     Morris.Line({
       element : "morris-area-chart",
       data : result,
-      pointSize: 0,
-      xkey : "m_Item1",
-      ykeys : ["m_Item2"],
-      labels : ["Volume de Compras"],
+      pointSize: 10,
+      xkey : "date",
+     postUnits: "€",
+      ykeys : ["value", "valuePrev"],
+      labels : ["Ano Atual ("+year+")", "Ano Anterior("+(year-1)+")"],
       resize: true
     });
   }});

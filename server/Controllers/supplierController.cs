@@ -28,7 +28,7 @@ namespace FirstREST.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public IEnumerable<Tuple<DateTime, double>> freq(string id)
+        public List<ClientTimeline> freq(string id)
         {
             id = id.Replace("_", ".");
             return Lib_Primavera.PriIntegration.ranges(id);
