@@ -8,7 +8,7 @@ function ajaxConfig(){
         },
 
         error : function(){
-            window.location.replace("login.html?invalidLogin=true");
+         console.log("ola");//   window.location.replace("login.html?invalidLogin=true");
         }
     });
 }

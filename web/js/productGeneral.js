@@ -42,7 +42,7 @@ $(document).ready(function(){
     evolution($("#evolutionPivot").val());
   }, 50);
 
-  $("#evolutionPivot").on("change keyup paste mouseup", function(){
+  $("#evolutionPivot").on("keyup paste mouseup", function(){
     $("#morris-area-chart").html("");
     evolution($("#evolutionPivot").val());
   });
@@ -51,7 +51,13 @@ $(document).ready(function(){
 
 
 function evolution(year){
-  $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + getUrlParameter("product"), dataType: 'json', success: function(result){
+  $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + getUrlParameter("product"), dataType: 'json', data : {
+            company: $.cookie("cmpny"),
+            username : $.cookie("user"),
+            password : $.cookie("pass"),
+            year: year
+        },
+      success: function(result){
 
     var months = {
       1: "January",
@@ -66,7 +72,7 @@ function evolution(year){
       10: "October",
       11: "November",
       12: "December"
-    }
+    };
 
     for(var k in result){
         result[k].value = parseFloat(result[k].value.toFixed(2));
