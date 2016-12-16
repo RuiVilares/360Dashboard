@@ -7,7 +7,7 @@ $(document).ready(function() {
       },
       
       error : function(){
-          window.location.replace("login.html?invalidLogin=true");
+         // window.location.replace("login.html?invalidLogin=true");
       }
   }); 
 
