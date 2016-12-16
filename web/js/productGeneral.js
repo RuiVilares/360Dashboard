@@ -63,7 +63,7 @@ function evolution(year){
       1: "1º Trimestre",
       2: "2º Trimestre",
       3: "3º Trimestre",
-      4: "4º Trimestre",     
+      4: "4º Trimestre",
     };
 
     for(var k in result){
@@ -92,4 +92,7 @@ function evolution(year){
     });
 
   }});
+
+  $(".in").removeClass("in");
+
 };

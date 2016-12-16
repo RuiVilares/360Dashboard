@@ -1,6 +1,6 @@
 $(document).ready(function(){
   ajaxConfig();
-  
+
     var ref = getUrlParameter("product");
 
   $.ajax({url: "http://localhost:49822/api/clientes/Get_top10c/" + ref, dataType: 'json', success: function(result){
@@ -9,7 +9,7 @@ $(document).ready(function(){
     result = result.sort(function(a, b){
       return a.valor < b.valor;
     });
-    
+
     for(var i = 0; i < result.length && i < 10; i++){
       result[i].valor = result[i].valor.toFixed(2);
     }
@@ -57,6 +57,9 @@ $(document).ready(function(){
     $(".billed_value").html(parseFloat(result['valorFaturado'].toFixed(2)).toLocaleString());
 
   }});
+
+  $(".in").removeClass("in");
+
 });
 
 function GetSortOrder(prop) {
