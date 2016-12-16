@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    ajaxConfig(); 
+    ajaxConfig();
 
     var ref = getUrlParameter("product");
 
@@ -31,7 +31,27 @@ $(document).ready(function(){
 
   }});
 
-  $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + ref, dataType: 'json', success: function(result){
+
+
+  $.ajax({url: "http://localhost:49822/api/product/products_info/" + getUrlParameter("product"), dataType: 'json', success: function(result){
+     $(".turnover").html(parseFloat(result[0].m_Item2.toFixed(2)).toLocaleString());
+     $(".value").html(parseFloat(result[1].m_Item2.toFixed(2)).toLocaleString());
+   }});
+
+  setTimeout(function(){
+    evolution($("#evolutionPivot").val());
+  }, 50);
+
+  $("#evolutionPivot").on("change keyup paste mouseup", function(){
+    $("#morris-area-chart").html("");
+    evolution($("#evolutionPivot").val());
+  });
+
+});
+
+
+function evolution(year){
+  $.ajax({url: "http://localhost:49822/api/product/Get_Evolution/" + getUrlParameter("product"), dataType: 'json', success: function(result){
 
     var months = {
       1: "January",
@@ -74,10 +94,4 @@ $(document).ready(function(){
     });
 
   }});
-
-  $.ajax({url: "http://localhost:49822/api/product/products_info/" + ref, dataType: 'json', success: function(result){
-     $(".turnover").html(parseFloat(result[0].m_Item2.toFixed(2)).toLocaleString());
-     $(".value").html(parseFloat(result[1].m_Item2.toFixed(2)).toLocaleString());
-
-   }});
-});
+};

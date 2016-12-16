@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  ajaxConfig(); 
-  
+  ajaxConfig();
+
     var id = getUrlParameter("client");
 
   $.ajax({url: "http://localhost:49822/api/Clientes/detail/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
@@ -13,7 +13,35 @@ $(document).ready(function(){
       $(".divida").html(parseFloat(result.divida.toFixed(2)).toLocaleString());
   }});
 
-  $.ajax({url: "http://localhost:49822/api/Clientes/range/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
+  setTimeout(function(){
+    evolution($("#evolutionPivot").val());
+  }, 50);
+
+  $("#evolutionPivot").on("change keyup paste mouseup", function(){
+    $("#morris-area-chart").html("");
+    evolution($("#evolutionPivot").val());
+  })
+
+  $.ajax({url: "http://localhost:49822/api/Clientes/topprod/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
+      $('.topprod').html("Mais Comprados");
+
+      var chart = [];
+
+      for(var i = 0; i < result.length; i++){
+          chart.push({label : "Produto: " + result[i].reference + " (%)", value : parseFloat(result[i].sales_p.toFixed(2)).toLocaleString()});
+      }
+
+      Morris.Donut({
+          element : "morris-pie",
+          data : chart ,
+          resize: true
+      });
+  }});
+});
+
+
+function evolution(year){
+  $.ajax({url: "http://localhost:49822/api/Clientes/range/" + getUrlParameter("client").replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
       $('.evolution').html("Evolução");
 
       var month = result.map(function(el){
@@ -34,19 +62,4 @@ $(document).ready(function(){
       });
   }});
 
-  $.ajax({url: "http://localhost:49822/api/Clientes/topprod/" + id.replace(/ /g, "_").replace(/\./g, '_') , dataType: 'json', success: function(result){
-      $('.topprod').html("Mais Comprados");
-
-      var chart = [];
-
-      for(var i = 0; i < result.length; i++){
-          chart.push({label : "Produto: " + result[i].reference + " (%)", value : parseFloat(result[i].sales_p.toFixed(2)).toLocaleString()});
-      }
-
-      Morris.Donut({
-          element : "morris-pie",
-          data : chart ,
-          resize: true
-      });
-  }});
-});
+}
