@@ -60,18 +60,10 @@ function evolution(year){
       success: function(result){
 
     var months = {
-      1: "January",
-      2: "February",
-      3: "March",
-      4: "April",
-      5: "May",
-      6: "June",
-      7: "July",
-      8: "August",
-      9: "September",
-      10: "October",
-      11: "November",
-      12: "December"
+      1: "1º Trimestre",
+      2: "2º Trimestre",
+      3: "3º Trimestre",
+      4: "4º Trimestre",     
     };
 
     for(var k in result){
@@ -93,7 +85,7 @@ function evolution(year){
         pointSize: 10,
         xkey : "date",
         ykeys : ["value", "valuePrev"],
-        labels : ["Ano Corrente (2016)", "Ano Transacto (2015)"],
+        labels : ["Ano Corrente ("+year+")", "Ano Transacto ("+(year-1)+")"],
         postUnits: "€",
         parseTime: false,
         resize: true
